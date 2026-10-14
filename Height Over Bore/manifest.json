@@ -1,0 +1,12 @@
+{
+  "id": "goose_hob",
+  "name": "Height Over Bore",
+  "author": "Goose",
+  "version": "0.1.0-experimental",
+  "description": "An MCM toggle restoring height over bore behavior across weapon changes, death, respawn and sessions.",
+  "lll": {
+    "entry": "main.lua",
+    "defaults": "config/defaults.cfg",
+    "modules": ["src/memory.lua", "src/backend.lua", "src/controller.lua", "src/mcm.lua"]
+  }
+}

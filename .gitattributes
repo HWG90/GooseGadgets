@@ -1,0 +1,2 @@
+# Keep source and deterministic package builds identical across Windows Git settings.
+* text=auto eol=lf
