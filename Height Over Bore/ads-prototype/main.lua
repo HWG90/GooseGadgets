@@ -7,7 +7,7 @@ local function shutdown()
     if controller then
         local called, done, why = pcall(controller.shutdown, controller)
         if not called then return false, tostring(done) end
-        if done ~= true then return false, why or 'HoB ADS Prototype restoration is pending' end
+        if done ~= true then return false, why or 'Height Over Bore restoration is pending' end
     end
     if menu then
         local done, why = menu:shutdown()
@@ -19,11 +19,11 @@ end
 
 return {
     live_lua_api = 1,
-    name = 'HoB ADS Prototype',
-    version = '0.1.1-ads-prototype.4',
+    name = 'Height Over Bore',
+    version = '0.1.1-experimental',
     author = 'Goose',
     on_enable = function()
-        assert(not controller, 'Previous HoB ADS Prototype cleanup has not completed')
+        assert(not controller, 'Previous Height Over Bore cleanup has not completed')
         stopping = false
         local Backend = mod.require('src/backend.lua')
         local Controller = mod.require('src/controller.lua')
@@ -31,7 +31,7 @@ return {
         controller = Controller.new(Backend.new(log), log)
         menu = MCM.new(controller, log)
         menu:update()
-        log('Loaded 0.1.1-ads-prototype.4; use MCM > HoB ADS Prototype > Enabled')
+        log('Loaded 0.1.1-experimental; use MCM > Height Over Bore > Enabled')
     end,
     on_update = function(dt)
         if not controller or stopping then return end

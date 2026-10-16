@@ -8,6 +8,7 @@ import sys
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
+TEST_FILES=('parameters.lua','ads_gate_test.lua','prototype.lua','backend_prototype.lua','bsl.lua','loader_prototype.lua')
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
@@ -32,14 +33,14 @@ def main(dll_path=None):
                 assert '..' not in Path(name).parts
                 assert not name.lower().endswith(('.dll','.exe','.pdb','.log'))
         outputs.append({'path':str(archive),'sha256':hashlib.sha256(original).hexdigest()})
-    code=runner.run_lua(dll_path if dll_path is not None else runner.DEFAULT_DLL,('parameters.lua','ads_gate_test.lua','prototype.lua','backend_prototype.lua','bsl.lua','loader_prototype.lua'))
+    code=runner.run_lua(dll_path if dll_path is not None else runner.DEFAULT_DLL,TEST_FILES)
     if code:return code
     receipt={'state':'offline fixtures and deterministic package checks passed; not installed or live-proven',
-        'test_files':['parameters.lua','ads_gate_test.lua','prototype.lua','backend_prototype.lua','bsl.lua','loader_prototype.lua'],
+        'test_files':list(TEST_FILES),
         'packages':outputs,
         'sources':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
                    for d in ('src','tests') for p in sorted((ROOT/d).glob('*.lua'))
-                   if p.name not in ('backend.lua','contracts.lua') or d=='src'}}
+                   if d=='src' or p.name in TEST_FILES}}
     (ROOT/'dist/releases/PROTOTYPE-VALIDATION.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps(outputs,indent=2))
     return 0

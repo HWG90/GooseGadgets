@@ -34,7 +34,7 @@ function owner.stop()
     options:begin_shutdown()
     local called, done, why = pcall(controller.shutdown, controller)
     if not called or done ~= true then
-        report('HoB ADS Prototype cleanup pending: ' .. tostring(called and why or done))
+        report('Height Over Bore cleanup pending: ' .. tostring(called and why or done))
         return false, called and why or done
     end
     local done, problem = options:shutdown()
@@ -51,10 +51,10 @@ local function step(dt)
         options:update(dt)
         controller:update(dt)
         local status = controller:status()
-        if status ~= last_status then log('HoB ADS Prototype: ' .. status); last_status = status end
+        if status ~= last_status then log('Height Over Bore: ' .. status); last_status = status end
     end)
     if not called then
-        report('HoB ADS Prototype update failed: ' .. tostring(why))
+        report('Height Over Bore update failed: ' .. tostring(why))
         owner.stop()
     end
 end
@@ -76,9 +76,9 @@ if type(loader) == 'table' and type(loader.after_startup) == 'function' then
     local ok, why = pcall(loader.after_startup, function()
         if owner.stopping then return end
         local called, problem = pcall(options.update, options, 0)
-        if not called then report('HoB ADS Prototype menu registration: ' .. tostring(problem)) end
+        if not called then report('Height Over Bore menu registration: ' .. tostring(problem)) end
     end)
-    if not ok then report('HoB ADS Prototype startup registration deferred: ' .. tostring(why)) end
+    if not ok then report('Height Over Bore startup registration deferred: ' .. tostring(why)) end
 end
-log('HoB ADS Prototype __VERSION__ loaded. Use Mod Options > HoB ADS Prototype > Enabled, then Apply.')
+log('Height Over Bore __VERSION__ loaded. Use Mod Options > Height Over Bore > Enabled, then Apply.')
 return owner

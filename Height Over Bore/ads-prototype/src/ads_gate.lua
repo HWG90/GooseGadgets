@@ -93,6 +93,16 @@ local function inspect(mem,ctx,local_descriptor,expected_held)
         or descriptor:byte(21)%4~=1 then fail('ADS local descriptor ownership changed') end
     local avatar,body=Memory.u32_bytes(descriptor,8),Memory.u32_bytes(descriptor,12)
     if not entity(avatar) or not entity(body) then fail('ADS local owner or body UnitRef is invalid') end
+    local character=ptr(game+0x3326D20,'character manager')
+    local cc=u32(character+0x6C,'character count')
+    -- Eight is this prototype's supported character scope, not a global engine claim.
+    if cc==0 or cc>MAX_CHARACTERS then fail('ADS character count exceeds supported bounds') end
+    local ci=map(character+0xF8,avatar,'character owner',cc)
+    local cd=ptr(character+0x110+ci*8,'character descriptor')
+    if read(cd,24,'character owner descriptor')~=descriptor then fail('ADS character owner descriptor changed') end
+    local flags=read(character+0x53E880+ci*0x1238,24,'character state')
+    if flags:byte(7)%2~=1 then fail('ADS character continuity flag is absent') end
+    if math.floor(flags:byte(15)/4)%2~=0 then fail('ADS character is seated or in an unsupported state') end
     local wield=ptr(game+0x3326420,'wield manager')
     if wield~=ctx.implementation+0xE9FB10 then fail('ADS wield manager belongs to another World') end
     local count=u32(wield+0x1C,'wield count')
@@ -108,16 +118,6 @@ local function inspect(mem,ctx,local_descriptor,expected_held)
     local held_descriptor=read(ctx.world+0xF32F18+hi*24,24,'held weapon descriptor')
     if Memory.u32_bytes(held_descriptor,8)~=held or held_descriptor:byte(21)%4~=1
         or not entity(Memory.u32_bytes(held_descriptor,12)) then fail('ADS held weapon descriptor is retired') end
-    local character=ptr(game+0x3326D20,'character manager')
-    local cc=u32(character+0x6C,'character count')
-    -- Eight is this prototype's supported character scope, not a global engine claim.
-    if cc==0 or cc>MAX_CHARACTERS then fail('ADS character count exceeds supported bounds') end
-    local ci=map(character+0xF8,avatar,'character owner',cc)
-    local cd=ptr(character+0x110+ci*8,'character descriptor')
-    if read(cd,24,'character owner descriptor')~=descriptor then fail('ADS character owner descriptor changed') end
-    local flags=read(character+0x53E880+ci*0x1238,24,'character state')
-    if flags:byte(7)%2~=1 then fail('ADS character continuity flag is absent') end
-    if math.floor(flags:byte(15)/4)%2~=0 then fail('ADS character is seated or in an unsupported state') end
     local controller=ptr(game+0x347CE70,'controller')
     local controls=read(controller,6,'controller state')
     if Memory.u32_bytes(controls)~=0 then fail('ADS controller is inhibited') end
@@ -141,6 +141,42 @@ local function inspect(mem,ctx,local_descriptor,expected_held)
         held_descriptor=held_descriptor,controller=controller,controller_bytes=controls,
         character=character,character_index=ci,camera_context=camera_context,
         camera=camera,request=request,request_bytes=record,read_count=#reads}
+end
+
+-- Negative-only fast path. It never authorizes a write or reuses pointers.
+-- Unreadable/changing/first-person requests fall through to the full proof.
+function M.inactive(mem,ctx)
+    local ok, inactive, reason = pcall(function()
+        local controller_root = ctx.game + 0x347CE70
+        local controller_bytes = mem:read(controller_root,8)
+        local controller = Memory.pointer_bytes(controller_bytes)
+        local controls = controller and mem:read(controller,6)
+        if controls and (Memory.u32_bytes(controls)~=0 or controls:byte(6)~=0 or controls:byte(5)~=1) then
+            if mem:read(controller_root,8)==controller_bytes and mem:read(controller,6)==controls then
+                return true, 'ADS controller is inactive, inhibited or unsupported'
+            end
+            return false
+        end
+        local root = ctx.game + 0x346D560
+        local root_bytes = mem:read(root,8)
+        local camera_context = Memory.pointer_bytes(root_bytes)
+        if not camera_context then return false end
+        local queue = mem:read(camera_context+0x1F8,8)
+        if not queue then return false end
+        local head,tail = Memory.u32_bytes(queue),Memory.u32_bytes(queue,4)
+        if head>=32 or tail>=32 then return false end
+        local request, record
+        if head~=tail then
+            request = camera_context+0x200+((tail+31)%32)*0xE8
+            record = mem:read(request,16)
+            if not record or record:byte(1)+record:byte(2)*256==6 then return false end
+        end
+        if mem:read(root,8)~=root_bytes or mem:read(camera_context+0x1F8,8)~=queue
+            or request and mem:read(request,16)~=record then return false end
+        return true, head==tail and 'ADS camera queue is empty' or 'ADS latest camera request is not first person'
+    end)
+    if not ok then return false end
+    return inactive, reason
 end
 
 function M.check(mem,ctx,local_descriptor,held_or_nil)

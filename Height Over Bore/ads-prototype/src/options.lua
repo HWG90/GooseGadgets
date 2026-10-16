@@ -9,7 +9,7 @@ function M.new(controller, log)
     log = log or function() end
     local function problem(why)
         why = tostring(why)
-        if why ~= last_problem then log('HoB ADS Prototype options: ' .. why); last_problem = why end
+        if why ~= last_problem then log('Height Over Bore options: ' .. why); last_problem = why end
         return false, why
     end
     local function apply(value)
@@ -52,7 +52,7 @@ function M.new(controller, log)
         if not state then state = {}; hosts[api] = state end
         if not state.registered then
             local spec = {
-                type = 'toggle', label = 'Enabled', mod = 'HoB ADS Prototype', mod_id = 'goose_hob_ads_prototype',
+                type = 'toggle', label = 'Enabled', mod = 'Height Over Bore', mod_id = 'goose_hob_ads_prototype',
                 default = false,
                 description = 'Projectile ADS correction-limit comparison. Beam targeting, hip fire and third-person aim stay native. Off restores each original limit. Disable original HoB.',
             }

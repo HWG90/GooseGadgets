@@ -1,29 +1,15 @@
-# HoB ADS Prototype.4 - BSL
+# Height Over Bore 0.1.1 Experimental — BSL
 
-Experimental projectile ADS comparison, without a weapon-name allowlist. Requires
-Bingus Shared Loader v15+ / API 1 and the original Mod Options Menu. Starts Off;
-select **HoB ADS Prototype > Enabled**, then Apply. Use one loader copy and
-disable original HoB/camera tests.
+Experimental projectile ADS aiming mod by Goose. Requires **Bingus Shared Loader v15+ / API 1** and the original **Mod Options Menu API 1**.
 
-Validated projectile ADS reduces a normal positive correction limit to 0.5 degrees.
-Smaller native target corrections pass unchanged; larger ones are limited.
-Each original value is restored on ADS exit, swap, disable or cleanup. Tighter
-native limits, authored raw-direction weapons and native overrides stay native.
-Hip fire and third-person aiming keep their native settings.
+Import `HOB-0.1.1-experimental-BSL.zip` through Arsenal or your mod manager, enable the addon and restart the game normally. Open **Options → Mod Options → Height Over Bore**, switch **Enabled** On and **Apply**. New installs start Off.
 
-Beam targeting stays entirely native. The historical Scythe base default and
-sustained-beam source select convergence, matching its current native route.
-Prototype.3's beam cache change did not control sustained targeting; it is removed
-here. No beam cap, mode, definition or active record is changed.
+Use one HoB loader variant at a time. Disable the old 0.1.0 HoB addon before enabling this update. Existing ADS prototype users retain the same discovery and settings IDs. This package does not bundle loaders or menus. It has no DBF-MCM requirement.
 
-Adjudicator and secondary close/far ADS comparisons passed qualitatively through
-LLL. The BSL adapter has offline fixture coverage and has not been live-validated.
-The 0.5-degree setting is experimental, not a recovered historical value, and is
-an angular rule rather than a distance switch. Other weapons, moving/recoil
-behavior, same-shot transition isolation and full historical parity need checks.
+During validated projectile ADS, normal positive target correction is limited to 0.5 degrees. Smaller corrections pass through. Tighter native limits, raw-direction weapons and native special-targeting routes stay native. Hip fire, third-person aiming and continuous beams retain native behavior. Off, ADS exit, swap and cleanup request exact restoration; unreadable cleanup retries and other edits are preserved.
 
-Use the standard mod-manager Addon merge. This updates the existing prototype
-ID/discovery path. Only game.dll build 6AB3B43F with exact fingerprints is accepted.
-No native helper, executable patch or GameGuard change is included.
+Adjudicator and secondary close/far comparisons passed qualitatively through LLL. The BSL adapter has offline fixture coverage only. The 0.5-degree setting is experimental, not a recovered historical value. It is an angular rule, not a distance switch. Broader weapon coverage, movement, recoil, same-shot transitions and complete historical parity remain unproved.
 
-Log: %LOCALAPPDATA%/CowboyBingus/Helldivers2/Logs/HeightOverBoreADSPrototype.log
+Supports Windows x64 and `game.dll` timestamp **6AB3B43F**. Unsupported layouts refuse activation. Log: `%LOCALAPPDATA%/CowboyBingus/Helldivers2/Logs/HeightOverBoreADSPrototype.log`.
+
+Source, builders and tests: [GooseGadgets / Height Over Bore](https://github.com/HWG90/GooseGadgets/tree/hob-v0.1.1-experimental/Height%20Over%20Bore/ads-prototype).

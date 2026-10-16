@@ -167,5 +167,49 @@ end)
 test('a prior true result cannot keep ADS active on a later call',function()
     local f=fixture();eq(f:check(),true);f:poke(f.controller+4,'\0');reject(f,'inactive')
 end)
+-- Negative fast path: stable third-person/empty queues only; never ADS authorization.
+test('negative camera screening requires fresh stable reads and refuses uncertainty',function()
+ local f=fixture();local request=f.camera_context+0x200+0xE8
+ -- Fixture queue is initialized below; locate its actual latest request.
+ local q=f:raw(f.camera_context+0x1F8,8)
+ local tail=Memory.u32_bytes(q,4)
+ request=f.camera_context+0x200+((tail+31)%32)*0xE8
+ eq(Gate.inactive(f.mem,f.ctx),false)
+ f:poke(request,bytes('uint16_t',3))
+ local before=f.reads;eq(Gate.inactive(f.mem,f.ctx),true)
+ assert(f.reads-before==8,'Negative camera path must use eight bounded reads including controller screening')
+ f.unreadable=request;eq(Gate.inactive(f.mem,f.ctx),false);f.unreadable=nil
+ f.on_read=function(self,at,n)
+  if at==request and (self.counts[at]or 0)%2==0 then return bytes('uint16_t',6)..self:raw(at+2,n-2) end
+ end
+ eq(Gate.inactive(f.mem,f.ctx),false);f.on_read=nil
+ f:u32(f.camera_context+0x1F8,32);eq(Gate.inactive(f.mem,f.ctx),false)
+ f:u32(f.camera_context+0x1F8,1);f:u32(f.camera_context+0x1FC,1)
+ eq(Gate.inactive(f.mem,f.ctx),true)
+ eq(f.writes,0)
+end)
+
+test('inactive character rejects before held weapon discovery',function()
+ local f=fixture()
+ f:poke(f.character+0x53E880+6,string.char(0))
+ local active,reason=Gate.check(f.mem,f.ctx,f.descriptor)
+ eq(active,false)
+ assert(reason:find('continuity',1,true),'Inactive character should reject before weapon discovery')
+ assert(not f.counts[f.game+0x3326420],'Inactive character must not scan the held weapon')
+ eq(f.writes,0)
+end)
+
+test('inactive controller skips discovery and changing controls fall back',function()
+ local f=fixture();f:poke(f.controller+4,string.char(0))
+ local before=f.reads;eq(Gate.inactive(f.mem,f.ctx),true)
+ eq(f.reads-before,4)
+ assert(not f.counts[f.game+0x346D560],'Inactive controller should skip camera and weapon discovery')
+ f.on_read=function(self,at,n)
+  if at==f.controller and self.counts[at]%2==0 then return self:raw(at,4)..string.char(1,0) end
+ end
+ eq(Gate.inactive(f.mem,f.ctx),false)
+ eq(f.writes,0)
+end)
+
 for _,t in ipairs(tests) do local ok,why=pcall(t[2]);assert(ok,t[1]..': '..tostring(why)) end
 print('ADS gate: '..#tests..' offline contracts passed; no game access or writes')

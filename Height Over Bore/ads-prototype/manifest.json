@@ -1,9 +1,9 @@
 {
   "id": "goose_hob_ads_prototype",
-  "name": "HoB ADS Prototype",
+  "name": "Height Over Bore",
   "author": "Goose",
-  "version": "0.1.1-ads-prototype.4",
-  "description": "Projectile ADS correction-limit prototype with native beam targeting and native hip-fire/third-person aiming preserved.",
+  "version": "0.1.1-experimental",
+  "description": "Experimental projectile ADS aiming with native hip fire, third-person aiming and beam targeting preserved.",
   "lll": {
     "entry": "main.lua",
     "defaults": "config/defaults.cfg",

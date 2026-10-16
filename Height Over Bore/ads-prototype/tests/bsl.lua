@@ -1,7 +1,7 @@
 -- Execute the generated package entry, with no source-module access.
 local ffi = require('ffi')
 local root = assert(HOB_TEST_ROOT)
-local path = root .. '/dist/releases/hob-ads-prototype-bsl-review/HOB-BSL-startup.lua'
+local path = root .. '/dist/releases/hob-v0.1.1-experimental-bsl/HOB-BSL-startup.lua'
 local file = assert(io.open(path, 'rb')); local source = file:read('*a'); file:close()
 local ZERO = string.char(0x35,0xFA,0x0E,0x3C)
 local function original_bytes() return string.char(0xDB,0x0F,0x49,0x40) end
@@ -27,7 +27,7 @@ local function fixture(saved, use_real_backend, no_after_startup)
     _G.ModOptionsMenu = {
         api = 1,
         register_option = function(id, spec)
-            eq(id, 'goose_hob_ads_prototype.enabled'); eq(spec.mod, 'HoB ADS Prototype')
+            eq(id, 'goose_hob_ads_prototype.enabled'); eq(spec.mod, 'Height Over Bore')
             f.registrations = f.registrations + 1
             if f.saved == nil then f.saved = spec.default end
             return true

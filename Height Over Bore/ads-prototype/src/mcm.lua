@@ -7,7 +7,7 @@ function M.new(controller, log)
     log = log or function() end
     local function problem(why)
         why = tostring(why)
-        if why ~= last_problem then log('HoB ADS Prototype MCM: ' .. why); last_problem = why end
+        if why ~= last_problem then log('Height Over Bore MCM: ' .. why); last_problem = why end
         return false, why
     end
     local function apply(value)
@@ -35,7 +35,7 @@ function M.new(controller, log)
     function self:refresh_status()
         local label = tostring(controller:status())
         if last_problem then label = last_problem .. '; ' .. label end
-        if label ~= last_status then log('HoB ADS Prototype: ' .. label); last_status = label end
+        if label ~= last_status then log('Height Over Bore: ' .. label); last_status = label end
         local record = registration()
         if record then
             for _, page in ipairs(record.pages or {}) do
@@ -61,7 +61,7 @@ function M.new(controller, log)
             if not done then return false, why end
             if not supported then self:refresh_status(); return problem('Waiting for DBF-MCM') end
             local spec = {
-                id = ID, name = 'HoB ADS Prototype',
+                id = ID, name = 'Height Over Bore',
                 description = 'Experimental projectile ADS correction; original native beam targeting preserved.',
                 pages = {{ id = 'general', name = 'General', require_confirmation = false, controls = {
                     { id = 'enabled', type = 'toggle', label = 'Enabled', default = false,

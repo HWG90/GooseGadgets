@@ -1,4 +1,6 @@
-# Height Over Bore runtime contract
+# Height Over Bore 0.1.0 runtime contract (historical)
+
+The 0.1.1 ADS release uses the separate [`ads-prototype`](ads-prototype/README.md) source. Its experimental correction cap does not modify the authored definitions described below. These notes document the older 0.1.0 implementation.
 
 Previous experiment: owned definition angle `180 → 0`, naturally derived runtime direction flag `0 → 1`; seventeen sampled shots; user confirmed “THAT works”; on/off/on and exact restoration verified. Direct late writes to the runtime flag did not produce the requested result. This was a scoped current-build experiment, not a comparison against the original game in every aiming mode.
 

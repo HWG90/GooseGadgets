@@ -1,57 +1,32 @@
 # Height Over Bore
 
-An experimental Helldivers 2 aiming mod by Goose. Version 0.1.0 forces weapon direction to follow the game's prepared muzzle basis. It keeps the game's normal muzzle, ballistics and weapon effects.
+Experimental Helldivers 2 aiming mod by Goose. **0.1.1 Experimental** changes projectile aiming in ADS while keeping hip fire, third-person aiming and continuous beams native.
 
-**0.1.0 has a reported hip-fire/laser misalignment.** Comparison with Arrowhead's 1.000.305 code and authored weapon tables confirms that forcing every aiming angle to zero does not reproduce the original per-weapon policy. A complete restoration across hip fire, third-person aiming and ADS is unfinished and has not been released.
+In the Adjudicator and secondary LLL comparisons, close ADS shots landed below the sight while distant shots stayed around the aim point. The mod uses an experimental 0.5-degree correction limit; it is not a verified restoration of every historical Arrowhead value or weapon.
 
-The separate [ADS prototype](ads-prototype/README.md) contains the current LLL and BSL candidate source, builders and offline tests. It limits projectile correction during ADS while preserving native hip fire, third-person aiming and beams. Its 0.5-degree limit is experimental; final live validation and broader weapon coverage remain pending. It is not a replacement release for the packages below.
+## Install
 
-The saved Enabled preference follows weapon changes, death, respawn, mission/ship transitions and game restarts. The runtime discovers the current primary, sidearm and support inventory again as actors and weapons change; it never saves memory addresses.
+Download one ZIP from [GooseGadgets Releases](https://github.com/HWG90/GooseGadgets/releases). Disable the old 0.1.0 HoB mod before enabling this update. Use one loader variant at a time. New installs start **Off**.
 
-## Choose your loader
-
-Download one ZIP from [GooseGadgets Releases](https://github.com/HWG90/GooseGadgets/releases). Install only one Height Over Bore variant at a time. Every variant defaults to **Off**.
-
-| Package | Requirements | Settings |
+| Package | Requirements | Install and enable |
 | --- | --- | --- |
-| `HOB-0.1.0-experimental-BSL.zip` | Bingus Shared Loader v15+ / API 1 and original Mod Options Menu API 1 | Options → Mod Options → Height Over Bore → Enabled, then Apply |
-| `HOB-0.1.0-experimental-LLL.zip` | Live Lua Loader and DBF-MCM | MCM → Height Over Bore → Enabled |
-| `HOB-0.1.0-experimental-MDL.zip` | MDL API 2 and DBF-MCM for MDL | MCM → Height Over Bore → Enabled |
+| `HOB-0.1.1-experimental-LLL.zip` | Live Lua Loader and DBF-MCM | Extract the complete `goose_hob_ads_prototype` folder under `%LOCALAPPDATA%/LLL/Helldivers2/Mods`, refresh LLL discovery and enable it. Use MCM → Height Over Bore → Enabled. |
+| `HOB-0.1.1-experimental-BSL.zip` | Bingus Shared Loader v15+ / API 1 and original Mod Options Menu API 1 | Import through Arsenal or your mod manager, enable the addon and restart normally. Use Mod Options → Height Over Bore → Enabled, then Apply. |
 
-**BSL:** import the ZIP through Arsenal or your mod manager, enable its addon, and restart normally. See [BSL instructions](BSL-README.md).
+Existing ADS prototype users can update their existing package; its discovery and settings IDs are retained. The folder ID remains `goose_hob_ads_prototype`. There is no 0.1.1 MDL package. See [BSL instructions](BSL-README.md) or the [full ADS source documentation](ads-prototype/README.md).
 
-**LLL:** extract the complete `goose_hob` folder into `%LOCALAPPDATA%/LLL/Helldivers2/Mods`, refresh discovery, and enable it in LLL. Turn the feature On in MCM.
+## Behavior and limits
 
-**MDL:** extract the complete `goose_hob` folder into `%LOCALAPPDATA%/MDL/Helldivers2/Mods`, refresh discovery, and enable it in MDL. Turn the feature On in MCM. See [MDL instructions](MDL-README.md).
+During validated projectile ADS, normal target correction is limited to 0.5 degrees. Smaller native corrections pass through. Existing tighter limits, raw-direction weapons and special targeting stay native. Velocity, gravity, drag, muzzle pose and authored definitions are unchanged. Disabling the option, leaving ADS or changing weapons requests exact restoration of the owned value; unreadable cleanup retries and other edits are preserved.
 
-## Behavior and current limits
+Supports Windows x64 and `game.dll` timestamp **6AB3B43F**. Unsupported builds refuse activation.
 
-The backend changes each entity-owned projectile or beam aiming-definition angle to zero. The engine then derives the direction from its normal muzzle basis. When needed, the game's empty-modifier routine creates a private definition; shared base definitions remain read-only.
+The release passes **111 isolated contracts plus 14 parameter cases** and deterministic LLL/BSL package checks. Earlier LLL builds with the same projectile policy passed qualitative Adjudicator and secondary close/far comparisons. BSL has offline adapter coverage only. This release's performance changes, same-shot ADS transitions, movement, recoil and broader weapon coverage still need live checks. Continuous beams retain their native targeting; no beam offset is promised.
 
-Turning Enabled Off restores the exact original bytes of still-live definitions owned by this instance. Retired records are discarded without writing to their old addresses. Foreign changes are preserved. Failed restoration remains pending and retries; provider replacement waits for owned restoration before reactivation.
+## Source and builds
 
-This release supports Windows x64 and the `game.dll` build timestamp **`6AB3B43F`**. Layout, code fingerprints and ownership are checked before writes or native calls. Unsupported builds refuse activation. No extra native DLL or development toolkit is required.
+The current ADS release source, builders and tests are in [`ads-prototype`](ads-prototype/README.md). From that directory, run `py -3 tools/test_prototype.py`. It builds and checks both packages under ignored `dist/releases`, without accessing a game process or installing anything.
 
-Coverage uses both native aiming-component families, without a list of weapon names. An earlier Adjudicator experiment was visually accepted, and the LLL version's owned writes and restoration were observed in game. That evidence did not establish fidelity to the original behavior in every aiming mode. Beam weapons, shotguns, support weapons, multiple muzzles and special guidance still need their own visual checks. BSL and MDL adapters, persistence and lifecycle behavior have offline fixture coverage; this first release does not claim live acceptance of those adapters or every weapon and transition. See [technical notes](https://github.com/HWG90/GooseGadgets/blob/main/Height%20Over%20Bore/TECHNICAL.md).
+The original 0.1.0 all-mode source remains in this parent folder for reference. It forces zero aiming angles and has a reported hip-fire/laser misalignment; it is not the 0.1.1 implementation. Its earlier visual evidence did not establish historical fidelity across modes. See the [historical technical notes](TECHNICAL.md).
 
-## Build from source
-
-Run these commands inside the repository's `Height Over Bore` folder using Python 3.10+ on Windows:
-
-```powershell
-py -3 tools/build.py
-py -3 tools/build_bsl.py
-py -3 tools/build_mdl.py
-```
-
-Allowlisted, standalone ZIPs and SHA-256 receipts are written under `dist/releases`. The builders do not install or publish anything. BSL embeds its modules in one Lua archive entry; LLL and MDL include their own modules.
-
-```powershell
-py -3 tests/run_tests.py
-py -3 tests/run_bsl.py
-py -3 tests/run_mdl.py
-```
-
-The test runners use an isolated LuaJIT state through the installed game's `bin/lua51.dll`, with fixture memory and native calls. They do not attach to the game. For another Steam library location, pass `--dll 'D:/SteamLibrary/steamapps/common/Helldivers 2/bin/lua51.dll'`. Build BSL before its adapter tests so the generated embedded entry exists.
-
-MIT licensed. This folder owns the shared backend, the three loader adapters, builders, tests and documentation.
+MIT licensed.

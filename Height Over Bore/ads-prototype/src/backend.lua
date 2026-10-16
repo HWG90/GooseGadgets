@@ -263,7 +263,7 @@ function M:_record(ctx,id,family,read_definition)
     return record
 end
 
-function M:_local(ctx)
+function M:_local(ctx, discovery_only)
     local reader=tracked(self.mem)
     local player,inventory=reader:ptr(ctx.game+OFF.player),reader:ptr(ctx.game+OFF.inventory)
     local unit=player and reader:u32(player+0x3A8)
@@ -275,6 +275,10 @@ function M:_local(ctx)
         or self.mem.bit.band(descriptor:byte(21),3)~=1 then return nil,'Local player descriptor is unavailable' end
     local avatar=Memory.u32_bytes(descriptor,8)
     if not entity(avatar) then return nil,'Local avatar is unavailable' end
+    if discovery_only then
+        if not reader:stable() then return nil,'Local player changed during read' end
+        return descriptor
+    end
     local ii,problem=reader:hashmap(inventory+0x28,avatar)
     local count=reader:u32(inventory+0x18)
     if not ii or not count or count>MAX_ROWS or ii>=count then return nil,problem or 'Local inventory index exceeds bounds' end
@@ -326,10 +330,15 @@ function M:observe()
     if not ctx then return nil,why end
     ctx.weapons={}
     ctx.mode_status='Experiment inactive: ADS convergence is not applied'
-    local local_descriptor,problem=self:_local(ctx)
+    local inactive, inactive_reason=AdsGate.inactive(self.mem,ctx)
+    if inactive then ctx.mode_status='Experiment inactive: '..inactive_reason; return ctx end
+    local local_descriptor,problem=self:_local(ctx,true)
     if not local_descriptor then return nil,problem end
     local active,reason,snapshot=AdsGate.check(self.mem,ctx,local_descriptor,nil)
     if not active then ctx.mode_status='Experiment inactive: '..tostring(reason or 'ADS inactive'); return ctx end
+    -- Full inventory ownership remains mandatory before collecting any writable lease.
+    local owned_descriptor, owner_problem=self:_local(ctx)
+    if owned_descriptor~=local_descriptor then return nil,owner_problem or 'Local inventory owner changed' end
     local selected=snapshot and snapshot.held
     if not entity(selected) or type(snapshot.held_descriptor)~='string' then return nil,'ADS held weapon is unavailable' end
     local sampled

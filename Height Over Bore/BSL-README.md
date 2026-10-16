@@ -1,21 +1,15 @@
-# Height Over Bore — BSL
+# Height Over Bore 0.1.1 Experimental — BSL
 
-Experimental standalone mod by Goose. Requires **Bingus Shared Loader** and the original **Mod Options Menu** (API 1). DBF-MCM, LLL, LinksLinkToMemory and a separate native DLL are not required.
+Experimental projectile ADS aiming mod by Goose. Requires **Bingus Shared Loader v15+ / API 1** and the original **Mod Options Menu API 1**.
 
-**0.1.0 has a reported hip-fire/laser misalignment.** Its universal zero-angle policy does not match every original weapon policy captured from Arrowhead's 1.000.305 build. A complete restoration across aiming modes remains unfinished and unreleased.
+Import `HOB-0.1.1-experimental-BSL.zip` through Arsenal or your mod manager, enable the addon and restart the game normally. Open **Options → Mod Options → Height Over Bore**, switch **Enabled** On and **Apply**. New installs start Off.
 
-Install `HOB-0.1.0-experimental-BSL.zip` through Arsenal or your Helldivers 2 mod manager. Enable the included BSL addon, then restart the game normally. Open **Options → Mod Options → Height Over Bore**, switch **Enabled** On and **Apply**. It defaults to Off. Mod Options Menu saves the applied preference under `goose_hob.enabled` in its own settings file; there is no separate HoB settings file.
+Use one HoB loader variant at a time. Disable the old 0.1.0 HoB addon before enabling this update. Existing ADS prototype users retain the same discovery and settings IDs. This package does not bundle loaders or menus. It has no DBF-MCM requirement.
 
-Use one HoB package at a time. Disable the previous LLL/MCM HoB mod when using this BSL edition. This package does not change or remove that installation or its saved settings.
+During validated projectile ADS, normal positive target correction is limited to 0.5 degrees. Smaller corrections pass through. Tighter native limits, raw-direction weapons and native special-targeting routes stay native. Hip fire, third-person aiming and continuous beams retain native behavior. Off, ADS exit, swap and cleanup request exact restoration; unreadable cleanup retries and other edits are preserved.
 
-The saved preference remains active across loadout changes, death, respawn, mission/ship transitions and game restarts. The runtime rediscovers the current inventory and entity-owned aiming definitions; it never saves memory addresses to disk. Missing or retired players suspend application and restore or discard owned records according to their current lifetime.
+Adjudicator and secondary close/far comparisons passed qualitatively through LLL. The BSL adapter has offline fixture coverage only. The 0.5-degree setting is experimental, not a recovered historical value. It is an angular rule, not a distance switch. Broader weapon coverage, movement, recoil, same-shot transitions and complete historical parity remain unproved.
 
-Turning Enabled Off restores the original aiming bytes for still-live definitions that this instance owns. Unreadable restoration remains pending and retries during updates. Other edits are preserved. BSL archive enable/disable is restart-based; use the in-game Enabled option for reversible live toggling. Original Mod Options Menu has no unregister API, so callbacks are explicitly retired on shutdown and guarded against provider replacement.
+Supports Windows x64 and `game.dll` timestamp **6AB3B43F**. Unsupported layouts refuse activation. Log: `%LOCALAPPDATA%/CowboyBingus/Helldivers2/Logs/HeightOverBoreADSPrototype.log`.
 
-The backend changes the per-entity projectile or beam aiming angle to zero so the game derives direction from its normal muzzle basis. It covers the two aiming-component families without weapon-name lists. It retains the original weapon muzzle, damage, ammunition and weapon-specific effects. An engine-owned private definition is materialized through the normal zero-patch modifier path when required; shared base definitions remain read-only.
-
-Supported `game.dll` build timestamp: `6AB3B43F`. Layout and native fingerprints are checked before any game write or call. Unsupported builds refuse activation and log the reason in `%LOCALAPPDATA%/CowboyBingus/Helldivers2/Logs/HeightOverBore.log`.
-
-An earlier Adjudicator experiment was visually accepted; it did not establish original behavior in every aiming mode. Beam and other weapon-family visual acceptance remains pending. The BSL integration is checked offline for menu persistence, restoration and lifecycle behavior; its native menu and effects still require an in-game check. This first release is experimental.
-
-Source: [GooseGadgets / Height Over Bore](https://github.com/HWG90/GooseGadgets/tree/main/Height%20Over%20Bore). Inside that folder, build with `py -3 tools/build_bsl.py`, then check with `py -3 tests/run_bsl.py`. Outputs go under `dist/releases`; these commands do not install or publish. The ZIP embeds the entire runtime in one Lua archive entry, so it runs without the source checkout. Original loader/menu contracts: [BSL authoring](https://github.com/CowboyBingus/BingusSharedLoader/blob/main/docs/AUTHORING.md), [Mod Options Menu API](https://github.com/CowboyBingus/ModOptionsMenu/blob/main/src/api.lua).
+Source, builders and tests: [GooseGadgets / Height Over Bore](https://github.com/HWG90/GooseGadgets/tree/hob-v0.1.1-experimental/Height%20Over%20Bore/ads-prototype).

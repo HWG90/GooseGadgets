@@ -1,5 +1,7 @@
 # Height Over Bore for MDL
 
+The 0.1.1 ADS update is available for LLL and BSL only. This document describes the older 0.1.0 MDL package and its reported aiming issue. Disable it before enabling the new LLL or BSL variant.
+
 Experimental mod by Goose. Requires MDL API 2, the **MDL edition of DBF-MCM**, and Windows x64. Install DBF-MCM for MDL before enabling this mod. Supported game.dll timestamp: `6AB3B43F`.
 
 **0.1.0 has a reported hip-fire/laser misalignment.** Its universal zero-angle policy does not match every original weapon policy captured from Arrowhead's 1.000.305 build. A complete restoration across aiming modes remains unfinished and unreleased.

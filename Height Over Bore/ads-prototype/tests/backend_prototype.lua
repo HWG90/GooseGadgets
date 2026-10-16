@@ -6,6 +6,7 @@ local Memory=dofile(root..'/src/memory.lua')
 local Parameters=dofile(root..'/src/parameters.lua')
 local old_mod=rawget(_G,'mod')
 local Gate={}
+function Gate.inactive() return false end
 function Gate.check(mem,ctx,descriptor,expected)
     local io=mem._io;io.gates=(io.gates or 0)+1
     if io.before_gate then io.before_gate(io.gates) end
@@ -504,6 +505,40 @@ test('record without a family cannot default to a different cleanup lane',functi
     local f=fixture();local r=f:record();r.family=nil
     eq(f.backend:resolve(r),nil);eq(f.backend:write(r,r.bytes,TARGET),false);eq(#f.writes,0)
 end)
+
+test('inactive observation never acquires a projectile or performs new writes',function()
+    local f=fixture();local c=controller(f);local original=Gate.inactive
+    Gate.inactive=function() return true,'fixture fast-path inactive' end
+    local ok,why=pcall(function()
+        local gates=f.io.gates or 0
+        local view=assert(f.backend:observe())
+        eq(#view.weapons,0);eq(view.mode_status,'Experiment inactive: fixture fast-path inactive')
+        c:update(0)
+        eq(c:is_clean(),true);eq(next(c.foreign),nil);eq(#f.writes,0)
+        eq(f:get(f.runtime+0x14,4),NATIVE);eq(f.io.gates or 0,gates)
+    end)
+    Gate.inactive=original
+    assert(ok,why)
+end)
+
+test('inactive observation restores an existing owned cap on the same mode-exit update',function()
+    local f=fixture();local r=f:record();local c=controller(f)
+    c:update(0);eq(f:get(r.address,4),TARGET);eq(c:is_clean(),false);eq(#f.writes,1)
+    local original=Gate.inactive
+    Gate.inactive=function() return true,'fixture mode exit' end
+    local ok,why=pcall(function()
+        local gates=f.io.gates or 0
+        f.io.active=false;c:update(0)
+        eq(c:is_clean(),true);eq(f:get(r.address,4),r.native_bytes);eq(#f.writes,2)
+        eq(f.writes[2].address,r.address);eq(f.writes[2].bytes,r.native_bytes)
+        eq(c:status(),'Experiment inactive: fixture mode exit');eq(f.io.gates or 0,gates)
+        c:update(0);eq(#f.writes,2);eq(next(c.foreign),nil)
+        only_cap_writes(f,{[r.address]=true})
+    end)
+    Gate.inactive=original
+    assert(ok,why)
+end)
+
 test('bounded grouped reads retain every fingerprint comparison on every context',function()
     local f=fixture();local before=f.reads
     assert(f.backend:_context())

@@ -4,7 +4,7 @@ local TARGET = Parameters.TARGET
 local LIMIT = 2 -- bounded journal including pending restoration of a prior record
 
 function M.new(backend, log)
-    assert(type(backend) == 'table', 'HoB ADS Prototype backend is required')
+    assert(type(backend) == 'table', 'Height Over Bore backend is required')
     local self = { enabled = false, closing = false, ledger = {}, foreign = {}, token = nil }
     local last_status
     local status = 'Off'
@@ -12,7 +12,7 @@ function M.new(backend, log)
 
     local function report(value)
         status = value
-        if value ~= last_status then log('HoB ADS Prototype: ' .. value); last_status = value end
+        if value ~= last_status then log('Height Over Bore: ' .. value); last_status = value end
     end
     local function copy(record)
         local snapshot = {}
@@ -37,7 +37,7 @@ function M.new(backend, log)
         self.ledger[entry.record.key] = nil
         if foreign then
             self.foreign[entry.record.key] = entry.record
-            log('HoB ADS Prototype: another edit is preserved for weapon ' .. tostring(entry.record.entity))
+            log('Height Over Bore: another edit is preserved for weapon ' .. tostring(entry.record.entity))
         end
     end
     local function write(entry, target)
