@@ -1,0 +1,19 @@
+{
+  "id": "goose_hob_ads_prototype",
+  "name": "HoB ADS Prototype",
+  "author": "Goose",
+  "version": "0.1.1-ads-prototype.4",
+  "description": "Projectile ADS correction-limit prototype with native beam targeting and native hip-fire/third-person aiming preserved.",
+  "lll": {
+    "entry": "main.lua",
+    "defaults": "config/defaults.cfg",
+    "modules": [
+      "src/memory.lua",
+      "src/backend.lua",
+      "src/controller.lua",
+      "src/mcm.lua",
+      "src/ads_gate.lua",
+      "src/parameters.lua"
+    ]
+  }
+}

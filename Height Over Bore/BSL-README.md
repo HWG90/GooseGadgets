@@ -2,6 +2,8 @@
 
 Experimental standalone mod by Goose. Requires **Bingus Shared Loader** and the original **Mod Options Menu** (API 1). DBF-MCM, LLL, LinksLinkToMemory and a separate native DLL are not required.
 
+**0.1.0 has a reported hip-fire/laser misalignment.** Its universal zero-angle policy does not match every original weapon policy captured from Arrowhead's 1.000.305 build. A complete restoration across aiming modes remains unfinished and unreleased.
+
 Install `HOB-0.1.0-experimental-BSL.zip` through Arsenal or your Helldivers 2 mod manager. Enable the included BSL addon, then restart the game normally. Open **Options → Mod Options → Height Over Bore**, switch **Enabled** On and **Apply**. It defaults to Off. Mod Options Menu saves the applied preference under `goose_hob.enabled` in its own settings file; there is no separate HoB settings file.
 
 Use one HoB package at a time. Disable the previous LLL/MCM HoB mod when using this BSL edition. This package does not change or remove that installation or its saved settings.
@@ -14,6 +16,6 @@ The backend changes the per-entity projectile or beam aiming angle to zero so th
 
 Supported `game.dll` build timestamp: `6AB3B43F`. Layout and native fingerprints are checked before any game write or call. Unsupported builds refuse activation and log the reason in `%LOCALAPPDATA%/CowboyBingus/Helldivers2/Logs/HeightOverBore.log`.
 
-The original projectile fix was visually confirmed on the Adjudicator. Beam and other weapon-family visual acceptance remains pending. The BSL integration is checked offline for menu persistence, restoration and lifecycle behavior; its native menu and effects still require an in-game check. This first release is experimental.
+An earlier Adjudicator experiment was visually accepted; it did not establish original behavior in every aiming mode. Beam and other weapon-family visual acceptance remains pending. The BSL integration is checked offline for menu persistence, restoration and lifecycle behavior; its native menu and effects still require an in-game check. This first release is experimental.
 
 Source: [GooseGadgets / Height Over Bore](https://github.com/HWG90/GooseGadgets/tree/main/Height%20Over%20Bore). Inside that folder, build with `py -3 tools/build_bsl.py`, then check with `py -3 tests/run_bsl.py`. Outputs go under `dist/releases`; these commands do not install or publish. The ZIP embeds the entire runtime in one Lua archive entry, so it runs without the source checkout. Original loader/menu contracts: [BSL authoring](https://github.com/CowboyBingus/BingusSharedLoader/blob/main/docs/AUTHORING.md), [Mod Options Menu API](https://github.com/CowboyBingus/ModOptionsMenu/blob/main/src/api.lua).

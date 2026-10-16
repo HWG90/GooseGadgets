@@ -1,6 +1,10 @@
 # Height Over Bore
 
-An experimental Helldivers 2 mod by Goose that restores muzzle-based aiming. At close range, the muzzle sits below the sight, so shots can land below the reticle. The mod keeps the game's normal muzzle, ballistics and weapon effects.
+An experimental Helldivers 2 aiming mod by Goose. Version 0.1.0 forces weapon direction to follow the game's prepared muzzle basis. It keeps the game's normal muzzle, ballistics and weapon effects.
+
+**0.1.0 has a reported hip-fire/laser misalignment.** Comparison with Arrowhead's 1.000.305 code and authored weapon tables confirms that forcing every aiming angle to zero does not reproduce the original per-weapon policy. A complete restoration across hip fire, third-person aiming and ADS is unfinished and has not been released.
+
+The separate [ADS prototype](ads-prototype/README.md) contains the current LLL and BSL candidate source, builders and offline tests. It limits projectile correction during ADS while preserving native hip fire, third-person aiming and beams. Its 0.5-degree limit is experimental; final live validation and broader weapon coverage remain pending. It is not a replacement release for the packages below.
 
 The saved Enabled preference follows weapon changes, death, respawn, mission/ship transitions and game restarts. The runtime discovers the current primary, sidearm and support inventory again as actors and weapons change; it never saves memory addresses.
 
@@ -28,7 +32,7 @@ Turning Enabled Off restores the exact original bytes of still-live definitions 
 
 This release supports Windows x64 and the `game.dll` build timestamp **`6AB3B43F`**. Layout, code fingerprints and ownership are checked before writes or native calls. Unsupported builds refuse activation. No extra native DLL or development toolkit is required.
 
-Coverage uses both native aiming-component families, without a list of weapon names. The original projectile fix was visually confirmed on the Adjudicator, and the LLL version's owned writes and restoration were observed in game. Beam weapons, shotguns, support weapons, multiple muzzles and special guidance still need their own visual checks. BSL and MDL adapters, persistence and lifecycle behavior have offline fixture coverage; this first release does not claim live acceptance of those adapters or every weapon and transition. See [technical notes](https://github.com/HWG90/GooseGadgets/blob/main/Height%20Over%20Bore/TECHNICAL.md).
+Coverage uses both native aiming-component families, without a list of weapon names. An earlier Adjudicator experiment was visually accepted, and the LLL version's owned writes and restoration were observed in game. That evidence did not establish fidelity to the original behavior in every aiming mode. Beam weapons, shotguns, support weapons, multiple muzzles and special guidance still need their own visual checks. BSL and MDL adapters, persistence and lifecycle behavior have offline fixture coverage; this first release does not claim live acceptance of those adapters or every weapon and transition. See [technical notes](https://github.com/HWG90/GooseGadgets/blob/main/Height%20Over%20Bore/TECHNICAL.md).
 
 ## Build from source
 

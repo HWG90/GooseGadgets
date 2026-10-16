@@ -1,6 +1,8 @@
 # Height Over Bore runtime contract
 
-Previous experiment: owned definition angle `180 → 0`, naturally derived runtime direction flag `0 → 1`; seventeen sampled shots; user confirmed “THAT works”; on/off/on and exact restoration verified. Direct late writes to the runtime flag did not produce the requested result.
+Previous experiment: owned definition angle `180 → 0`, naturally derived runtime direction flag `0 → 1`; seventeen sampled shots; user confirmed “THAT works”; on/off/on and exact restoration verified. Direct late writes to the runtime flag did not produce the requested result. This was a scoped current-build experiment, not a comparison against the original game in every aiming mode.
+
+Subsequent comparison against captured 1.000.305 code and authored tables found that the Adjudicator originally uses target convergence from the muzzle origin. Its original Boolean policy maps to the current 180-degree policy, rather than zero. Full historical restoration also requires coherent runtime angle caches and original target/origin handling. The released universal zero-angle implementation is therefore not an exact restoration; the reported hip-fire/laser issue and complete replacement remain unresolved. Private offline candidates are not release or live-acceptance evidence.
 
 Projectile manager, relative to the global pointer at `game.dll+33266D8`: runtime map `+50`, descriptor array `+68`, runtime array `+78`, entity-to-definition map `+90`, inverse map `+B0`, live definition count `+C8`, definition array `+D0`, stride `268`, aiming angle `+30`. Dynamic row addresses can move on removal, so every write resolves the entity again and checks both maps, descriptor identity and a preserved definition prefix.
 
