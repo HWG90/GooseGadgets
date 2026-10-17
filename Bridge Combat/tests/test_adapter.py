@@ -205,10 +205,13 @@ assert(menu:shutdown())
             archive = builder.build(folder, native)
             first = archive.read_bytes()
             with zipfile.ZipFile(archive) as package:
-                expected = {"goose_bridge_combat/" + file for file in (*builder.FILES, builder.NATIVE_ASSET, builder.NATIVE_RECEIPT)}
+                expected = {"goose_bridge_combat/" + file
+                            for file in (*builder.FILES, *builder.NOTICES, builder.NATIVE_ASSET, builder.NATIVE_RECEIPT)}
                 self.assertEqual(set(package.namelist()), expected)
                 for file in builder.FILES:
                     self.assertEqual(package.read("goose_bridge_combat/" + file), (ROOT / file).read_bytes())
+                for name, source in builder.NOTICES.items():
+                    self.assertEqual(package.read("goose_bridge_combat/" + name), (ROOT / source).read_bytes())
                 self.assertEqual(package.read("goose_bridge_combat/" + builder.NATIVE_ASSET), native.read_bytes())
                 proof = json.loads(package.read("goose_bridge_combat/" + builder.NATIVE_RECEIPT))
                 self.assertEqual(proof["sha256"], hashlib.sha256(native.read_bytes()).hexdigest())

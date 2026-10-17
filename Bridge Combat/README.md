@@ -4,7 +4,7 @@ This candidate is held after failed live pose and Armory tests. Leave MCM Enable
 
 Temporary diagnostic drivers additionally protect existing weapon packages through the normal counted request/release APIs. Two current packages acknowledged acquisition and balanced nonfinal release in the guarded tests. A same-primary native attachment refresh also acknowledged unchanged inventory selection; its visual result is unconfirmed. These drivers are separate from the packaged controller, and this limited evidence does not establish safe final package retirement or a stable Armory lifecycle.
 
-Requires **Live Lua Loader R31 or later**, **DBF-MCM**, validated `game.dll` build `6AB3B43F` and executable build `6AB382E4`. The versioned native helper DLL and its license are bundled. Link's Link to Memory, command files and chat relay are not required.
+Requires **Live Lua Loader R31 or later**, **DBF-MCM**, validated `game.dll` build `6AB3B43F` and executable build `6AB382E4`. The versioned native helper DLL, its license and MinHook's license (`MINHOOK-LICENSE.txt`) are bundled. Link's Link to Memory, command files and chat relay are not required.
 
 The review ZIP is not ready for installation. The installed 0.1 mod remains separate from this source candidate. Its MCM toggle defaults to Off and saves through MCM. Temporary prototypes must stop before a future validated mod is enabled; overlapping ownership is refused.
 

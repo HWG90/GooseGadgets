@@ -9,6 +9,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 FILES = ("main.lua", "manifest.json", "config/defaults.cfg", "README.md", "LICENSE",
          "src/backend.lua", "src/controller.lua", "src/mcm.lua")
+NOTICES = {"MINHOOK-LICENSE.txt": "native/vendor/minhook/LICENSE.txt"}
 NATIVE_ASSET = "runtime/BridgeCombatNative-0.2.0-experimental.dll"
 NATIVE_RECEIPT = "runtime/BridgeCombatNative-0.2.0-experimental.json"
 REQUIRED_EXPORTS = {"BC_start", "BC_start_actor", "BC_tick", "BC_stop", "BC_status", "BC_ready", "BC_error"}
@@ -105,6 +106,7 @@ def build(output=None, native_dll=None):
     assert manifest["native"]["route"] == "actor" and manifest["native"]["asset"] == NATIVE_ASSET
     assert set(manifest["lll"]["modules"]) == set(FILES) & {"src/backend.lua", "src/controller.lua", "src/mcm.lua"}
     payload = {name: (ROOT / name).read_bytes() for name in FILES}
+    payload.update({name: (ROOT / source).read_bytes() for name, source in NOTICES.items()})
     if native_dll is None:
         raise ValueError("Supply the production helper explicitly with --native-dll")
     native_dll = Path(native_dll).resolve()
