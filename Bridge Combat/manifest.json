@@ -1,0 +1,18 @@
+{
+  "id": "goose_bridge_combat",
+  "name": "Bridge Combat",
+  "author": "Goose",
+  "version": "0.2.0-experimental",
+  "description": "An experimental MCM toggle for using your equipped loadout on the Super Destroyer bridge.",
+  "native": {
+    "route": "actor",
+    "asset": "runtime/BridgeCombatNative-0.2.0-experimental.dll",
+    "game_timestamp": "6AB3B43F",
+    "exe_timestamp": "6AB382E4"
+  },
+  "lll": {
+    "entry": "main.lua",
+    "defaults": "config/defaults.cfg",
+    "modules": ["src/backend.lua", "src/controller.lua", "src/mcm.lua"]
+  }
+}
