@@ -23,3 +23,14 @@ py -3 bridge-combat/tests/test_adapter.py
 ```
 
 The package builder requires an explicit production DLL, checks its AMD64 headers and APIs without loading it, rejects test-only exports and external C/C++ runtime dependencies, and bundles a native SHA-256 receipt. It uses a file allowlist and writes the unpacked mod, ZIP and checksums to `DBF/dist/releases/bridge-combat-0.2.0-experimental-review`. It does not install or publish anything.
+
+## BSL variant
+
+A standalone Bingus Shared Loader package uses the original Mod Options Menu for **Enabled** and optional Mod Bindings Menu v3 for a **Toggle Bridge Combat** hotkey. It embeds the same backend, controller and production helper. See [BSL-README.md](BSL-README.md) for installation and limits.
+
+```powershell
+py -3 tools/build_bsl.py --native-dll dist/releases/bridge-combat-0.2-native-review/actor-build/BridgeCombatNative.dll
+py -3 tests/test_bsl_package.py
+```
+
+The builder applies the same native checks, embeds the helper under a content-hashed file name, and writes a deterministic ZIP, its extracted startup script and receipts to `dist/releases/bridge-combat-0.2.0-experimental-bsl-review`. It does not install or publish anything.
