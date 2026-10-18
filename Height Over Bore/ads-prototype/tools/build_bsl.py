@@ -12,19 +12,19 @@ import uuid
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.2-experimental"
+VERSION = "0.1.3-experimental"
 ENTRY = "mods/goose/hob_ads_prototype/startup"
 GUID = "171b4e3f-b3a4-43c1-b632-8ad679180ae1"
 ARCHIVE = "9ba626afa44a3aa3.patch_0"
 ZIP_NAME = "HOB-" + VERSION + "-BSL.zip"
-REVIEW = ROOT / "dist" / "releases" / "hob-v0.1.2-experimental-bsl"
+REVIEW = ROOT / "dist" / "releases" / "hob-v0.1.3-experimental-bsl"
 MODULES = ("src/memory.lua", "src/backend.lua", "src/controller.lua", "src/options.lua", "src/ads_gate.lua", "src/parameters.lua")
 SOURCE_FILES = ("bsl/startup.lua", *MODULES, "BSL-README.md", "LICENSE")
 PACKAGE_FILES = ("manifest.json", "Addon/" + ARCHIVE,
                  "Addon/" + ARCHIVE + ".stream", "Addon/" + ARCHIVE + ".gpu_resources",
                  "README-BSL.md", "LICENSE")
 OUTPUT_FILES = (ZIP_NAME, "HOB-BSL-startup.lua", "build-manifest.json", "SHA256SUMS.txt")
-BUILD_ID = "hob-v0.1.2-experimental-bsl-v1"
+BUILD_ID = "hob-v0.1.3-experimental-bsl-v1"
 
 # Reuse the original DBF archive writer, copied byte-identically from Epic-LUT.
 _spec = importlib.util.spec_from_file_location("hob_bsl_lua_archive", Path(__file__).with_name("lua_archive.py"))

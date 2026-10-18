@@ -1,4 +1,4 @@
-# Height Over Bore 0.1.2 Experimental
+# Height Over Bore 0.1.3 Experimental
 
 Projectile ADS comparison without a weapon-name allowlist. Native hip fire, third-person aiming and continuous beam targeting are preserved. New installs start **Off**.
 
@@ -10,7 +10,7 @@ Disable the old 0.1.0 HoB mod before enabling this update. Install one loader va
 
 **BSL:** requires Bingus Shared Loader v15+ / API 1 and the original Mod Options Menu. Import the ZIP through Arsenal or your mod manager, enable the addon and restart normally. Use **Mod Options → Height Over Bore → Enabled**, then Apply. See [BSL instructions](https://github.com/HWG90/GooseGadgets/blob/main/Height%20Over%20Bore/ads-prototype/BSL-README.md).
 
-There is no 0.1.2 MDL package. Camera override experiments that control ADS should be disabled during comparison.
+There is no 0.1.3 MDL package. Camera override experiments that control ADS should be disabled during comparison.
 
 ## Equipment cache
 
@@ -24,7 +24,13 @@ Acquisition, restoration and pending/partial cleanup still take the full fresh v
 
 Validated address conversions and copy lengths use a bounded cache. Every read still executes the protected Windows copy and checks its exact transferred count. Permission failures, changed bytes and recovery are observed on the next read.
 
-## Live performance
+## Transition optimization in 0.1.3
+
+Remove the duplicate preliminary weapon resolution before guarded writes. The write transaction still freshly checks ownership, identity, expected cap bytes, ADS admission and final stability.
+
+Controlled old/new/new/old testing used the same projectile weapon in ADS, with 120 restore/reapply pairs per version at 4/s. Mean pair cost fell **2.41 → 1.85 ms (23% lower)**; P95 fell **4.40 → 3.22 ms (27% lower)**. Rapid ADS exits and swaps passed qualitative LLL testing with normal aiming and no noticeable hitch. These paired operations are not directly comparable to the original 3.87 ms single-update peak, whose full cause remains unresolved. BSL live performance remains unmeasured.
+
+## Earlier 0.1.2 live performance
 
 Matched LLL ADS comparison on the same projectile weapon and scene, old → new → new → old: two 25-second samples per version after five-second warm-ups, about 115 updates/s. The backed-up prior installed version averaged **7.30 ms/s**; this implementation averaged **4.91 ms/s**, a **33% reduction**. Each sample stayed ADS with no full observations, definition lookups or writes. This compares complete versions, not only the scheduler.
 
@@ -48,7 +54,7 @@ New ownership requires an exact native baseline derived from that weapon's autho
 
 ## Validation and remaining checks
 
-**156 isolated contracts plus 14 parameter cases pass**, including exact restoration, ADS exit, ownership changes, partial reads/writes, native beam preservation and both adapters. Both allowlisted packages build deterministically and pass archive integrity checks.
+**157 isolated contracts plus 14 parameter cases pass**, including exact restoration, ADS exit, ownership changes, partial reads/writes, native beam preservation and both adapters. Both allowlisted packages build deterministically and pass archive integrity checks.
 
 The live projectile comparisons used earlier LLL candidates with the same correction policy. The equipment-cache changes passed matched live LLL ADS timing and rapid exit/swap testing. BSL has offline adapter coverage only. Same-shot transitions, movement, recoil, broader weapon alignment and complete historical equivalence remain unproved.
 

@@ -1,8 +1,8 @@
-# Height Over Bore 0.1.2 Experimental — BSL
+# Height Over Bore 0.1.3 Experimental — BSL
 
 Experimental projectile ADS aiming mod by Goose. Requires **Bingus Shared Loader v15+ / API 1** and the original **Mod Options Menu API 1**.
 
-Import `HOB-0.1.2-experimental-BSL.zip` through Arsenal or your mod manager, enable the addon and restart the game normally. Open **Options → Mod Options → Height Over Bore**, switch **Enabled** On and **Apply**. New installs start Off.
+Import `HOB-0.1.3-experimental-BSL.zip` through Arsenal or your mod manager, enable the addon and restart the game normally. Open **Options → Mod Options → Height Over Bore**, switch **Enabled** On and **Apply**. New installs start Off.
 
 Use one HoB loader variant at a time. Disable the old 0.1.0 HoB addon before enabling this update. Existing ADS prototype users retain the same discovery and settings IDs. This package does not bundle loaders or menus. It has no DBF-MCM requirement.
 

@@ -8,13 +8,13 @@ from pathlib import Path
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.1.2-experimental"
+VERSION = "0.1.3-experimental"
 FILES = (
     "main.lua", "manifest.json", "config/defaults.cfg", "README.md", "LICENSE",
     "src/memory.lua", "src/backend.lua", "src/controller.lua", "src/mcm.lua", "src/ads_gate.lua", "src/parameters.lua",
 )
 MODULES = {"src/memory.lua", "src/backend.lua", "src/controller.lua", "src/mcm.lua", "src/ads_gate.lua", "src/parameters.lua"}
-REVIEW = ROOT / "dist" / "releases" / "hob-v0.1.2-experimental-lll"
+REVIEW = ROOT / "dist" / "releases" / "hob-v0.1.3-experimental-lll"
 
 
 def validate_manifest(manifest: dict) -> None:

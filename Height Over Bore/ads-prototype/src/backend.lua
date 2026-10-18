@@ -550,25 +550,26 @@ function M:write(record,expected,target)
     if type(expected)~='string' or #expected~=4 or type(target)~='string' or #target~=4 then
         return false,'Convergence writes require exactly four bytes',0
     end
-    if type(record)~='table' or record.family~='projectile'
+    if type(record)~='table' or record.family~='projectile' or not entity(record.entity)
+        or type(record.descriptor)~='string' or #record.descriptor~=16
         or type(record.native_bytes)~='string' or #record.native_bytes~=4
         or record.bytes~=record.native_bytes or not Parameters.should_limit(record.native_bytes)
         or (target~=Parameters.TARGET and target~=record.native_bytes) then
         return false,'Only an exact native projectile cap lease may be changed',0
     end
-    local current,why=self:resolve(record)
-    if not current then return false,why,0 end
-    if current.bytes~=expected then return false,'Convergence cache changed externally',0 end
     -- One closing witness binds every authorization read to the final runtime
     -- address. The outer reader also sees nested map/ADS stability rereads.
+    -- Resolve inside this transaction only: the former preliminary resolve
+    -- was repeated below and contributed no additional closing witness.
     local witness=tracked(self.mem)
     local transaction=setmetatable({mem=witness},{__index=self})
     local ctx,problem=transaction:_context()
     if not ctx or ctx.token~=record.token then return false,problem or 'Convergence World changed',0 end
+    local current,why
     if target==Parameters.TARGET then
         local active,reason,snapshot=AdsGate.check(witness,ctx,record.ads_local_descriptor,record.entity)
         if not active then return false,reason,0 end
-        if not snapshot.held_descriptor or snapshot.held_descriptor:sub(1,16)~=current.descriptor then
+        if not snapshot.held_descriptor or snapshot.held_descriptor:sub(1,16)~=record.descriptor then
             return false,'ADS held descriptor changed before cap write',0
         end
         -- Reacquire the held projectile only. Beam diagnostics never authorize

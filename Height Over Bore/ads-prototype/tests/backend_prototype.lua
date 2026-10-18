@@ -1022,5 +1022,22 @@ test('bounded sampling restores on the next deadline after ADS exit or owner los
         end
     end)
 end)
+test('definition inspection rejects changed runtime identity layout mode or cap before use',function()
+    for _,kind in ipairs({'World','rows','mode','cap','descriptor'}) do
+        local f=fixture();local ctx=assert(f.backend:_context())
+        local original=f.backend._definition
+        function f.backend:_definition(...)
+            local value,why=original(self,...)
+            if kind=='World' then f:ptr(f.game+0x346BF98,f.world+0x10000)
+            elseif kind=='rows' then f:ptr(f.pm+0x78,f.runtime+0x10000)
+            elseif kind=='mode' then f:poke(f.runtime+0x13,'\1')
+            elseif kind=='cap' then f:poke(f.runtime+0x14,TARGET)
+            else f:poke(f.world+0xF32F18+24,'XXXXXXXX') end
+            return value,why
+        end
+        local record,why=f.backend:_record(ctx,201,'projectile')
+        eq(record,nil);assert(type(why)=='string');eq(#f.writes,0)
+    end
+end)
 for _,t in ipairs(tests) do local ok,why=pcall(t[2]);assert(ok,t[1]..': '..tostring(why)) end
 print('Native-beam preservation backend: '..#tests..' isolated contracts passed')

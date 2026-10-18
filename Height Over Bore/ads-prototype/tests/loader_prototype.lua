@@ -11,7 +11,7 @@ _G.DBFMCM={register=function(s)
     return {get=function()return false end,unregister=function()unregistered=true;return true end}
 end}
 local entry=assert(loadfile(root..'/main.lua'))()
-assert(entry.name=='Height Over Bore');assert(entry.version=='0.1.2-experimental');entry.on_enable();entry.on_update(0)
+assert(entry.name=='Height Over Bore');assert(entry.version=='0.1.3-experimental');entry.on_enable();entry.on_update(0)
 assert(spec and spec.pages[1].controls[1].default==false)
 assert(entry.on_disable()==true);assert(unregistered)
 for _,name in ipairs({'main.lua','src/backend.lua','src/controller.lua','src/ads_gate.lua','src/parameters.lua','src/mcm.lua','src/options.lua','src/memory.lua'}) do

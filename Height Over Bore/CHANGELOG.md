@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3-experimental — 2026-10-18
+
+- Remove duplicate weapon resolution before guarded writes; retain fresh transaction ownership, identity, expected bytes, ADS and closing stability checks.
+- Controlled LLL old/new/new/old comparison: 120 restore/reapply pairs per version, mean 2.41 → 1.85 ms (23% lower), P95 4.40 → 3.22 ms (27% lower). Rapid ADS exits/swaps passed qualitative testing. These are pair timings; the original 3.87 ms single-update peak remains unresolved.
+- Add a runtime-mutation rejection fixture. Offline suites: 157 contracts and 14 parameter cases. BSL has offline adapter coverage only.
+
 ## 0.1.2-experimental — 2026-10-18
 
 - Cache weapon-definition discovery per equipped generation; reuse it across ADS exit/reentry.

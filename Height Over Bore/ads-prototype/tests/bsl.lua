@@ -1,7 +1,7 @@
 -- Execute the generated package entry, with no source-module access.
 local ffi = require('ffi')
 local root = assert(HOB_TEST_ROOT)
-local path = root .. '/dist/releases/hob-v0.1.2-experimental-bsl/HOB-BSL-startup.lua'
+local path = root .. '/dist/releases/hob-v0.1.3-experimental-bsl/HOB-BSL-startup.lua'
 local file = assert(io.open(path, 'rb')); local source = file:read('*a'); file:close()
 local ZERO = string.char(0x35,0xFA,0x0E,0x3C)
 local function original_bytes() return string.char(0xDB,0x0F,0x49,0x40) end
