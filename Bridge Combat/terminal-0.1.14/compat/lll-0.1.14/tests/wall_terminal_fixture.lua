@@ -350,3 +350,12 @@ test('loading status is retained and repeated combat clicks cannot cancel activa
     assert(f.terminal:set_combat_progress('ready','Combat ready.'));assert(f.terminal.compositions==n+1)
     assert(f.terminal:stop())
 end)
+
+ test('closed terminal render stays idle without camera projection polling',function()
+    local f=fixture();local samples=0
+    f.options.project_sample=function()samples=samples+1;return true end
+    f.terminal=Terminal.new(f.options);assert(f.terminal:start(f.placement))
+    for _=1,120 do f:render()end;assert(samples==0,'Closed display polled the camera')
+    assert(f.terminal:interact());f:render();assert(samples==1,'Focused screen must refresh its picking projection')
+    assert(f.terminal:stop())
+end)

@@ -443,7 +443,9 @@ function M.new(options)
                 -- Input uses the projection presented by the last render, not
                 -- the temporary FOV written earlier during the update callback.
                 if options.focus_render and self.interactive and not self.placing then local done,why=options.focus_render();assert(done==true,why or'Terminal camera render pending')end
-                if options.project_sample then
+                -- Closed displays retain their texture; only a focused pointer
+                -- needs camera sampling and projected hit bounds.
+                if self.interactive and options.project_sample then
                     s.projected_corners=nil
                     local sampled=options.project_sample()
                     if sampled==true then s.projected_corners=projected_corners()end

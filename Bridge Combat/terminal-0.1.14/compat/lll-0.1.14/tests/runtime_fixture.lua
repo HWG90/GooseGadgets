@@ -207,9 +207,9 @@ test('first combat activation waits for both asset acknowledgements',function()
     local f=fixture({ui_assets={update=function()ui_calls=ui_calls+1;return ui_ready end,shutdown=function()return true end},
         fx_assets={update=function()fx_calls=fx_calls+1;return fx_ready end,shutdown=function()return true end}})
     f.runtime:set_enabled(true);f.tick(4)
-    eq(f.context,4);eq(f.base.active,nil);eq(f.calls['base.apply'],nil);eq(f.animation.active,nil);eq(ui_calls,4);eq(fx_calls,4)
-    ui_ready=true;f.tick(2);eq(f.context,4);eq(f.base.active,nil)
-    fx_ready=true;f.tick();eq(f.context,4);eq(f.base.active,nil)
+    eq(f.context,4);eq(f.base.active,nil);eq(f.calls['base.apply'],nil);eq(f.animation.active,nil);eq(ui_calls,1);eq(fx_calls,1)
+    ui_ready=true;f.runtime:update(.5);eq(f.context,4);eq(f.base.active,nil)
+    fx_ready=true;f.runtime:update(.5);eq(f.context,4);eq(f.base.active,nil)
     f.tick(12);eq(f.context,2);eq(f.calls['base.apply'],1);yes(f.animation.active)
 end)
 test('initial asset failure and Off cannot authorize combat access',function()
@@ -225,7 +225,7 @@ test('native menu starts only after assets and acknowledged combat context2',fun
     local n=native_menu_fixture();local fx_ready=false
     local f=fixture({weapon_menu=n,fx_assets={update=function()return fx_ready end,shutdown=function()return true end}});n.record=f.record
     f.runtime:set_enabled(true);f.tick(3);eq(f.context,4);eq(n.acquires,0)
-    fx_ready=true;f.tick();eq(f.context,4);eq(n.acquires,0)
+    fx_ready=true;f.runtime:update(.5);eq(f.context,4);eq(n.acquires,0)
     f.tick();eq(f.context,2);eq(n.acquires,0)
     f.tick();eq(n.acquires,1);yes(not n.clean)
 end)
@@ -474,4 +474,14 @@ test('combat loading progress follows asset readiness and stays idle when settle
     ready=true;f.tick(20);yes(f.runtime.latched);eq(f.progress[#f.progress].phase,'ready');yes(not f.runtime:combat_loading())
     n=#f.progress;f.tick(50);eq(#f.progress,n,'Settled readiness republished')
     assert(f.runtime:set_enabled(false));f.tick(20);eq(f.progress[#f.progress].phase,'off')
+end)
+
+ test('asset-wait discovery is bounded and Off bypasses the retry delay',function()
+    local calls=0;local f=fixture({fx_assets={update=function()calls=calls+1;return false,'Effects pending'end,shutdown=function()return true end}})
+    assert(f.runtime:set_enabled(true));f.runtime:update(.001)
+    local before=f.calls.observe
+    for _=1,100 do f.runtime:update(.001)end
+    eq(f.calls.observe,before,'Loading re-observed the actor every frame');eq(calls,1)
+    f.runtime:update(.5);eq(f.calls.observe,before+1);eq(calls,2)
+    assert(f.runtime:set_enabled(false));f.runtime:update(.001);yes(not f.runtime.enabled);yes(f.animation:is_clean());eq(f.base.active,nil)
 end)

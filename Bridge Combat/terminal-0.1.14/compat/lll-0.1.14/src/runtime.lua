@@ -140,6 +140,7 @@ function M.new(options)
     local asset_update_frame=false
     local visibility_reason,weapon_menu_reason
     local weapon_ui_paused,weapon_resume_delay=false,0
+    local initialization_retry=0
     -- If the old controller faults during a native stance update, its internal
     -- cleanup may run in the same call. Refuse restoration mutations until the
     -- animation owner has acknowledged release; its journals remain pending.
@@ -407,6 +408,7 @@ function M.new(options)
         assert(type(value)=='boolean','Enabled must be a boolean')
         if self.closing then return false,'Bridge Combat is unloading' end
         if not value then self.latched=false;weapon_ui_paused=false;weapon_resume_delay=0 end
+        if self.enabled~=value then initialization_retry=0 end
         self.enabled=value
         if not value then ui_assets_ready,fx_assets_ready=false,false end
         animation:set_enabled(value)
@@ -519,6 +521,15 @@ function M.new(options)
             end
             return true
         end
+        -- Package completion has no subscription in this engine API. While no
+        -- actor/UI owner exists, bound its discovery/retry work to 2Hz. Explicit
+        -- Off and every active/pending cleanup bypass this loading-only delay.
+        if self.enabled and not base.active and animation:is_clean()and weapon_menu:is_clean()
+            and(not ui_assets_ready or not fx_assets_ready)then
+            initialization_retry=math.max(0,initialization_retry-(type(dt)=='number'and math.max(0,math.min(dt,1))or .016))
+            if initialization_retry>0.000001 then return true end
+            initialization_retry=.5
+        else initialization_retry=0 end
         if self.enabled or not animation:is_clean()or base.active or not weapon_menu:is_clean()then
             observe()
             local menu_done,menu_why=weapon_menu_step(dt)
