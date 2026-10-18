@@ -1,0 +1,41 @@
+-- Live catalogue data, game build6AB3B43F, captured2026-10-17.
+-- Entity/package IDs only; no account ownership or private SDK implementation.
+-- The original34-row snapshot also contains B/MD C4 Pack (item3748434442,
+-- type9b75217d8312dd67, packagebba76437a1c00c1e). It is deliberately omitted:
+-- live authored-pickup preflight2026-10-17 found no usable pickup definition.
+-- All33 listed weapons and8 backpack definitions passed that preflight.
+return {
+    {name="40-K Meltagun",id=774795224,kind=2,type="6cfcc7f8801a0266",package="ae4f2e79b546847c"},
+    {name="AC-8 Autocannon",id=875551083,kind=2,type="a8cffb316f0b5c5f",package="6ad7cc21015a5f85",backpack={name="AC-8 Autocannon backpack",id=3066314944,kind=6,type="e60ae045e0090f4c",package="49875503e219e80d"}},
+    {name="APW-1 Anti-Materiel Rifle",id=2207713849,kind=2,type="89c5493e08ca4207",package="ea6967f8565a2d76"},
+    {name="ARC-3 Arc Thrower",id=992079466,kind=2,type="96de9cd50f7306e6",package="2a9fb8f5d0576eae"},
+    {name="B/FLAM-80 Cremator",id=2051054112,kind=2,type="78a8185f63a70795",package="df16f5c644edc2b1",backpack={name="B/FLAM-80 Cremator Backpack",id=432912135,kind=6,type="43eb1c3c1a1860e0",package="df16f5c644edc2b1"}},
+    {name="CQC-1 One True Flag",id=819954976,kind=2,type="b0f1b354ba1d38d8",package="c40e3b3fa79052ec"},
+    {name="Breaching Hammer",id=3330450692,kind=2,type="5f3ec9bda2bd8553",package="39ddd2e6f131c873"},
+    {name="CQC-73 Entrenchment Tool",id=4133671573,kind=2,type="e85e623f93f96fb3",package="49de16e1343250e4"},
+    {name="CQC-9 Defoliation Tool",id=3572024208,kind=2,type="bf4cfd2aeabfb5a4",package="eeebc5fd26fe0f40"},
+    {name="EAT-17 Expendable Anti-Tank",id=3413606544,kind=2,type="80932fa0ed6901d3",package="de96cd7cc69628bc"},
+    {name="EAT-411 Leveller",id=2934950455,kind=2,type="7617642765ac38c7",package="fde8230c79315087"},
+    {name="EAT-700 Expendable Napalm",id=1813634375,kind=2,type="b2b5e0d185605f9e",package="5d68e55823acd1bf"},
+    {name="FAF-14 Spear",id=3923676543,kind=2,type="25aa2fd4643cf4ee",package="530bb611a14b6ce3",backpack={name="FAF-14 Spear backpack",id=271509801,kind=6,type="8ec3026b5f2e579a",package="530bb611a14b6ce3"}},
+    {name="FLAM-40 Flamethrower",id=1432571981,kind=2,type="39ab99895147a3bf",package="784671f2b3a4da79"},
+    {name="GL-21 Grenade Launcher",id=3343676429,kind=2,type="02eecd0b1fa49630",package="0089bbe3e284fcaa"},
+    {name="GL-28 Belt-Fed Grenade Launcher",id=512147393,kind=2,type="88c2d09ad85a7c9f",package="f24cfa612428175b",backpack={name="GL-28 Belt-Fed Grenade Launcher Backpack",id=512147393,kind=6,type="bb4b15b588f974fd",package="f24cfa612428175b"}},
+    {name="GL-52 De-Escalator",id=153819019,kind=2,type="fe3b29b2cfa63f9b",package="4fee9cc13c0b4cec"},
+    {name="GR-8 Recoilless Rifle",id=1298599997,kind=2,type="9f80d67a12a7e40f",package="6ca87637eaeb5923",backpack={name="GR-8 Recoilless Rifle backpack",id=2213467394,kind=6,type="96dfc6542aa22980",package="15eb7241c3616351"}},
+    {name="LAS-98 Laser Cannon",id=2822568285,kind=2,type="d54b9505c0f72873",package="cf1acde501ccfa1b"},
+    {name="LAS-99 Quasar Cannon",id=2625074523,kind=2,type="35a61296619cc47e",package="cf1acde501ccfa1b"},
+    {name="M-1000 Maxigun",id=3455841218,kind=2,type="43a58cb89cfa197c",package="b2c627b3ba7e0c0a",backpack={name="M-1000 Maxigun Backpack",id=1092582811,kind=6,type="056de1c5e21e723e",package="b2c627b3ba7e0c0a"}},
+    {name="M-105 Stalwart",id=14345846,kind=2,type="a6a735accb4a327f",package="8f295b4d04c3a06c"},
+    {name="MG-206 Heavy Machine Gun",id=533318241,kind=2,type="2152d5147b0ac418",package="902c54afb4ed396f"},
+    {name="MG-43 Machine Gun",id=458198946,kind=2,type="11c27d3babb38956",package="c024a2e8ae639757"},
+    {name="MGX-42 Bullet Storm",id=3288352984,kind=2,type="b16c9d490aa59b77",package="b75f652bed19144a"},
+    {name="MLS-4X Commando",id=2232989803,kind=2,type="5990123d142b16cb",package="c0052e5b38e18c33"},
+    {name="PLAS-45 Epoch",id=2140866400,kind=2,type="e8d5f49ad7780e54",package="a7b23b55209766ae"},
+    {name="RL-77 Airburst Rocket Launcher",id=2007887745,kind=2,type="26e40437ea275296",package="f7646e79610c124d",backpack={name="RL-77 Airburst Rocket Launcher backpack",id=2273006189,kind=6,type="e75cd68e858a12ac",package="e12f82d7c0c7bc63"}},
+    {name="RS-422 Railgun",id=3078242205,kind=2,type="2e9d0bdc48b09e60",package="7f37db9b767844c2"},
+    {name="S-11 Speargun",id=336693041,kind=2,type="3828e2051aa9e897",package="70d708e5fd627493"},
+    {name="SG-88 Break-Action Shotgun",id=3744531484,kind=2,type="52071f49263415e4",package="31894c33c4ed1e2a"},
+    {name="StA-X3 W.A.S.P. Launcher",id=890972990,kind=2,type="cc786f6491fe7e65",package="5795e99a988d10b7",backpack={name="StA-X3 W.A.S.P. Launcher backpack",id=790588279,kind=6,type="b8feb0cc191c1ef3",package="5795e99a988d10b7"}},
+    {name="TX-41 Sterilizer",id=4152191751,kind=2,type="88f61afff48ac8a4",package="750605cfc0173701"},
+}

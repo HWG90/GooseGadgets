@@ -1,3 +1,5 @@
+For the tested **Armory cabinet terminal**, use [terminal-0.1.14](terminal-0.1.14/README.md). The 0.2 actor-route candidate below remains separate.
+
 # Bridge Combat 0.2.0-experimental
 
 This candidate is held after failed live pose and Armory tests. Leave MCM Enabled Off. The initial animation reconstruction briefly corrected the rifle pose, but an Eruptor to Crossbow change left an incorrect pose and a later Adjudicator selection crashed in the engine's resource-release ownership check. Guarded tests with stable drawn-weapon initialization now run, but the player body and weapon hands still need a verified animation correction. Full native mission HUD, health/damage and stable Armory replacement remain pending.

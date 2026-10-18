@@ -1,0 +1,517 @@
+{
+  "built_utc": "2026-10-18T04:24:31.676059+00:00",
+  "sha256": "3b792b5401ea7eae0b15ad9c5d95227009ddd640a4825dc7fd0277210187f514",
+  "dll_sha256": "3b792b5401ea7eae0b15ad9c5d95227009ddd640a4825dc7fd0277210187f514",
+  "supported_game_stamp": "0x6AB3B43F",
+  "supported_exe_stamp": "0x6AB382E4",
+  "persistent_lifetime_proof_accepted": true,
+  "afk_dirty_retirement_proof_accepted": true,
+  "ship_active_cleanup_proof_accepted": true,
+  "bytes": 222720,
+  "exports": [
+    "BC_weapon_menu_acquire",
+    "BC_weapon_menu_error",
+    "BC_weapon_menu_flags",
+    "BC_weapon_menu_phase",
+    "BC_weapon_menu_stop",
+    "BC_weapon_menu_tick"
+  ],
+  "loaded_live": false,
+  "deployed": false,
+  "drop_widget_constructor_prerequisite_proof_accepted": true,
+  "drop_detached_primitive_lifetime_proof_accepted": true,
+  "lifetime_proof": "Normal writable GUI material-release248 callback closes introduced local8/86/aux before witnessed stock Ship subtree retirement; compare-owned slot restore and positive actor/native Mission handoffs.",
+  "limitations": [
+    "Runtime ordinary writable GUI service-slot, exact current clone witness and supported-build preflight remain mandatory.",
+    "No page protection changes or game instruction patching.",
+    "Unknown or interrupted ownership pins the native journal; foreign Mission8 is preserved.",
+    "Armory resume and deployment gameplay remain separate field verification; a changed actor with still-live old trees conservatively retains ownership."
+  ],
+  "closed_input_tick_proof_accepted": true,
+  "stock_return_recovery_proof_accepted": true,
+  "dll": "BridgeCombatWeaponMenu-3b792b5401ea.dll",
+  "sources": [
+    {
+      "path": "native/weapon_menu.cpp",
+      "sha256": "9467b6ce4717887504a5a09c08a346e2fc4fb4cf537504d596c5fa17738cf5c2"
+    },
+    {
+      "path": "native/weapon_menu.h",
+      "sha256": "bd3f79e447f63ccfd63cdb48a136162d051bcc2780d4212f333a33287959df90"
+    },
+    {
+      "path": "tests/native_weapon_menu_tests.cpp",
+      "sha256": "6a5349c17cc972ff17920c30b092cb7d06e1ad4125849e760d9e552ad97d3619"
+    }
+  ],
+  "tests": [
+    {
+      "case": "ordinary",
+      "exit": 0
+    },
+    {
+      "case": "not-ready",
+      "exit": 0
+    },
+    {
+      "case": "role-preexisting",
+      "exit": 0
+    },
+    {
+      "case": "wrong-root",
+      "exit": 0
+    },
+    {
+      "case": "aux-missing",
+      "exit": 0
+    },
+    {
+      "case": "menu-initial",
+      "exit": 0
+    },
+    {
+      "case": "no-witness",
+      "exit": 0
+    },
+    {
+      "case": "wrong-witness-parent",
+      "exit": 0
+    },
+    {
+      "case": "wrong-witness-context",
+      "exit": 0
+    },
+    {
+      "case": "no-observer",
+      "exit": 0
+    },
+    {
+      "case": "duplicate-observer",
+      "exit": 0
+    },
+    {
+      "case": "observer-overflow",
+      "exit": 0
+    },
+    {
+      "case": "readonly-slot",
+      "exit": 0
+    },
+    {
+      "case": "executable-slot",
+      "exit": 0
+    },
+    {
+      "case": "partial-sibling",
+      "exit": 0
+    },
+    {
+      "case": "partial-wheel",
+      "exit": 0
+    },
+    {
+      "case": "attach-fault",
+      "exit": 0
+    },
+    {
+      "case": "reenter",
+      "exit": 0
+    },
+    {
+      "case": "idempotent",
+      "exit": 0
+    },
+    {
+      "case": "witness-retire",
+      "exit": 0
+    },
+    {
+      "case": "witness-live",
+      "exit": 0
+    },
+    {
+      "case": "witness-recursion",
+      "exit": 0
+    },
+    {
+      "case": "witness-unrelated",
+      "exit": 0
+    },
+    {
+      "case": "witness-foreign-thread",
+      "exit": 0
+    },
+    {
+      "case": "generation-array-move",
+      "exit": 0
+    },
+    {
+      "case": "both-arrays-move",
+      "exit": 0
+    },
+    {
+      "case": "foreign-slot",
+      "exit": 0
+    },
+    {
+      "case": "actor-retired",
+      "exit": 0
+    },
+    {
+      "case": "handoff-ship",
+      "exit": 0
+    },
+    {
+      "case": "handoff-mission",
+      "exit": 0
+    },
+    {
+      "case": "handoff-missing-observer",
+      "exit": 0
+    },
+    {
+      "case": "handoff-foreign-ship8",
+      "exit": 0
+    },
+    {
+      "case": "handoff-partial",
+      "exit": 0
+    },
+    {
+      "case": "handoff-live-original",
+      "exit": 0
+    },
+    {
+      "case": "cancel-pending",
+      "exit": 0
+    },
+    {
+      "case": "destroy-ack",
+      "exit": 0
+    },
+    {
+      "case": "tick-fault",
+      "exit": 0
+    },
+    {
+      "case": "witness-lost",
+      "exit": 0
+    },
+    {
+      "case": "menu-pause",
+      "exit": 0
+    },
+    {
+      "case": "photo-pause",
+      "exit": 0
+    },
+    {
+      "case": "shared-material",
+      "exit": 0
+    },
+    {
+      "case": "wrong-material-type",
+      "exit": 0
+    },
+    {
+      "case": "witness-cycle",
+      "exit": 0
+    },
+    {
+      "case": "witness-detached",
+      "exit": 0
+    },
+    {
+      "case": "witness-alpha-zero",
+      "exit": 0
+    },
+    {
+      "case": "handoff-array-move",
+      "exit": 0
+    },
+    {
+      "case": "handoff-root-missing",
+      "exit": 0
+    },
+    {
+      "case": "handoff-foreign-ui",
+      "exit": 0
+    },
+    {
+      "case": "witness-lost-during-constructor",
+      "exit": 0
+    },
+    {
+      "case": "dirty-single",
+      "exit": 0
+    },
+    {
+      "case": "dirty-multiple",
+      "exit": 0
+    },
+    {
+      "case": "dirty-foreign-flags",
+      "exit": 0
+    },
+    {
+      "case": "dirty-context",
+      "exit": 0
+    },
+    {
+      "case": "dirty-animation",
+      "exit": 0
+    },
+    {
+      "case": "dirty-delegate",
+      "exit": 0
+    },
+    {
+      "case": "dirty-opaque",
+      "exit": 0
+    },
+    {
+      "case": "dirty-newactor8",
+      "exit": 0
+    },
+    {
+      "case": "dirty-old-live",
+      "exit": 0
+    },
+    {
+      "case": "dirty-fault",
+      "exit": 0
+    },
+    {
+      "case": "dirty-ack-delay",
+      "exit": 0
+    },
+    {
+      "case": "ship-active-0-to-1-closed",
+      "exit": 0
+    },
+    {
+      "case": "ship-active-0-to-1-open",
+      "exit": 0
+    },
+    {
+      "case": "ship-active-1-to-0-closed",
+      "exit": 0
+    },
+    {
+      "case": "ship-active-1-to-0-open",
+      "exit": 0
+    },
+    {
+      "case": "ship-active-invalid",
+      "exit": 0
+    },
+    {
+      "case": "ship-active-flip-parent",
+      "exit": 0
+    },
+    {
+      "case": "ship-active-flip-context",
+      "exit": 0
+    },
+    {
+      "case": "validation-counters",
+      "exit": 0
+    },
+    {
+      "case": "validation-fingerprint-refusal",
+      "exit": 0
+    },
+    {
+      "case": "validation-executable-refusal",
+      "exit": 0
+    },
+    {
+      "case": "revalidate-fingerprint-after-sibling",
+      "exit": 0
+    },
+    {
+      "case": "revalidate-executable-after-sibling",
+      "exit": 0
+    },
+    {
+      "case": "drop-preimage-foreign",
+      "exit": 0
+    },
+    {
+      "case": "drop-partial",
+      "exit": 0
+    },
+    {
+      "case": "drop-child-missing",
+      "exit": 0
+    },
+    {
+      "case": "drop-parent-foreign",
+      "exit": 0
+    },
+    {
+      "case": "drop-material-missing",
+      "exit": 0
+    },
+    {
+      "case": "drop-physical-actions",
+      "exit": 0
+    },
+    {
+      "case": "drop-cancel-pending",
+      "exit": 0
+    },
+    {
+      "case": "drop-early-barrier",
+      "exit": 0
+    },
+    {
+      "case": "drop-retired-open-refuse",
+      "exit": 0
+    },
+    {
+      "case": "drop-tick-fault",
+      "exit": 0
+    },
+    {
+      "case": "drop-parent-changed",
+      "exit": 0
+    },
+    {
+      "case": "drop-native-mission-handoff",
+      "exit": 0
+    },
+    {
+      "case": "drop-open-cleanup",
+      "exit": 0
+    },
+    {
+      "case": "orphan-reacquire",
+      "exit": 0
+    },
+    {
+      "case": "orphan-ack-delay",
+      "exit": 0
+    },
+    {
+      "case": "orphan-destroy-fault",
+      "exit": 0
+    },
+    {
+      "case": "orphan-external-retired",
+      "exit": 0
+    },
+    {
+      "case": "orphan-dirty",
+      "exit": 0
+    },
+    {
+      "case": "orphan-afk",
+      "exit": 0
+    },
+    {
+      "case": "orphan-native-mission",
+      "exit": 0
+    },
+    {
+      "case": "orphan-material",
+      "exit": 0
+    },
+    {
+      "case": "orphan-parent",
+      "exit": 0
+    },
+    {
+      "case": "orphan-context",
+      "exit": 0
+    },
+    {
+      "case": "orphan-child",
+      "exit": 0
+    },
+    {
+      "case": "orphan-delegate",
+      "exit": 0
+    },
+    {
+      "case": "orphan-tween",
+      "exit": 0
+    },
+    {
+      "case": "orphan-type",
+      "exit": 0
+    },
+    {
+      "case": "orphan-defaults",
+      "exit": 0
+    },
+    {
+      "case": "closed-idle",
+      "exit": 0
+    },
+    {
+      "case": "closed-tick-fault",
+      "exit": 0
+    },
+    {
+      "case": "vitals-ordinary",
+      "exit": 0
+    },
+    {
+      "case": "vitals-foreign",
+      "exit": 0
+    },
+    {
+      "case": "vitals-partial",
+      "exit": 0
+    },
+    {
+      "case": "vitals-tick-fault",
+      "exit": 0
+    },
+    {
+      "case": "vitals-barrier",
+      "exit": 0
+    },
+    {
+      "case": "vitals-retired-partial",
+      "exit": 0
+    },
+    {
+      "case": "warm-ordinary",
+      "exit": 0
+    },
+    {
+      "case": "warm-material",
+      "exit": 0
+    },
+    {
+      "case": "warm-parent",
+      "exit": 0
+    },
+    {
+      "case": "warm-context",
+      "exit": 0
+    },
+    {
+      "case": "warm-tween",
+      "exit": 0
+    },
+    {
+      "case": "warm-mission",
+      "exit": 0
+    },
+    {
+      "case": "warm-type",
+      "exit": 0
+    },
+    {
+      "case": "warm-fault",
+      "exit": 0
+    },
+    {
+      "case": "warm-delay",
+      "exit": 0
+    }
+  ]
+}
