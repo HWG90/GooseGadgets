@@ -230,8 +230,8 @@ bool read_witness(Witness& out,bool deleting=false){
     // Seal the stock Ship subtree membership before enabling8. Generic child
     // retirement can already unlink this node before its248 callback; only the
     // exact owned material/context/type predicate is required inside that call.
-    const auto root=ui+0x46D900+8;std::vector<uintptr_t> seen;
-    while(parent){if(seen.size()>=32)return false;for(auto old:seen)if(old==parent)return false;seen.push_back(parent);uint32_t f{};uintptr_t context{},next{};if(!read(parent,f)||!(f&1)||!read(parent+0xF8,context)||context!=out.context)return false;if(parent==root)return true;if(!read(parent+0xF0,next))return false;parent=next;}return false;
+    const auto root=ui+0x46D900+8;std::array<uintptr_t,32> seen{};size_t seen_count=0;
+    while(parent){if(seen_count>=seen.size())return false;for(size_t i=0;i<seen_count;++i)if(seen[i]==parent)return false;seen[seen_count++]=parent;uint32_t f{};uintptr_t context{},next{};if(!read(parent,f)||!(f&1)||!read(parent+0xF8,context)||context!=out.context)return false;if(parent==root)return true;if(!read(parent+0xF0,next))return false;parent=next;}return false;
 }
 bool same_witness(const Witness& a,const Witness& b){return a.node==b.node&&a.parent==b.parent&&a.context==b.context&&a.renderer==b.renderer&&a.material==b.material;}
 bool barrier_provider(){uintptr_t engine{},api{};return read(target.game+0x3326308,engine)&&engine==barrier.engine&&read(engine+0xD0,api)&&api==barrier.api;}

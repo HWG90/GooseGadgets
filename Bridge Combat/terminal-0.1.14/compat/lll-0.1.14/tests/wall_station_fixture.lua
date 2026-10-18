@@ -197,3 +197,12 @@ end)
     f.down=false;assert(f:tick(.6));f.down=true;assert(f:tick(.6));assert(f.opens==1)
     assert(f.owner:shutdown());assert(f.globals.DBFMCM==nil)
 end)
+
+ test('closed nearby terminal avoids full input gate until a lifecycle probe or Interact edge',function()
+    local f=fixture();local gates=0;local original=f.options.gate
+    f.options.gate=function(v)gates=gates+1;return original(v)end
+    f.owner=Station.new(f.options);f:enable();f.down=false;assert(f:tick(.01));local n=gates
+    for _=1,20 do assert(f:tick(.01))end;assert(gates==n,'Idle terminal repeated full focus validation')
+    f.down=true;assert(f:tick(.01));assert(gates>n and f.opens==1,'Interact did not validate before capturing')
+    assert(f.owner:shutdown())
+end)

@@ -234,6 +234,19 @@ function M.new(options)
             local done,why=stop_terminal();if done then self.next_probe=0 end;return done,why
         end
         if not probing and not(self.terminal and self.terminal.interactive)and not self.near and not self.place_requested then return true end
+        local interactive=self.terminal and self.terminal.interactive
+        local released_focus=self.had_focus and not interactive;self.had_focus=interactive
+        local sampled_down,sampled_owner
+        -- While closed, input evaluation is the only per-frame work needed.
+        -- Full owner/focus/menu validation remains on the 2Hz lifecycle probe
+        -- and on the Interact press itself. Queued delivery already retries at 2Hz.
+        if not probing and not interactive and not released_focus and not self.place_requested then
+            if not self.near or not self.view then return true end
+            sampled_down,sampled_owner=read_use(self.view)
+            if sampled_owner~=self.input_owner then self.input_owner=sampled_owner;self.armed=false end
+            if not sampled_down then self.armed=true;return true end
+            if not self.armed then return true end
+        end
         local allowed=self.view and input_gate(self.view)
         if self.terminal and self.terminal.interactive then
             local done,why=self.terminal:update();if done~=true then self.reason=tostring(why);return stop_terminal()end
@@ -252,7 +265,8 @@ function M.new(options)
         -- acknowledged release; the underlying owners reacquire game guards.
         refill:update();support:update()
         if not self.near then self.armed=false;self.input_owner=nil;return true end
-        local down,owner=read_use(self.view);assert(type(down)=='boolean'and owner~=nil,'Wall terminal Use unavailable')
+        local down,owner=sampled_down,sampled_owner
+        if down==nil then down,owner=read_use(self.view)end;assert(type(down)=='boolean'and owner~=nil,'Wall terminal Use unavailable')
         if owner~=self.input_owner then self.input_owner=owner;self.armed=false end
         if not down then self.armed=true;return true end
         if not self.armed then return true end

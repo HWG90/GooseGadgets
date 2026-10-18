@@ -1,7 +1,7 @@
 {
-  "built_utc": "2026-10-18T04:24:31.676059+00:00",
-  "sha256": "3b792b5401ea7eae0b15ad9c5d95227009ddd640a4825dc7fd0277210187f514",
-  "dll_sha256": "3b792b5401ea7eae0b15ad9c5d95227009ddd640a4825dc7fd0277210187f514",
+  "built_utc": "2026-10-18T08:18:13.809158+00:00",
+  "sha256": "8494dbd2b95aaa8ccf8779406b6fd1c66c246a917ac9174335e14654c16cc6b0",
+  "dll_sha256": "8494dbd2b95aaa8ccf8779406b6fd1c66c246a917ac9174335e14654c16cc6b0",
   "supported_game_stamp": "0x6AB3B43F",
   "supported_exe_stamp": "0x6AB382E4",
   "persistent_lifetime_proof_accepted": true,
@@ -29,11 +29,11 @@
   ],
   "closed_input_tick_proof_accepted": true,
   "stock_return_recovery_proof_accepted": true,
-  "dll": "BridgeCombatWeaponMenu-3b792b5401ea.dll",
+  "dll": "BridgeCombatWeaponMenu-8494dbd2b95a.dll",
   "sources": [
     {
       "path": "native/weapon_menu.cpp",
-      "sha256": "9467b6ce4717887504a5a09c08a346e2fc4fb4cf537504d596c5fa17738cf5c2"
+      "sha256": "abdecf198215a43d0abfc5026f863753dd6373ab9e61982a38b952449a96bf50"
     },
     {
       "path": "native/weapon_menu.h",
