@@ -62,7 +62,7 @@ function M.new(options)
     assert(#choices>0 and #choices<=128,'Terminal choices unavailable')
     assert(type(options.project)=='function'and type(options.available)=='function','Terminal guarded camera/availability required')
     assert(type(options.on_refill)=='function'and type(options.on_support)=='function','Terminal request callbacks required')
-    local self={phase='idle',selected=1,page=1,interactive=false,dirty=false,renders=0,compositions=0,combat=options.combat==true}
+    local self={phase='idle',selected=1,page=1,interactive=false,dirty=false,renders=0,compositions=0,combat=options.combat==true,combat_phase=options.combat_phase,combat_message=options.combat_message}
     local s={};local serial=tostring(self);local unsubscribe;local clicked,hover,escape=false,nil,false
     -- Keep logical input geometry fixed while supersampling the retained target.
     local width,height=1024,640;local density=4;local columns,visible_rows=7,5
@@ -81,32 +81,89 @@ function M.new(options)
     end
     local use_down=false
     local cursor_scale=1.75
+    local cursor_rows={'X','XX','XOX','XOOX','XOOOX','XOOOOX','XOOOOOX','XOOOOOOX','XOOOOOOOX','XOOOOOOOOX',
+            'XOOOOOOOOOX','XOOOOOOOOOOX','XOOOOOOOOOOOX','XOOOOOOXXXXXXX','XOOXOOOX','XOX XOOOX','XX   XOOOX',
+            'X    XOOOX','      XOOOX','      XOOOX','       XXX'}
+    local cursor_width=0
+    for _,row in ipairs(cursor_rows)do cursor_width=math.max(cursor_width,#row*cursor_scale)end
+    local cursor_height=#cursor_rows*cursor_scale
+    -- Keep all cursor ink inside the content inset, clear of the cabinet bevel.
+    -- The hotspot can still reach every button, including the top combat toggle.
+    local cursor_inset=34
+    local function cursor_bounds(x,y)
+        return math.max(cursor_inset,math.min(width-cursor_width-cursor_inset,x)),
+            math.max(cursor_height+cursor_inset,math.min(height-cursor_inset,y))
+    end
     local function available()local ok,value=pcall(options.available);return ok and value==true end
     local function live(world)for _,w in pairs(A.worlds()or{})do if w==world then return true end end;return false end
     local function color(r,g,b)return sr.Color(255,r,g,b)end
     local function point(x,y,z)return sr.Vector3(x*density,y*density,z or 1)end
+    -- One display frame drives picking and the projected overlay cursor.
+    -- A world GUI never samples the cabinet texture, so its arrow cannot repeat
+    -- through that material's wrap sampler at either screen edge.
+    local function display_frame()
+        local p=s.placement;local bottom,right,up={},{},{}
+        for k=1,3 do
+            if s.native_screened then
+                local scale=p.width/.8
+                bottom[k]=p.center[k]-p.up[k]*1.35*scale-p.normal[k]*.455*scale
+                    -p.right[k]*.4075*scale+p.normal[k]*.2988*scale+p.up[k]*1.1781*scale
+                right[k]=p.right[k]*.815*scale
+                up[k]=(-p.normal[k]*.1477+p.up[k]*.4613)*scale
+            else
+                bottom[k]=p.center[k]-p.right[k]*p.width*.5-p.up[k]*p.height*.5
+                right[k]=p.right[k]*p.width;up[k]=p.up[k]*p.height
+            end
+        end
+        return bottom,right,up
+    end
     local function cursor_clear()
-        if s.cursor_gui then W.destroy_gui(s.world,s.cursor_gui);s.cursor_gui=nil;self.dirty=true end
+        if s.cursor_gui then
+            if live(s.main)then W.destroy_gui(s.main,s.cursor_gui)end
+            s.cursor_gui=nil
+        end
     end
     local function cursor_draw(x,y)
-        if s.cursor_x==x and s.cursor_y==y and s.cursor_gui then return end
-        cursor_clear();s.cursor_x,s.cursor_y=x,y
-        s.cursor_gui=handle(W.create_screen_gui(s.world,'scale',1,1),'cursor GUI')
-        local rows={'X','XX','XOX','XOOX','XOOOX','XOOOOX','XOOOOOX','XOOOOOOX','XOOOOOOOX','XOOOOOOOOX',
-            'XOOOOOOOOOX','XOOOOOOOOOOX','XOOOOOOOOOOOX','XOOOOOOXXXXXXX','XOOXOOOX','XOX XOOOX','XX   XOOOX',
-            'X    XOOOX','      XOOOX','      XOOOX','       XXX'}
-        for row,pixels in ipairs(rows)do
+        s.cursor_x,s.cursor_y=x,y
+    end
+    -- Present in screen space after the focus camera has settled for this frame.
+    -- Retained rectangles bypass world motion blur and the cabinet wrap sampler.
+    local function cursor_present()
+        if not self.interactive or not s.virtual_cursor then return end
+        local bottom,right,up=display_frame();local q={}
+        for k=1,3 do q[k]=bottom[k]+right[k]*s.cursor_x/width+up[k]*s.cursor_y/height end
+        local x,y,depth=options.project(q[1],q[2],q[3])
+        if not finite(x)or not finite(y)or not finite(depth)or depth<=0 then return end
+        local sw,sh=G.resolution();if not finite(sw)or not finite(sh)or sw<=0 or sh<=0 then return end
+        local ax,ay=options.project(unpack(bottom));local endp={}
+        for k=1,3 do endp[k]=bottom[k]+right[k]end
+        local bx,by=options.project(unpack(endp))
+        if not finite(ax)or not finite(ay)or not finite(bx)or not finite(by)then return end
+        local scale=math.sqrt(((bx-ax)*sw)^2+((by-ay)*sh)^2)/width*cursor_scale
+        -- Camera projection is top-down; screen GUI coordinates are bottom-up.
+        x,y=x*sw,(1-y)*sh
+        if s.cursor_gui and s.cursor_px==x and s.cursor_py==y and s.cursor_pixel_scale==scale then return end
+        if not s.cursor_gui then
+            need(G,'update_rect');s.cursor_gui=handle(W.create_screen_gui(s.main,'scale',1,1),'cursor overlay');s.cursor_ink={}
+        end
+        local i=0
+        for row,pixels in ipairs(cursor_rows)do
             local col=1
             while col<=#pixels do
                 local ink=pixels:sub(col,col);local last=col
                 while last<#pixels and pixels:sub(last+1,last+1)==ink do last=last+1 end
-                if ink~=' 'then local shade=ink=='X'and 0 or 255
-                    G.rect(s.cursor_gui,point(x+(col-1)*cursor_scale,y-row*cursor_scale,5),sr.Vector2((last-col+1)*density*cursor_scale,density*cursor_scale),color(shade,shade,shade))
+                if ink~=' 'then
+                    i=i+1;local shade=ink=='X'and 0 or 255
+                    local p=sr.Vector3(x+(col-1)*scale,y-row*scale,1000)
+                    local size=sr.Vector2((last-col+1)*scale,scale)
+                    if s.cursor_ink[i]then G.update_rect(s.cursor_gui,s.cursor_ink[i],p,size,color(shade,shade,shade))
+                    else s.cursor_ink[i]=assert(G.rect(s.cursor_gui,p,size,color(shade,shade,shade)),'Cursor rectangle unavailable')end
                 end
                 col=last+1
             end
         end
-        W.update(s.world,0);self.dirty=true
+        s.cursor_px,s.cursor_py,s.cursor_pixel_scale=x,y,scale
+        self.cursor_moves=(self.cursor_moves or 0)+1
     end
     local function rect(x,y,w,h,r,g,b)G.rect(s.gui,point(x,y,1),sr.Vector2(w*density,h*density),color(r,g,b))end
     local function text(value,x,y,size,r,g,b)G.text(s.gui,value,FONT,size*density,FONT,point(x,y,2),color(r,g,b))end
@@ -122,7 +179,7 @@ function M.new(options)
         rect(0,0,width,height,12,14,16);rect(0,574,width,66,25,27,29)
         rect(34,570,956,2,221,184,105)
         text('SUPER DESTROYER  /  ARMORY',34,600,24,221,184,105)
-        text(self.notice or(self.interactive and'Select equipment  /  Mousewheel to browse  /  Interact to leave'or'Interact to use this screen.'),34,578,15,154,159,159)
+        text(self.combat_message or self.notice or(self.interactive and'Select equipment  /  Mousewheel to browse  /  Interact to leave'or'Interact to use this screen.'),34,578,15,154,159,159)
         if self.placing then
             text('PLACE YOUR SCREEN',34,468,32,244,214,90)
             text('Arrows: move   Wheel / PgUp / PgDn: depth',34,418,24,235,243,240)
@@ -135,9 +192,11 @@ function M.new(options)
             s.buttons=buttons;W.update(s.world,0);self.compositions=self.compositions+1;self.dirty=true;return
         end
         local buttons={}
-        rect(802,590,188,40,self.combat and 146 or 29,self.combat and 32 or 31,self.combat and 29 or 34)
-        rect(802,590,3,40,self.combat and 244 or 221,self.combat and 70 or 184,self.combat and 61 or 105)
-        text('WEAPONS FREE',818,603,17,234,235,228)
+        local loading=self.combat_phase=='loading' or self.combat_phase=='stopping'
+        local armed=self.combat and not loading
+        rect(802,590,188,40,loading and 66 or armed and 146 or 29,loading and 54 or armed and 32 or 31,loading and 24 or armed and 29 or 34)
+        rect(802,590,3,40,armed and 244 or 221,armed and 70 or 184,armed and 61 or 105)
+        text(loading and(self.combat_phase=='stopping' and 'STANDING DOWN...' or 'LOADING...')or 'WEAPONS FREE',818,603,17,234,235,228)
         buttons[#buttons+1]={id='combat',x=802,y=590,w=188,h=40}
         button(buttons,'refill','REFILL AMMO',34,500,300,44)
         if options.allow_placement==true then button(buttons,'reposition','REPLACE SCREEN',350,500,320,44)end
@@ -180,6 +239,14 @@ function M.new(options)
         assert(type(value)=='boolean','Combat status must be boolean')
         if self.combat==value then return true end
         self.combat=value
+        if self.phase=='active' and self.combat_phase~='loading' and self.combat_phase~='stopping'then compose()end
+        return true
+    end
+    function self:set_combat_progress(phase,message)
+        assert(phase=='off' or phase=='loading' or phase=='ready' or phase=='stopping','Combat progress phase differs')
+        assert(message==nil or type(message)=='string','Combat progress message differs')
+        if self.combat_phase==phase and self.combat_message==message then return true end
+        self.combat_phase,self.combat_message=phase,message
         if self.phase=='active'then compose()end
         return true
     end
@@ -212,17 +279,9 @@ function M.new(options)
         s.keys=nil;return true
     end
     local function projected_corners()
-        local p=s.placement;local corners={};local signs={{-1,1},{1,1},{1,-1},{-1,-1}}
-        -- Match the cabinet display's authored UV region and geometry. This is
-        -- the GUI rectangle after screen_rect, rather than the hidden plane.
-        local native=s.native_screened and {{.4075,.1511,1.6394},{-.4075,.1511,1.6394},
-            {-.4075,.2988,1.1781},{.4075,.2988,1.1781}}
-        local scale=p.width/.8;local origin={}
-        if native then for k=1,3 do origin[k]=p.center[k]-p.up[k]*1.35*scale-p.normal[k]*.455*scale end end
-        for i,sign in ipairs(signs)do local q={};for k=1,3 do
-            if native then local v=native[i];q[k]=origin[k]+(-p.right[k]*v[1]+p.normal[k]*v[2]+p.up[k]*v[3])*scale
-            else q[k]=p.center[k]+p.right[k]*p.width*.5*sign[1]+p.up[k]*p.height*.5*sign[2]end
-        end
+        local corners={};local bottom,right,up=display_frame()
+        for i,uv in ipairs({{0,1},{1,1},{1,0},{0,0}})do
+            local q={};for k=1,3 do q[k]=bottom[k]+right[k]*uv[1]+up[k]*uv[2]end
             local sx,sy,depth=options.project(q[1],q[2],q[3]);if not finite(sx)or not finite(sy)or not finite(depth)or depth<=0 then return end
             corners[i]={sx,sy}
         end
@@ -389,6 +448,7 @@ function M.new(options)
                     local sampled=options.project_sample()
                     if sampled==true then s.projected_corners=projected_corners()end
                 end
+                cursor_present()
                 if not self.dirty then return end
                 local rendered,error=pcall(A.render_world,s.world,s.camera,s.viewport,s.environment)
                 if rendered then self.dirty=false;self.renders=self.renders+1 else self.phase='failed';self.error=tostring(error);log(self.error)end
@@ -448,7 +508,7 @@ function M.new(options)
         local target;local x,y=sample.x,sample.y
         if s.virtual_cursor then
             local dx,dy=sample.mouse_x or 0,sample.mouse_y or 0;assert(finite(dx)and finite(dy),'Terminal mouse delta unavailable')
-            x=math.max(8,math.min(width-9,s.cursor_x+dx));y=math.max(8,math.min(height-9,s.cursor_y-dy))
+            x,y=cursor_bounds(s.cursor_x+dx,s.cursor_y-dy)
             cursor_draw(x,y);sample.click=input.down(1)==true
         elseif finite(x)and finite(y)then x,y=mouse_panel(x,y)else x,y=nil,nil end
         if x then for _,b in ipairs(s.buttons)do if x>=b.x and x<=b.x+b.w and y>=b.y and y<=b.y+b.h then target=b.id;break end end end
@@ -471,9 +531,16 @@ function M.new(options)
                     if options.on_focus then s.focus_owned=true;local focused,reason=options.on_focus(true);assert(focused==true,reason or'Camera focus pending')end
                 else self.notice=tostring(why or'Placement was not accepted')end
             elseif target=='combat'then
-                local done,why
-                if options.on_combat then done,why=options.on_combat(not self.combat)end
-                if done~=true then self.notice=tostring(why or'Combat activation unavailable');changed=true end
+                if self.combat_phase~='loading' and self.combat_phase~='stopping' then
+                    -- Asset requests require normal gameplay focus. Release it
+                    -- before requesting the transition, as weapon delivery does.
+                    local compositions=self.compositions
+                    local released,reason=release_input()
+                    local done,why=false,reason
+                    if released and options.on_combat then done,why=options.on_combat(not self.combat)end
+                    if done~=true then self.notice=tostring(why or'Combat activation unavailable')end
+                    changed=self.compositions==compositions or done~=true
+                end
             elseif target=='previous'then local page=math.max(1,self.page-1);changed=page~=self.page;self.page=page
             elseif target=='next'then local page=math.min(max_page,self.page+1);changed=page~=self.page;self.page=page
             else local index=tonumber(target:match('^select:(%d+)$'));if index and choices[index]then changed=self.selected~=index;self.selected=index end end

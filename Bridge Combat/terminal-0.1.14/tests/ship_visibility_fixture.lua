@@ -3,7 +3,7 @@ local ffi,bit=require('ffi'),require('bit')
 local root=assert(rawget(_G,'BRIDGE_COMBAT_TEST_ROOT') or os.getenv('DBF_BRIDGE_COMBAT_TEST_ROOT'))
 local Visibility=dofile(root..'/src/ship_visibility.lua')
 local FP='40574883ec20f30f104144488bf90f2ec17a237521f70100'
-local specs={{8,0x820},{0x76040,0x820},{0x78470,0xA40},{0x1D00,0x930},
+local specs={{0x76040,0x820},{0x78470,0xA40},{0x1D00,0x930},
     {0x7BE8,0x930},{0xD170,0x930},{0x7CAF8,0xA40},{0x7D830,0xA40},
     {0x7E568,0x820},{0x7EDD0,0x820},{0x81950,0x820},{0x83510,0x820},{0x86660,0x930},{0x27E68-0x46D900,0xC60,11}}
 local function bytes(kind,value)return ffi.string(ffi.new(kind..'[1]',value),ffi.sizeof(kind))end
@@ -70,38 +70,38 @@ test('import construction and disabled empty updates perform no IO',function()
     assert(f.controller:update(false) and f.controller:restore())
     assert(f.reads==0 and f.lookups==0 and f.binds==0 and #f.calls==0)
 end)
-test('all fourteen local alphas use only the cached native alpha setter',function()
-    local f=fixture();assert(f.controller:update(true));assert(#f.calls==14 and f.binds==1)
+test('all thirteen local alphas use only the cached native alpha setter',function()
+    local f=fixture();assert(f.controller:update(true));assert(#f.calls==13 and f.binds==1)
     for index=1,#specs do
         assert(f:alpha(index)==0 and f.calls[index].index==index and f.calls[index].alpha==0)
         assert(bit.band(f:flags(index),0x10)~=0,'Logical visibility was changed')
     end
-    assert(f.controller:status().active and f.controller:status().owned==14)
-    assert(f.controller:update(true) and #f.calls==14 and f.binds==1,'Zero alpha was repeatedly set')
+    assert(f.controller:status().active and f.controller:status().owned==13)
+    assert(f.controller:update(true) and #f.calls==13 and f.binds==1,'Zero alpha was repeatedly set')
 end)
 test('normal visibility re-enable cannot resurrect zero local alpha during layout',function()
     local f=fixture();assert(f.controller:update(true))
     for index=1,#specs do f:u(f:at(index),bit.bor(f:flags(index),0x10))end
     f:normal_layout()
     for index=1,#specs do assert(ffi.cast('const float *',f:read(f:at(index)+0x54,4))[0]==0)end
-    assert(f.controller:update(true) and #f.calls==14)
+    assert(f.controller:update(true) and #f.calls==13)
 end)
 test('exact fractional alpha bytes restore and originally zero roots remain untouched',function()
     local f=fixture({[2]=0,[3]=0.375,[6]=0,[9]=0.25})
     local originals={};for index=1,#specs do originals[index]=f:alpha_bytes(index)end
-    assert(f.controller:update(true) and #f.calls==12)
-    assert(f.controller:restore() and #f.calls==24)
+    assert(f.controller:update(true) and #f.calls==11)
+    assert(f.controller:restore() and #f.calls==22)
     for index=1,#specs do assert(f:alpha_bytes(index)==originals[index])end
     local before=f.reads;assert(f.controller:restore() and f.reads==before)
 end)
 test('acknowledged alpha is applied once and later native changes are preserved',function()
     local f=fixture();assert(f.controller:update(true));f:a(5,0.625)
-    assert(f.controller:update(true) and #f.calls==14 and f:alpha(5)==0.625)
+    assert(f.controller:update(true) and #f.calls==13 and f:alpha(5)==0.625)
     assert(f.controller:restore() and f:alpha(5)==0.625)
 end)
 test('restore never overwrites a nonzero foreign alpha',function()
     local f=fixture();assert(f.controller:update(true));f:a(3,0.5)
-    local before=#f.calls;assert(f.controller:restore() and #f.calls-before==13 and f:alpha(3)==0.5)
+    local before=#f.calls;assert(f.controller:restore() and #f.calls-before==12 and f:alpha(3)==0.5)
 end)
 test('all root parents and contexts preflight before the first mutation',function()
     for _,field in ipairs({0xF0,0xF8})do
@@ -113,13 +113,13 @@ test('active alpha animation is refused without canceling game animation slots',
     local f=fixture();f:u(f:at(13),bit.bor(f:flags(13),0x08000000));f:u(f:at(13)+0xB0,2048)
     local ok,why=f.controller:update(true)
     assert(not ok and why:find('alpha animation is active') and #f.calls==0 and f.binds==0)
-    f:u(f:at(13)+0xB0,0);assert(f.controller:update(true) and #f.calls==14)
+    f:u(f:at(13)+0xB0,0);assert(f.controller:update(true) and #f.calls==13)
 end)
 test('restoration waits while a new game alpha animation owns a root',function()
     local f=fixture();assert(f.controller:update(true));local before=#f.calls
     f:u(f:at(13),bit.bor(f:flags(13),0x08000000));f:u(f:at(13)+0xB0,2048)
-    assert(not f.controller:restore() and #f.calls==before and f.controller:status().owned==14)
-    f:u(f:at(13)+0xB0,0);assert(f.controller:restore() and #f.calls==before+14)
+    assert(not f.controller:restore() and #f.calls==before and f.controller:status().owned==13)
+    f:u(f:at(13)+0xB0,0);assert(f.controller:restore() and #f.calls==before+13)
 end)
 test('nonfinite alpha is refused before binding or any mutation',function()
     for _,bits in ipairs({0x7F800000,0xFF800000,0x7FC00001})do
@@ -148,15 +148,15 @@ end)
 test('restore validates every root before restoring any owned alpha',function()
     local f=fixture();assert(f.controller:update(true));local before=#f.calls
     f:p(f:at(13)+0xF0,0x600000000)
-    assert(not f.controller:restore() and #f.calls==before and f.controller:status().owned==14)
-    f:p(f:at(13)+0xF0,f.ui+specs[13][2]);assert(f.controller:restore() and #f.calls==before+14)
+    assert(not f.controller:restore() and #f.calls==before and f.controller:status().owned==13)
+    f:p(f:at(13)+0xF0,f.ui+specs[13][2]);assert(f.controller:restore() and #f.calls==before+13)
 end)
 test('menus prevent new alpha changes and retain an existing lease without calls',function()
     local f=fixture();f:u(f.menu+0x4294,13)
     assert(f.controller:update(true) and #f.calls==0 and f.binds==0 and not f.controller:status().pending)
     f:u(f.menu+0x4294,0);assert(f.controller:update(true));local before=#f.calls
     f:u(f.menu+0x4298,13);assert(f.controller:update(true))
-    assert(#f.calls==before and f.controller:status().owned==14 and not f.controller:status().active)
+    assert(#f.calls==before and f.controller:status().owned==13 and not f.controller:status().active)
 end)
 test('positive scene retirement performs no stale widget access',function()
     local f=fixture();assert(f.controller:update(true));local before=#f.calls
@@ -181,13 +181,22 @@ end)
 test('unreadable identity retains ownership until cleanup can acknowledge',function()
     local f=fixture();assert(f.controller:update(true));local before=#f.calls
     f.unreadable=f.game+0x346D538
-    assert(not f.controller:restore() and #f.calls==before and f.controller:status().owned==14)
-    f.unreadable=nil;assert(f.controller:restore() and #f.calls==before+14)
+    assert(not f.controller:restore() and #f.calls==before and f.controller:status().owned==13)
+    f.unreadable=nil;assert(f.controller:restore() and #f.calls==before+13)
 end)
 test('shared social parent and chat are excluded from the cosmetic lease',function()
     local f=fixture();local at=f.ui+0xC60;f:put(at+0x44,bytes('float',1))
     assert(f.controller:update(true));local calls=#f.calls
     for _=1,100 do assert(f.controller:update(true))end
     assert(#f.calls==calls and ffi.cast('const float *',f:read(at+0x44,4))[0]==1)
+end)
+test('native emote wheel is untouched on entry steady state and cleanup',function()
+    local f=fixture();local at=f.ui+0x46D908
+    f:put(at+0x44,bytes('float',1))
+    assert(f.controller:update(true))
+    for _=1,100 do assert(f.controller:update(true))end
+    assert(f.controller:restore())
+    assert(ffi.cast('const float *',f:read(at+0x44,4))[0]==1)
+    for _,call in ipairs(f.calls)do assert(call.target~=at)end
 end)
 print(('Ship alpha visibility contracts: %d passed'):format(passed))

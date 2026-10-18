@@ -86,7 +86,7 @@ local function fixture()
                     f.queries=f.queries+1;eq(addr(owner),manager);eq(ffi.string(type_arg,8),unhex(TYPE):reverse())
                     local index=key_of(name_arg)
                     if f.query_throw then error('Injected query exception')end
-                    return f.query_zero and 0 or tonumber(ffi.cast('const uint64_t *',f:read(records+index*0xA0,8))[0])
+                    return f.query_zero and 0 or tonumber(ffi.cast('const uint64_t *',f:read(f.records+index*0xA0,8))[0])
                 end
             elseif rva==0x5F4A90 then
                 eq(abi,'void (*)(void *, uint64_t, const uint64_t *, const uint64_t *, void *, uint32_t *)')
@@ -276,8 +276,12 @@ test('non-used header changes still refuse held guard and release before native 
             local stride=which=='type'and 0xD0 or 0x18
             f:put(rows+0x100000,f:read(rows,4*stride));f:p(header+8,rows+0x100000)
         end
+        if which=='name'and field=='rows'then
+            assert(f.probe:guard(f.s,f.clips));assert(f.probe:release());eq(f.releases,2)
+        else
         assert(not f.probe:guard(f.s,f.clips),which..field)
         assert(not f.probe:release(),which..field);eq(f.releases,0);assert(next(f.probe.journal))
+        end
     end end
 end)
 test('used counts outside fresh map bounds still pin waiting and held references',function()
@@ -507,5 +511,17 @@ end)
 test('retired release preserves changed exact resource identity',function()
     local f=fixture();held(f);local proof=retired(f);f:p(f.records,f.data+0x10000)
     assert(not f.probe:release_retired(proof)and f.releases==0 and next(f.probe.journal))
+end)
+test('container relocation keeps exact clip data and balanced release',function()
+    local f=fixture();held(f);local new_records,new_names=f.records+0x100000,f.names+0x100000
+    f:put(new_records,f:read(f.records,0x140));f:put(new_names,f:read(f.names,0x60))
+    f.records=new_records;f.names=new_names;f:p(f.types+16,new_records);f:p(f.types+0x28,new_names);f:u(f.types+8,3);f:u(f.types+12,4)
+    assert(f.probe:guard(f.s,f.clips));assert(f.probe:release());eq(f.releases,2)
+end)
+test('container relocation never adopts replaced clip data',function()
+    local f=fixture();held(f);local new_records=f.records+0x100000
+    f:put(new_records,f:read(f.records,0x140));f.records=new_records;f:p(f.types+16,new_records);f:u(f.types+8,3);f:u(f.types+12,4)
+    f:p(new_records,f.data+0x10000)
+    assert(not f.probe:guard(f.s,f.clips));assert(not f.probe:release());eq(f.releases,0)
 end)
 print(('Exact clip lease: %d contracts passed; isolated fake memory/native only'):format(passed))

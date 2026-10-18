@@ -143,6 +143,19 @@ local function fixture()
                         f:u(f.inventory_rows+0x1C,3);f:u(0x750000000,tonumber(ffi.cast('uint32_t *',ffi.cast('const char *',f:read(f.inventory_rows+8,4)))[0]))
                     end
                 end
+            elseif label=='SUPPORT_DROP'or label=='SUPPORT_EXIT_DROP'then
+                assert(at==f.game+0x9AE6E0 and abi=='void (*)(void *, uint32_t, uint32_t, uint32_t)')
+                return function(manager,unused,actor,slot)
+                    assert(unused==0 and actor==246 and(slot==3 or slot==6))
+                    f.drops=(f.drops or 0)+1
+                    if f.drop_error then error('Unknown native drop result')end
+                    local off=slot==3 and 8 or 12
+                    if not f.drop_delay then
+                        local old=tonumber(ffi.cast('const uint32_t *',f:read(f.inventory_rows+off,4))[0])
+                        f:u(f.inventory_rows+off,0)
+                        if slot==3 then f.melee_pose=false;f:u(f.inventory_rows+0x1C,0);f:u(0x750000000,0)end
+                    end
+                end
             elseif label=='SUPPORT_DETACH'then
                 assert(at==f.game+0x785C10)
                 return function(manager,actor,hand,force)
@@ -228,7 +241,7 @@ end)
 test('old support is unequipped detached and removed before creating the replacement',function()
     local f=fixture();f.options.delivery='inventory';f:create_entity(f.catalogue[2],120)
     f:u(f.inventory_rows+8,120);f:u(f.inventory_rows+0x1C,3);f:u(0x750000000,120)
-    f:request(2);assert(f:tick());assert(f.spawns==0 and f.selects==1 and f.detaches==1 and f.removes==1)
+    f:request(2);assert(f:tick());assert(f.spawns==0 and f.drops==1 and f.removes==1)
     f:finish();assert(f.spawns==1 and f.equips==1 and f.removes==1)
 end)
 test('unknown old support removal never spawns or repeats removal',function()
@@ -467,4 +480,37 @@ test('exit also removes positively delivered gear awaiting hand acknowledgement'
     state.delivery.phase='select_returned';state.phase='spawn_returned'
     assert(not f:exit() and f.exit_calls==1);f:ack_exit();assert(f:exit())
 end)
+test('melee pose is released by native drop before replacement creation',function()
+    local f=fixture();f.options.delivery='inventory';f:create_entity(f.catalogue[2],120)
+    f:u(f.inventory_rows+8,120);f:u(f.inventory_rows+0x1C,3);f:u(0x750000000,120);f.melee_pose=true
+    f:request(1);assert(f:tick());assert(f.melee_pose==false and f.drops==1 and f.spawns==0)
+    f:finish();assert(f.equips==2 and f.removes==1)
+end)
+test('unknown native drop cannot be repeated or followed by deletion or creation',function()
+    local f=fixture();f.options.delivery='inventory';f:create_entity(f.catalogue[2],120);f:u(f.inventory_rows+8,120);f.drop_error=true
+    f:request(1);assert(not f:tick());assert(not f:tick());assert(f.drops==1 and f.spawns==0 and not f.removes)
+end)
+test('melee combat exit uses native slot drop before removal',function()
+    local f=exit_fixture(false);f.melee_pose=true
+    assert(not f:exit());assert(f.drops==1 and f.melee_pose==false and f.exit_calls==1)
+    f:ack_exit();assert(f:exit());assert(f.drops==1)
+end)
+test('unknown combat exit drop retains gear without removal or replay',function()
+    local f=exit_fixture(false);f.drop_error=true
+    assert(not pcall(f.exit,f));assert(not pcall(f.exit,f));assert(f.drops==1 and not f.exit_calls)
+end)
+test('delayed native drop waits without repeating before creation',function()
+    local f=fixture();f.options.delivery='inventory';f:create_entity(f.catalogue[2],120);f:u(f.inventory_rows+8,120);f.drop_delay=true
+    f:request(1);assert(not f:tick());assert(not f:tick());assert(f.drops==1 and f.spawns==0 and not f.removes)
+    f:u(f.inventory_rows+8,0);f:finish();assert(f.drops==1 and f.removes==1)
+end)
 print(('support weapons fixture: %d contracts passed'):format(tests))
+
+ test('authored model resource can differ without changing gameplay spawn identity',function()
+    local f=fixture();local item=f.catalogue[2];local previous=item.unit
+    item.unit='43b2d7766120203b';f.types[key(item.unit)]=item
+    f:request(2);assert(f:tick());assert(f.spawns==1)
+    local task=f.globals[BANK].task;assert(task and task.type==item.type and ffi.string(task.spawn.key,8)==key(item.type))
+    item.unit=previous
+end)
+

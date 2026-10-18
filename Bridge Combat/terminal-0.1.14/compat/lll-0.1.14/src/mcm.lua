@@ -138,6 +138,7 @@ function M.new(controller, log)
 
     function self:toggle()
         if not registered()then return false,'Bridge Combat settings are not ready'end
+        if controller.combat_loading and controller:combat_loading()then return true,'Combat is already loading'end
         return self:set_enabled(not self.handle.get('enabled'))
     end
     function self:set_enabled(value)

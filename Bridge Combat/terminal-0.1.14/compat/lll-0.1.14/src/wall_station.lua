@@ -138,7 +138,7 @@ function M.new(options)
         local render_bridge=assert(rawget(globals,'HUDRenderBridge'),'Existing HUD render bridge required')
         local zoom=(options.Zoom or load('src/wall_zoom.lua')).new({sr=sr,camera=cam,now=mcm.camera_input.now or now,placement=function()return self.placement end})
         local pointer=(options.Pointer or load('src/wall_pointer.lua')).new()
-        local terminal;terminal=Terminal.new({sr=sr,bridge=render_bridge,input=mcm.camera_input,combat=self.combat==true,
+        local terminal;terminal=Terminal.new({sr=sr,bridge=render_bridge,input=mcm.camera_input,combat=self.combat==true,combat_phase=self.combat_phase,combat_message=self.combat_message,
             available=function()return self.enabled and not self.closing and rawget(globals,'DBFMCM')==mcm and rawget(globals,'HUDRenderBridge')==render_bridge and input_gate(self.view)end,
             focus_render=function()if terminal and terminal.interactive then return zoom:render()end;return true end,
             project=function(x,y,z)if zoom.projection_ready and zoom:projection_ready()then return zoom:project(x,y,z)end;return cam:project(x,y,z)end,
@@ -185,6 +185,12 @@ function M.new(options)
         if self.combat==value then return true end
         self.combat=value
         if self.terminal and self.terminal.set_combat then return self.terminal:set_combat(value)end
+        return true
+    end
+    function self:set_combat_progress(phase,message)
+        if self.combat_phase==phase and self.combat_message==message then return true end
+        self.combat_phase,self.combat_message=phase,message
+        if self.terminal and self.terminal.set_combat_progress then return self.terminal:set_combat_progress(phase,message)end
         return true
     end
     function self:queue_place()

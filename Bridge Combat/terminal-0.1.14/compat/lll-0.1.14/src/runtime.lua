@@ -379,14 +379,39 @@ function M.new(options)
         if weapon_menu:is_clean()then return true end
         return false,weapon_menu_reason
     end
+    -- Publish lifecycle changes through the retained station UI, not a timer.
+    local function publish_progress()
+        if self.enabled and self.latched and self.combat_phase=='ready' then return end
+        local phase,message
+        if not self.enabled then
+            phase=(base.active or not animation:is_clean())and 'stopping' or 'off'
+            message=phase=='stopping' and 'Returning to ship mode...' or nil
+        elseif self.latched or base.active and not base.active.restoring and animation:is_ready()
+            and ui_assets_ready and fx_assets_ready and not weapon_menu_reason and not visibility_reason then
+            phase,message='ready','Combat ready.'
+        else
+            phase='loading'
+            if not observation or not observation.can_start then message='Loading combat: return to gameplay to continue.'
+            elseif not ui_assets_ready then message='Loading combat UI. First activation can take longer.'
+            elseif not fx_assets_ready then message='Loading weapon effects and audio. Please wait...'
+            elseif not base.active or base.active.restoring then message='Preparing combat controls...'
+            elseif not animation:is_ready()then message='Loading combat animations...'
+            else message='Preparing combat HUD...' end
+        end
+        if phase==self.combat_phase and message==self.combat_message then return end
+        self.combat_phase,self.combat_message=phase,message
+        if ammo_station.set_combat_progress then ammo_station:set_combat_progress(phase,message)end
+    end
+    function self:combat_loading()return self.combat_phase=='loading' end
     function self:set_enabled(value)
         assert(type(value)=='boolean','Enabled must be a boolean')
         if self.closing then return false,'Bridge Combat is unloading' end
         if not value then self.latched=false;weapon_ui_paused=false;weapon_resume_delay=0 end
         self.enabled=value
-        if ammo_station.set_combat_state then ammo_station:set_combat_state(value)end
         if not value then ui_assets_ready,fx_assets_ready=false,false end
         animation:set_enabled(value)
+        publish_progress()
+        if ammo_station.set_combat_state then ammo_station:set_combat_state(value)end
         return true
     end
     function self:set_ammo_station(value)
@@ -459,7 +484,7 @@ function M.new(options)
         visibility_reason=nil
         return true
     end
-    function self:update(dt)
+    local function update(dt)
         if self.closing then return self:shutdown()end
         -- The independent screen must never starve existing native/actor cleanup.
         -- Only whole-instance shutdown waits for its input/presentation release.
@@ -529,6 +554,11 @@ function M.new(options)
             return done,why
         end
         return true
+    end
+    function self:update(dt)
+        local done,why=update(dt)
+        publish_progress()
+        return done,why
     end
     function self:hotkey_allowed()
         if self.closing then return false end

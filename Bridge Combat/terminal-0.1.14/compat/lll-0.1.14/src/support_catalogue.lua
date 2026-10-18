@@ -37,5 +37,5 @@ return {
     {name="S-11 Speargun",id=336693041,kind=2,type="3828e2051aa9e897",package="70d708e5fd627493"},
     {name="SG-88 Break-Action Shotgun",id=3744531484,kind=2,type="52071f49263415e4",package="31894c33c4ed1e2a"},
     {name="StA-X3 W.A.S.P. Launcher",id=890972990,kind=2,type="cc786f6491fe7e65",package="5795e99a988d10b7",backpack={name="StA-X3 W.A.S.P. Launcher backpack",id=790588279,kind=6,type="b8feb0cc191c1ef3",package="5795e99a988d10b7"}},
-    {name="TX-41 Sterilizer",id=4152191751,kind=2,type="88f61afff48ac8a4",package="750605cfc0173701"},
+    {name="TX-41 Sterilizer",id=4152191751,kind=2,type="88f61afff48ac8a4",unit="43b2d7766120203b",package="750605cfc0173701"},
 }

@@ -195,6 +195,25 @@ function M.new(injected)
             type_identity=type_row:sub(1,32),name_identity=name_row,refs=refs}
     end
     local function same(a,b)
+        if a.records~=b.records or a.name_at~=b.name_at then
+            -- The engine grows these containers when another weapon loads.
+            -- A fresh lookup has sealed both maps and the native exact getter;
+            -- retain the logical slot, clip data and owner rather than an old
+            -- allocation address. Replaced resources are still refused.
+            for _,key in ipairs({'manager','owner','data','index','type_at'})do
+                assert(a[key]==b[key],'Lease resource identity changed during table relocation')
+            end
+            assert(b.extent>=a.extent and a.type_identity:sub(1,8)==b.type_identity:sub(1,8)
+                and u(b.type_identity,12)>=u(a.type_identity,12)and (a.records==b.records or u(b.type_identity,12)>=b.extent)
+                and a.type_identity:sub(25,32)==b.type_identity:sub(25,32),'Lease type identity changed during relocation')
+            assert(a.name_identity:sub(1,12)==b.name_identity:sub(1,12),'Lease exact name changed during relocation')
+            assert(a.type_header:sub(1,24)==b.type_header:sub(1,24)
+                and a.type_header:sub(29,32)==b.type_header:sub(29,32),'Lease type registry changed during relocation')
+            assert(u(b.name_header,0)>=u(a.name_header,0)and u(b.name_header,28)>=u(a.name_header,28)
+                and u(b.name_header,4)>=u(a.name_header,4)
+                and a.name_header:sub(17,24)==b.name_header:sub(17,24),'Lease name registry changed during relocation')
+            return true
+        end
         for _,key in ipairs({'manager','owner','record','data','index','records','type_at','name_at'})do
             assert(a[key]==b[key],'Lease resource lookup identity changed')
         end
@@ -492,3 +511,4 @@ function M.new(injected)
     return self
 end
 return M
+

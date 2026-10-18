@@ -24,6 +24,7 @@ local function fixture()
         create_screen_gui=function(w)event(w==f.main and'create overlay'or'create gui');local g=object('gui');g.world=w;return g end,
         destroy_gui=function(w,g)assert(not g.dead and w==g.world);g.dead=true;event(w==f.main and'free overlay'or'free gui');if w==f.main and f.overlay_free_fail then error('Synthetic uncertain overlay release')end end,
         update=function()event('update world')end}
+    s.World.create_world_gui=function(w,pose,x,y)assert(w==f.main and x==1000 and y==1000);local g=object('world_cursor');g.world=w;g.pose=pose;return g end
     s.Unit={alive=function(u)return type(u)~='table'or not u.dead end,camera=function()return object('camera')end,num_meshes=function(u)return u.native_meshes and 3 or 1 end,mesh=function(u,index)if u.native_meshes then return u.native_meshes[index]end;assert(index==1);return u.mesh end,
         set_mesh_visibility=function(u,i,visible,filter)assert(i==1 and visible==false and filter=='shadow_caster');u.no_shadow=true end,
         set_material=function(u,slot,name)assert((slot=='material'or slot=='m_engineering_computer_screen')and name:find('/weapon_screen',1,true));if slot=='material'then u.mesh.material=object('material')else u.native_meshes={};for i=1,3 do u.native_meshes[i]={material=object('material')}end end end,
@@ -36,7 +37,8 @@ local function fixture()
     s.Renderer={create_resource=function(kind,format,w,h)assert(kind=='render_target'and format=='R8G8B8A8'and w==4096 and h==2560);event('create target');return object('target')end,
         destroy_resource=function(t)assert(t.kind=='target'and f.plane.dead);event('free target');if f.free_fail then error('Synthetic release failure')end end}
     s.Viewport={set_output_render_target=function(v,t)assert(v.kind=='viewport'and t.kind=='target')end}
-    s.Gui={triangle=function()return 1 end,rect=function(g,p,size,ink)assert(not g.dead and(ink[1]==255 or g.world==f.main and ink[1]==190));f.rectangles[#f.rectangles+1]={p=p,size=size}end,
+    s.Gui={move=function(g,pose)assert(g.kind=='world_cursor'and not g.dead);g.pose=pose;f.cursor_moves=(f.cursor_moves or 0)+1 end,triangle=function()return 1 end,rect=function(g,p,size,ink)assert(not g.dead and(ink[1]==255 or g.world==f.main and ink[1]==190));f.rectangles[#f.rectangles+1]={p=p,size=size};return #f.rectangles end,
+        update_rect=function(g,id,p,size,ink)assert(not g.dead and f.rectangles[id]);f.rectangles[id]={p=p,size=size};f.cursor_updates=(f.cursor_updates or 0)+1 end,
         text=function(g,value,font,size,material,p,ink)assert(not g.dead and font=='core/performance_hud/debug'and material==font and ink[1]==255);f.texts[#f.texts+1]=value end,
         material=function(g,name)assert(name=='content/ui/shared/material/gui_diffuse_map');return object('overlay material')end,
         bitmap=function(g,name,p,size,ink)assert(g.world==f.main and ink[1]==255);event('create bitmap');return 1 end,
@@ -120,8 +122,8 @@ test('Weapons Free reflects explicit combat transitions without polling or repea
     local f=fixture();local calls=0
     f.options.on_combat=function(value)calls=calls+1;return f.terminal:set_combat(value)end
     f.terminal=Terminal.new(f.options);assert(f.terminal:start(f.placement));assert(f.terminal:interact())
-    local n=f.terminal.compositions;assert(f:click(850,610));assert(calls==1 and f.terminal.combat and f.terminal.interactive)
-    assert(f.terminal.compositions==n+1);assert(f:click(850,610));assert(calls==2 and not f.terminal.combat and f.terminal.compositions==n+2)
+    local n=f.terminal.compositions;assert(f:click(850,610));assert(calls==1 and f.terminal.combat and not f.terminal.interactive)
+    assert(f.terminal.compositions==n+1);assert(f.terminal:interact());n=f.terminal.compositions-1;assert(f:click(850,610));assert(calls==2 and not f.terminal.combat and f.terminal.compositions==n+2)
     assert(f.terminal:set_combat(false));assert(f.terminal.compositions==n+2)
     assert(f.terminal:set_combat(false));assert(f.terminal.compositions==n+2)
     assert(f.terminal:set_combat(true));assert(f.terminal.compositions==n+3 and calls==2)
@@ -300,8 +302,51 @@ test('virtual display pointer consumes raw movement and releases on second Inter
     assert(f.terminal:start(f.placement));assert(f.terminal:interact());assert(f.menu_focus==false)
     assert(f.terminal:update());assert(f.terminal.interactive,'Opening held key must not close terminal')
     f.keys[69]=false;f.sample={mouse_x=1e5,mouse_y=-1e5};assert(f.terminal:update())
-    assert(f.terminal.owned.cursor_x==1015 and f.terminal.owned.cursor_y==631)
+    assert(f.terminal.owned.cursor_x==965.5 and f.terminal.owned.cursor_y==606)
     local n=f.terminal.compositions;f.sample={mouse_x=0,mouse_y=0};assert(f.terminal:update());assert(f.terminal.compositions==n)
     f.keys[69]=true;assert(f.terminal:update());assert(not f.terminal.interactive and not f.terminal.owned.cursor_gui)
     assert(f.releases==1);assert(f.terminal:stop())
+end)
+
+test('retained cursor never enters the repeating screen texture or redraws it',function()
+    local f=fixture();f.options.virtual_cursor=true
+    -- An off-centre screen exposes an origin flip that a centred fixture hides.
+    f.options.project=function(x,y,z)return .4+x/2,.65-y/2,z end
+    f.terminal=Terminal.new(f.options)
+    assert(f.terminal:start(f.placement));assert(f.terminal:interact());f:render()
+    local gui=assert(f.terminal.owned.cursor_gui);assert(gui.world==f.main and gui.kind=='gui')
+    local rectangles=#f.rectangles;local allocations=f.allocations;local renders=f.terminal.renders
+    for _,delta in ipairs({{1e5,1e5},{1e5,-1e5},{-1e5,1e5},{-1e5,-1e5}})do
+        f.sample={mouse_x=delta[1],mouse_y=delta[2]};assert(f.terminal:update());f:render()
+        assert(f.terminal.owned.cursor_gui==gui)
+        local x,y=f.terminal.owned.cursor_x,f.terminal.owned.cursor_y
+        assert(x>=34 and x+24.5<=990 and y-36.75>=34 and y<=606,
+            "Full arrow escaped the display content inset")
+        local px,py=f.terminal.owned.cursor_px,f.terminal.owned.cursor_py
+        assert(math.abs(px-(.4+(x/1024-.5)*.4)*1024)<1e-8)
+        assert(math.abs(py-(.35+(y/640-.5)*.25)*640)<1e-8)
+        local arrow=f.rectangles[rectangles];assert(arrow.size[1]>0 and arrow.size[2]>0)
+    end
+    assert(#f.rectangles==rectangles and f.allocations==allocations,'Mouse motion rebuilt retained arrow geometry')
+    assert(f.terminal.renders==renders,'Mouse motion rerendered the cabinet texture')
+    local updates=f.cursor_updates;for _=1,20 do f:render()end;assert(f.cursor_updates==updates,'Idle cursor republished geometry')
+    assert(f.terminal:stop());assert(gui.dead)
+end)
+
+test('loading status is retained and repeated combat clicks cannot cancel activation',function()
+    local f=fixture();local calls=0
+    f.options.on_combat=function(value)
+        assert(not f.terminal.interactive,'Loading must start after gameplay focus is released')
+        calls=calls+1;assert(value)
+        f.terminal:set_combat_progress('loading','Loading weapon effects and audio. Please wait...')
+        return f.terminal:set_combat(true)
+    end
+    f.terminal=Terminal.new(f.options);assert(f.terminal:start(f.placement));assert(f.terminal:interact())
+    assert(f:click(850,610));assert(calls==1 and not f.terminal.interactive)
+    assert(f.terminal:interact());local n=f.terminal.compositions
+    for _=1,20 do assert(f.terminal:set_combat_progress('loading','Loading weapon effects and audio. Please wait...'))end
+    assert(f.terminal.compositions==n,'Unchanged progress rebuilt the display')
+    assert(f:click(850,610));assert(calls==1 and f.terminal.combat and f.terminal.compositions==n)
+    assert(f.terminal:set_combat_progress('ready','Combat ready.'));assert(f.terminal.compositions==n+1)
+    assert(f.terminal:stop())
 end)

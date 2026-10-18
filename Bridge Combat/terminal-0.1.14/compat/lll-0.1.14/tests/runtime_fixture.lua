@@ -83,7 +83,7 @@ local function fixture(options)
     f.visibility=visibility
     local backend={write=function()record('backend.write');return true end,
         call=function(_,name)record('backend.call.'..name);return true end}
-    local ammo={set_enabled=function(_,v)f.ammo_enabled=v;f.support_enabled=v;return true end,
+    local ammo={set_combat_progress=function(_,phase,message)f.progress=f.progress or {};f.progress[#f.progress+1]={phase=phase,message=message}end,set_enabled=function(_,v)f.ammo_enabled=v;f.support_enabled=v;return true end,
         update=function()if f.station_throw then error('Synthetic station failure')end;if f.ammo_enabled then f.ammo_updates=(f.ammo_updates or 0)+1;f.support_updates=(f.support_updates or 0)+1 end;if f.station_pending then return false,'Station cursor cleanup pending'end;return true end,
         queue_refill=function()f.refills=(f.refills or 0)+1;return true end,
         queue_support=function(_,index)f.support_index=index;return true end,queue_place=function()f.placement_queued=true;return true end,
@@ -464,3 +464,14 @@ test('observer rejects unproved generation and unknown Photo ownership',function
     local f2=observer_fixture();f2.globals.DBF_PHOTO_CAMERA_RUNTIME={photo={active=true}};eq(pcall(f2.observe),false)
 end)
 print(('Bridge Combat runtime: %d contracts, %d checks passed'):format(tests,checks))
+
+test('combat loading progress follows asset readiness and stays idle when settled',function()
+    local ready=false;local native=native_menu_fixture()
+    local f=fixture({one_shot=true,weapon_menu=native,fx_assets={update=function()return ready,'Effects pending'end,shutdown=function()return true end}})
+    assert(f.runtime:set_enabled(true));yes(f.runtime:combat_loading())
+    f.tick(20);eq(f.progress[#f.progress].phase,'loading');yes(f.progress[#f.progress].message:find('effects'))
+    local n=#f.progress;f.tick(20);eq(#f.progress,n,'Unchanged asset progress republished')
+    ready=true;f.tick(20);yes(f.runtime.latched);eq(f.progress[#f.progress].phase,'ready');yes(not f.runtime:combat_loading())
+    n=#f.progress;f.tick(50);eq(#f.progress,n,'Settled readiness republished')
+    assert(f.runtime:set_enabled(false));f.tick(20);eq(f.progress[#f.progress].phase,'off')
+end)

@@ -3,7 +3,7 @@
 local M={}
 local BANK='GOOSE_BRIDGE_SUPPORT_REQUESTS_V1'
 local UNIT='e0a48d0be9a7453f'
-local SPECS={detach={0x785C10,'void (*)(void *, uint32_t, uint32_t, uint32_t)','4053415641574883ec403b1500e0cf02458bf9458bf08bda'},floor_remove={0xFDC820,'void (*)(void *, void *, uint8_t)','4885d20f84d50500004c8bdc5641554881ecf8000000488b'},defaults={0x74B1B0,'void (*)(void *, uint64_t, void *)','40535741564883ec200f57c0488bca410f11004d8bf0488b'},select={0x9AAA50,'void (*)(void *, uint32_t, uint32_t)','488bc444894018535541554881ec800000003b15b891ad02418b'},equip={0x9AE030,'void (*)(void *, uint32_t, uint32_t, uint32_t, uint8_t)','40535541554883ec4048897c2468418be84c896424708bda'},
+local SPECS={drop={0x9AE6E0,'void (*)(void *, uint32_t, uint32_t, uint32_t)','48895c241848896c24204889542410564883ec30443b0525'},detach={0x785C10,'void (*)(void *, uint32_t, uint32_t, uint32_t)','4053415641574883ec403b1500e0cf02458bf9458bf08bda'},floor_remove={0xFDC820,'void (*)(void *, void *, uint8_t)','4885d20f84d50500004c8bdc5641554881ecf8000000488b'},defaults={0x74B1B0,'void (*)(void *, uint64_t, void *)','40535741564883ec200f57c0488bca410f11004d8bf0488b'},select={0x9AAA50,'void (*)(void *, uint32_t, uint32_t)','488bc444894018535541554881ec800000003b15b891ad02418b'},equip={0x9AE030,'void (*)(void *, uint32_t, uint32_t, uint32_t, uint8_t)','40535541554883ec4048897c2468418be84c896424708bda'},
     remove={0xFDC310,'void (*)(void *, uint32_t)','48895c2408574883ec303b154c824a028bda488bf90f84d4000000'},request={0x12FE350,'void (*)(void *, const uint64_t *, uint32_t)','4585c00f8475010000415641574883ec3848895c24504c8b'},
     present={0x5F2160,'uint8_t (*)(void *, const uint64_t *, const uint64_t *)','4053415641574883ec30488b02488bd98b89c00200004533'},
     fetch={0x5F2290,'uintptr_t (*)(void *, const uint64_t *, const uint64_t *, uint64_t *)','4c894424184889542410535556574155415641574883ec30'},
@@ -21,7 +21,7 @@ function M.new(options)
     assert(type(catalogue)=='table'and #catalogue>0 and #catalogue<=128,'Support catalogue unavailable')
     local seen={};local function valid(row,kind)
         assert(type(row)=='table'and type(row.name)=='string'and #row.name>0 and #row.name<=160
-            and integer(row.id,0xFFFFFFFF)and row.kind==kind and hash(row.type)and hash(row.package),'Support catalogue row differs')
+            and integer(row.id,0xFFFFFFFF)and row.kind==kind and hash(row.type)and hash(row.package)and(row.unit==nil or hash(row.unit)),'Support catalogue row differs')
     end
     local choices={}
     for i,row in ipairs(catalogue)do valid(row,2);assert(not seen[row.type],'Duplicate support type');seen[row.type]=true
@@ -113,11 +113,14 @@ function M.new(options)
         local root=p(c.exe+0x1A10238);local manager=p(root+0x3F8);local count,rows=u(manager+0x2C0),p(manager+0x2C8)
         assert(count>0 and count<=1024,'Support resource registrations differ')
         local function stable()assert(p(c.exe+0x1A10238)==root and p(root+0x3F8)==manager and u(manager+0x2C0)==count and p(manager+0x2C8)==rows,'Support resource provider changed')end
-        ffi.copy(ids.name,bytes(item.type),8);ids.canonical[0]=0
+        -- Gameplay archetypes may reference a distinct authored model resource.
+        -- Validate that exact resource, retaining the gameplay key for spawn/ownership.
+        local unit=item.unit or item.type
+        ffi.copy(ids.name,bytes(unit),8);ids.canonical[0]=0
         stable();local found=tonumber(functions.present(ffi.cast('void *',manager),ids.type,ids.name));stable()
         assert(found and found>=0 and found<=255,'Support UNIT presence differs');if found==0 then return false end
         local definition=tonumber(functions.fetch(ffi.cast('void *',manager),ids.type,ids.name,ids.canonical));stable()
-        assert(definition and definition>=65536 and ffi.string(ids.canonical,8)==bytes(item.type),'Support UNIT fallback refused')
+        assert(definition and definition>=65536 and ffi.string(ids.canonical,8)==bytes(unit),'Support UNIT fallback refused')
         local header=r(definition,16);stable();assert(r(definition,16)==header,'Support UNIT changed');return true
     end
     local function assets(b,c,item,view)
@@ -320,10 +323,20 @@ function M.new(options)
         end
         assert(data:sub(1,8)==job.loadout,'Loadout changed during support replacement')
         if #job.items==0 then job.done=true;return true end
-        if word(data,0x1C)==3 and not job.unarmed_attempted then
-            seal(c,view);job.unarmed_attempted=true
-            functions.select(ffi.cast('void *',manager),c.avatar,0)
-            job.unarmed_returned=true
+        -- The ordinary slot-drop route releases weapon-specific state (including
+        -- melee presentation). Selection and raw hand detachment do not do that.
+        -- Delete in this same transition before any replacement can be created.
+        for _,item in ipairs(job.items)do
+            if not item.drop_returned then
+                assert(not item.drop_attempted,'Native support drop result unknown; no replay')
+                manager,data=inventory(c)
+                assert(word(data,offsets[item.slot])==item.entity,'Replaced support left its owned slot')
+                seal(c,view);item.drop_attempted=true
+                functions.drop(ffi.cast('void *',manager),0,c.avatar,item.slot)
+                item.drop_returned=true
+            end
+            manager,data=inventory(c)
+            assert(word(data,offsets[item.slot])~=item.entity,'Native support drop acknowledgement pending')
         end
         local wielder=p(c.game+0x3326420);local wi=map(wielder+0x30,c.avatar)
         assert(wi<u(wielder+0x1C)and wi<65536 and p(p(wielder+0x48)+wi*8)==c.ep,'Replacement Wielder actor changed')
@@ -514,7 +527,18 @@ function M.new(options)
                 assert(identity:sub(1,16)==item.identity and identity:byte(21)%2==1,'Cleanup support identity changed')
                 live_unit(c,item.state,identity)
                 if not item.attempted then
-                    assert(word(data,offsets[item.slot])==item.entity,'Support left its owned inventory slot')
+                    manager,data=inventory(c)
+                    if not item.drop_returned then
+                        assert(not item.drop_attempted,'Exit support drop result unknown; no replay')
+                        assert(word(data,offsets[item.slot])==item.entity,'Support left its owned inventory slot')
+                        local drop_spec=SPECS.drop
+                        local drop=assert(io.native(g+drop_spec[1],drop_spec[2],drop_spec[3],'SUPPORT_EXIT_DROP'))
+                        ffi=ffi or require('ffi');item.drop_attempted=true
+                        drop(ffi.cast('void *',manager),0,c.avatar,item.slot)
+                        item.drop_returned=true
+                    end
+                    manager,data=inventory(c)
+                    assert(word(data,offsets[item.slot])~=item.entity,'Exit support drop acknowledgement pending')
                     local spec=SPECS.floor_remove
                     ffi=ffi or require('ffi')
                     local remove=assert(io.native(g+spec[1],spec[2],spec[3],'SUPPORT_EXIT_REMOVE'))
