@@ -6,6 +6,8 @@
 -- selected entity. A snapshot is diagnostic, never reusable authorization.
 -- False does not restore any lease: the caller must retire its existing owned
 -- work separately. No writes, game-function calls or mode caching are performed.
+-- poll(mem,ctx,snapshot) is a settled-state hint, never write authorization.
+-- It follows a prior successful check with fresh bounded identity/state reads.
 local Memory = mod.require('src/memory.lua')
 local M = {}
 local LOW, LIMIT, U32 = 65536, 140737488355328, 4294967296
@@ -44,7 +46,7 @@ local function inspect(mem,ctx,local_descriptor,expected_held)
         or not pointer(ctx.implementation) then fail('ADS context is invalid') end
     if type(local_descriptor)~='string' or #local_descriptor~=24 then fail('ADS local descriptor must contain 24 bytes') end
     if expected_held~=nil and not entity(expected_held) then fail('ADS expected held entity is invalid') end
-    local reads={}
+    local reads,maps={},{}
     local function read(at,n,label)
         if not pointer(at) or not integer(n,8192) or n==0 or at+n>LIMIT then fail('ADS '..label..' address is invalid') end
         local bytes=mem:read(at,n)
@@ -72,6 +74,8 @@ local function inspect(mem,ctx,local_descriptor,expected_held)
             if found==key then
                 local index=Memory.u32_bytes(row,4)
                 if index>=max_index then fail('ADS '..label..' index exceeds bounds') end
+                maps[label]={address=at,header=h,bucket=buckets+((product+probe)%cap)*8,
+                    bytes=row,index=index,key=key}
                 return index
             end
         end
@@ -140,13 +144,226 @@ local function inspect(mem,ctx,local_descriptor,expected_held)
     return true,nil,{held=held,avatar=avatar,body=body,local_descriptor=descriptor,
         held_descriptor=held_descriptor,controller=controller,controller_bytes=controls,
         character=character,character_index=ci,camera_context=camera_context,
-        camera=camera,request=request,request_bytes=record,read_count=#reads}
+        camera=camera,request=request,request_bytes=record,read_count=#reads,
+        poll={game=game,world=ctx.world,implementation=ctx.implementation,token=ctx.token,
+            player=player,light=light,local_index=li,character_count=cc,character_descriptor=cd,
+            wield=wield,wield_count=count,wield_index=wi,wield_descriptors=wdescs,
+            wield_descriptor=wdesc,wield_rows=rows,held_index=hi,maps=maps}}
+end
+
+-- No cached result grants permission to mutate memory. Identity or layout
+-- changes return nil so the caller re-enters the full discovery/cleanup route.
+-- Only values proved by check are cached; semantic mode fields are read fresh.
+-- Keep the settled path's helpers stable: creating closures inside every poll
+-- adds allocation and prevents LuaJIT compiling the enclosing hot function.
+local function poll_read(mem,at,n,label)
+    if not pointer(at) or not integer(n,8192) or n==0 or at+n>LIMIT then
+        fail('ADS cached '..label..' address is invalid')
+    end
+    local bytes=mem:read(at,n)
+    if type(bytes)~='string' or #bytes~=n then fail('ADS cached '..label..' is unreadable') end
+    return bytes
+end
+local function poll_same(mem,at,bytes,label)
+    if type(bytes)~='string' or poll_read(mem,at,#bytes,label)~=bytes then fail('ADS cached '..label..' changed') end
+end
+local function poll_ptr(mem,at,expected,label)
+    local bytes=poll_read(mem,at,8,label)
+    if Memory.pointer_bytes(bytes)~=expected then fail('ADS cached '..label..' changed') end
+end
+local function poll_map(mem,s,label,header)
+    local cached=s.maps and s.maps[label]
+    if type(cached)~='table' then fail('ADS cached '..label..' map is unavailable') end
+    if header then
+        if header~=cached.header then fail('ADS cached '..label..' map changed') end
+    else poll_same(mem,cached.address,cached.header,label..' map') end
+    poll_same(mem,cached.bucket,cached.bytes,label..' map row')
+end
+local function poll_done(mem,s,snapshot,roots,held_address,held_bytes,controls,queue,request,record,result,why)
+    if poll_read(mem,s.game+0x346BF98,0x38,'closing World roots')~=roots
+        or poll_read(mem,held_address,4,'closing held entity')~=held_bytes
+        or controls and poll_read(mem,snapshot.controller,6,'closing controller')~=controls
+        or queue and poll_read(mem,snapshot.camera_context+0x1F8,8,'closing camera queue')~=queue
+        or request and poll_read(mem,request,16,'closing camera request')~=record then
+        fail('ADS cached state changed during polling')
+    end
+    return result,why
+end
+local function poll_inspect(mem,ctx,snapshot)
+        local s=type(snapshot)=='table' and snapshot.poll
+        if type(s)~='table' or type(ctx)~='table' or ctx.stamp~=STAMP
+            or ctx.game~=s.game or ctx.world~=s.world or ctx.implementation~=s.implementation
+            or ctx.token~=s.token or type(mem)~='table' or type(mem.read)~='function' then
+            fail('ADS cached context changed')
+        end
+        -- Adjacent fixed roots are copied together; unknown intervening bytes
+        -- are ignored rather than invalidating the cache on unrelated changes.
+        local roots=poll_read(mem,s.game+0x346BF98,0x38,'World roots')
+        if Memory.pointer_bytes(roots)~=s.world or Memory.pointer_bytes(roots,0x30)~=s.implementation then
+            fail('ADS cached World roots changed')
+        end
+        local owners=poll_read(mem,s.game+0x3326420,0x50,'local owner roots')
+        if Memory.pointer_bytes(owners)~=s.wield or Memory.pointer_bytes(owners,0x48)~=s.player then
+            fail('ADS cached local owner roots changed')
+        end
+        if not pointer(s.player) or not pointer(s.wield) or s.wield~=s.implementation+0xE9FB10 then
+            fail('ADS cached local owner is invalid')
+        end
+        local player=poll_read(mem,s.player+0x88,0x324,'local player state')
+        if Memory.u32_bytes(player)==0 or Memory.u32_bytes(player,0x320)~=s.light then
+            fail('ADS cached local player changed')
+        end
+        -- Character and wield descriptors independently bind the same local
+        -- owner/Unit. Replaying the local World map would duplicate that proof.
+        poll_ptr(mem,s.game+0x3326D20,snapshot.character,'character manager')
+        local cm=poll_read(mem,snapshot.character+0x6C,0xAC+snapshot.character_index*8,'character layout')
+        if Memory.u32_bytes(cm)~=s.character_count then
+            fail('ADS cached character layout changed')
+        end
+        poll_map(mem,s,'character owner',cm:sub(0x8D,0xA0))
+        if Memory.pointer_bytes(cm,0xA4+snapshot.character_index*8)~=s.character_descriptor then
+            fail('ADS cached character descriptor moved')
+        end
+        poll_same(mem,s.character_descriptor,snapshot.local_descriptor,'character owner descriptor')
+        local flags=poll_read(mem,snapshot.character+0x53E886+snapshot.character_index*0x1238,9,'character state')
+        local wm=poll_read(mem,s.wield+0x1C,0x4C,'wield layout')
+        if Memory.u32_bytes(wm)~=s.wield_count or Memory.pointer_bytes(wm,0x2C)~=s.wield_descriptors
+            or Memory.pointer_bytes(wm,0x44)~=s.wield_rows then fail('ADS cached wield layout changed') end
+        poll_map(mem,s,'wield owner',wm:sub(0x15,0x28))
+        poll_ptr(mem,s.wield_descriptors+s.wield_index*8,s.wield_descriptor,'wield descriptor')
+        poll_same(mem,s.wield_descriptor,snapshot.local_descriptor,'wield owner descriptor')
+        local held_address=s.wield_rows+s.wield_index*0x1D0
+        local held_bytes=poll_read(mem,held_address,4,'held entity')
+        if Memory.u32_bytes(held_bytes)~=snapshot.held then
+            fail('ADS cached held weapon changed')
+        end
+        -- The backend's independent settled component watcher must check the
+        -- held World descriptor and runtime component identity. This hint alone
+        -- does not prove an equipped component or authorize a cap write.
+        local controls,queue,record,request
+        if flags:byte(1)%2~=1 then
+            return poll_done(mem,s,snapshot,roots,held_address,held_bytes,nil,nil,nil,nil,
+                'native','ADS character continuity flag is absent')
+        end
+        if math.floor(flags:byte(9)/4)%2~=0 then
+            return poll_done(mem,s,snapshot,roots,held_address,held_bytes,nil,nil,nil,nil,
+                'native','ADS character is seated or unsupported')
+        end
+        local controller_root=poll_read(mem,s.game+0x347CE70,8,'controller root')
+        local controller=Memory.pointer_bytes(controller_root)
+        if controller~=snapshot.controller then fail('ADS cached controller root changed') end
+        controls=poll_read(mem,controller,6,'controller state')
+        if Memory.u32_bytes(controls)~=0 or controls:byte(6)~=0 or controls:byte(5)~=1 then
+            return poll_done(mem,s,snapshot,roots,held_address,held_bytes,controls,nil,nil,nil,
+                'native','ADS controller is inactive, inhibited or unsupported')
+        end
+        poll_ptr(mem,s.game+0x346D560,snapshot.camera_context,'camera context')
+        poll_ptr(mem,snapshot.camera_context,snapshot.camera,'camera')
+        queue=poll_read(mem,snapshot.camera_context+0x1F8,8,'camera queue')
+        local head,tail=Memory.u32_bytes(queue),Memory.u32_bytes(queue,4)
+        if head>=32 or tail>=32 then fail('ADS cached camera queue indices are invalid') end
+        if head==tail then
+            return poll_done(mem,s,snapshot,roots,held_address,held_bytes,controls,queue,nil,nil,
+                'native','ADS camera queue is empty')
+        end
+        request=snapshot.camera_context+0x200+((tail+31)%32)*0xE8
+        record=poll_read(mem,request,16,'camera request')
+        if record:byte(1)+record:byte(2)*256~=6 then
+            return poll_done(mem,s,snapshot,roots,held_address,held_bytes,controls,queue,request,record,
+                'native','ADS latest camera request is not first person')
+        end
+        if Memory.u32_bytes(record,4)~=snapshot.avatar or Memory.u32_bytes(record,8)~=snapshot.held
+            or Memory.u32_bytes(record,12)~=snapshot.body then fail('ADS cached camera request ownership changed') end
+        return poll_done(mem,s,snapshot,roots,held_address,held_bytes,controls,queue,request,record,'ads')
+end
+function M.poll(mem,ctx,snapshot)
+    local ok,mode,reason=pcall(poll_inspect,mem,ctx,snapshot)
+    if not ok then return nil,type(mode)=='table' and mode.ads_reason or 'ADS cached reader failed' end
+    return mode,reason
+end
+
+-- Single-pass transition hint for a previously admitted equip. It does not
+-- replay maps, descriptors or authored data, and never authorizes a copy.
+-- All positive acquisition and restoration still take the full fresh proof.
+local function edge_inspect(mem,ctx,snapshot)
+    local s=type(snapshot)=='table' and snapshot.poll
+    if type(s)~='table' or type(ctx)~='table' or ctx.stamp~=STAMP
+        or ctx.game~=s.game or ctx.world~=s.world or ctx.implementation~=s.implementation
+        or ctx.token~=s.token then fail('ADS equipped context changed') end
+    local roots=poll_read(mem,s.game+0x346BF98,0x38,'World roots')
+    if Memory.pointer_bytes(roots)~=s.world or Memory.pointer_bytes(roots,0x30)~=s.implementation then
+        fail('ADS equipped World changed')
+    end
+    poll_ptr(mem,s.game+0x347CE70,snapshot.controller,'controller root')
+    local controls=poll_read(mem,snapshot.controller,6,'controller state')
+    if Memory.u32_bytes(controls)~=0 or controls:byte(6)~=0 or controls:byte(5)~=1 then
+        return 'native','ADS controller is inactive, inhibited or unsupported'
+    end
+    poll_ptr(mem,s.game+0x346D560,snapshot.camera_context,'camera context')
+    local camera=poll_read(mem,snapshot.camera_context,0x200,'camera header')
+    if Memory.pointer_bytes(camera)~=snapshot.camera then fail('ADS equipped camera changed') end
+    local head,tail=Memory.u32_bytes(camera,0x1F8),Memory.u32_bytes(camera,0x1FC)
+    if head>=32 or tail>=32 then fail('ADS equipped camera queue indices are invalid') end
+    if head==tail then return 'native','ADS camera queue is empty' end
+    local at=snapshot.camera_context+0x200+((tail+31)%32)*0xE8
+    local request=poll_read(mem,at,16,'camera request')
+    if request:byte(1)+request:byte(2)*256~=6 then return 'native','ADS camera is not first person' end
+    if Memory.u32_bytes(request,4)~=snapshot.avatar or Memory.u32_bytes(request,8)~=snapshot.held
+        or Memory.u32_bytes(request,12)~=snapshot.body then fail('ADS equipped camera owner or weapon changed') end
+    -- One image copy covers the three owner roots and projectile manager root.
+    -- Ignore intervening globals; only these admitted pointer slices compare.
+    local owners=poll_read(mem,s.game+0x3326420,0x908,'equip roots')
+    if Memory.pointer_bytes(owners)~=s.wield or Memory.pointer_bytes(owners,0x48)~=s.player
+        or Memory.pointer_bytes(owners,0x900)~=snapshot.character
+        or ctx.managers and ctx.managers.projectile
+            and Memory.pointer_bytes(owners,0x2B8)~=ctx.managers.projectile then
+        fail('ADS equipped owner roots changed')
+    end
+    if Memory.u32_bytes(poll_read(mem,s.player+0x3A8,4,'local Unit'))~=s.light then
+        fail('ADS equipped local owner changed')
+    end
+    local wield=poll_read(mem,s.wield+0x1C,0x4C,'equip layout')
+    local count=Memory.u32_bytes(wield)
+    if count==0 or count>MAX_ROWS or s.wield_index>=count
+        or Memory.pointer_bytes(wield,0x2C)~=s.wield_descriptors
+        or Memory.pointer_bytes(wield,0x44)~=s.wield_rows then fail('ADS equipped storage changed') end
+    if Memory.u32_bytes(poll_read(mem,s.wield_rows+s.wield_index*0x1D0,4,'held entity'))~=snapshot.held then
+        fail('ADS equipped held weapon changed')
+    end
+    local flags=poll_read(mem,snapshot.character+0x53E886+snapshot.character_index*0x1238,9,'character state')
+    if flags:byte(1)%2~=1 or math.floor(flags:byte(9)/4)%2~=0 then
+        return 'native','ADS character is inactive or unsupported'
+    end
+    return 'ads'
+end
+function M.edge(mem,ctx,snapshot)
+    local ok,mode,reason=pcall(edge_inspect,mem,ctx,snapshot)
+    if not ok then return nil,type(mode)=='table' and mode.ads_reason or 'ADS transition reader failed' end
+    return mode,reason
+end
+
+-- Native-state hint: stop after a fresh controller/camera rejection. No
+-- closing replay is needed for this non-authorizing, read-only observation.
+local function idle_inspect(mem,ctx)
+    local controller=Memory.pointer_bytes(poll_read(mem,ctx.game+0x347CE70,8,'controller root'))
+    local controls=poll_read(mem,controller,6,'controller state')
+    if Memory.u32_bytes(controls)~=0 or controls:byte(6)~=0 or controls:byte(5)~=1 then return true end
+    local camera=Memory.pointer_bytes(poll_read(mem,ctx.game+0x346D560,8,'camera context'))
+    local queue=poll_read(mem,camera+0x1F8,8,'camera queue')
+    local head,tail=Memory.u32_bytes(queue),Memory.u32_bytes(queue,4)
+    if head>=32 or tail>=32 then return false end
+    if head==tail then return true end
+    local request=poll_read(mem,camera+0x200+((tail+31)%32)*0xE8,2,'camera kind')
+    return request:byte(1)+request:byte(2)*256~=6
+end
+function M.idle(mem,ctx)
+    local ok,inactive=pcall(idle_inspect,mem,ctx)
+    return ok and inactive==true
 end
 
 -- Negative-only fast path. It never authorizes a write or reuses pointers.
 -- Unreadable/changing/first-person requests fall through to the full proof.
-function M.inactive(mem,ctx)
-    local ok, inactive, reason = pcall(function()
+local function inspect_inactive(mem,ctx)
         local controller_root = ctx.game + 0x347CE70
         local controller_bytes = mem:read(controller_root,8)
         local controller = Memory.pointer_bytes(controller_bytes)
@@ -174,7 +391,9 @@ function M.inactive(mem,ctx)
         if mem:read(root,8)~=root_bytes or mem:read(camera_context+0x1F8,8)~=queue
             or request and mem:read(request,16)~=record then return false end
         return true, head==tail and 'ADS camera queue is empty' or 'ADS latest camera request is not first person'
-    end)
+end
+function M.inactive(mem,ctx)
+    local ok,inactive,reason=pcall(inspect_inactive,mem,ctx)
     if not ok then return false end
     return inactive, reason
 end

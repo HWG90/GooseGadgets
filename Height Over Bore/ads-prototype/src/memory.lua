@@ -4,6 +4,7 @@ local M = {}
 local HIGH, LIMIT, LOW = 4294967296, 140737488355328, 65536
 local STAMP = 0x6AB3B43F
 local MAX_READ, MAX_WRITE, MAX_CAP, MAX_PROBES = 8192, 4096, 1048576, 4096
+local MAX_READ_CALLS = 256
 local DECLARATIONS = [[
     typedef struct HOBMemory_Region {
         uint64_t base, allocation_base;
@@ -48,10 +49,28 @@ local function product32(a, b)
     return (al * bl + ((al * bh + ah * bl) % 65536) * 65536) % HIGH
 end
 
+local function address_number(ffi, address)
+    return tonumber(ffi.cast('uintptr_t', address))
+end
+
+-- Cache only validated call arguments. Every invocation still asks Windows
+-- for a fresh protected copy and verifies its exact transferred-byte count.
+-- No bytes, readability result, region permissions or write checks are cached.
+local function protected_read_call(ffi, kernel, buffer, count, address, size)
+    local pointer = ffi.cast('const void *', address)
+    local read, process = kernel.read, kernel.process
+    return function()
+        count[0] = 0
+        local copied = read(process, pointer, buffer, size, count)
+        if copied == 0 or tonumber(count[0]) ~= size then return nil, 'Memory is unreadable' end
+        return ffi.string(buffer, size)
+    end
+end
 
 function M.new(io)
     local ffi = require('ffi')
-    local self = setmetatable({_ffi=ffi, bit=require('bit'), _io=io}, {__index=M})
+    local self = setmetatable({_ffi=ffi, bit=require('bit'), _io=io,
+        _read_calls={}, _read_call_count=0}, {__index=M})
     self._read_buffer=ffi.new('uint8_t[8192]')
     self._write_buffer=ffi.new('uint8_t[4096]')
     self._count=ffi.new('size_t[1]')
@@ -61,7 +80,7 @@ end
 function M:_address(address, size)
     local ffi = self._ffi
     if type(address) == 'cdata' then
-        local ok, number = pcall(function() return tonumber(ffi.cast('uintptr_t', address)) end)
+        local ok, number = pcall(address_number, ffi, address)
         address = ok and number or nil
     end
     if not integer(address, LIMIT - 1) or address < LOW
@@ -96,6 +115,11 @@ function M:_windows()
 end
 
 function M:read(address, size)
+    if not self._io and type(address) == 'number' then
+        local sizes = self._read_calls[address]
+        local read = sizes and sizes[size]
+        if read then return read() end
+    end
     local checked, why = self:_address(address, size)
     if not checked then return nil, why end
     if size == 0 then return '' end
@@ -105,14 +129,22 @@ function M:read(address, size)
         if ok and type(bytes) == 'string' and #bytes == size then return bytes end
         return nil, ok and 'Memory is unreadable' or tostring(bytes)
     end
+    -- A pointer argument may normalize to an already admitted numeric pair.
+    local sizes = self._read_calls[checked]
+    local read = sizes and sizes[size]
+    if read then return read() end
     local kernel
     kernel, why = self:_windows()
     if not kernel then return nil, why end
-    self._count[0] = 0
-    local copied = kernel.read(kernel.process, self._ffi.cast('const void *', checked),
-        self._read_buffer, size, self._count)
-    if copied == 0 or tonumber(self._count[0]) ~= size then return nil, 'Memory is unreadable' end
-    return self._ffi.string(self._read_buffer, size)
+    read = protected_read_call(self._ffi, kernel, self._read_buffer, self._count, checked, size)
+    if self._read_call_count >= MAX_READ_CALLS then
+        self._read_calls, self._read_call_count = {}, 0
+        sizes = nil
+    end
+    if not sizes then sizes = {}; self._read_calls[checked] = sizes end
+    sizes[size] = read
+    self._read_call_count = self._read_call_count + 1
+    return read()
 end
 
 function M:_heap_writable(address, size)
@@ -212,7 +244,9 @@ function M:mask(bits)
     return self._ffi.new('uint64_t[3]', bits, 0, 0)
 end
 
-function M:_module()
+-- A fresh module handle is enough for a read-only settled-state watcher.
+-- Admission and every write still use _module() and its full PE checks.
+function M:_module_base()
     local base, why
     if self._io then
         if type(self._io.module) ~= 'function' then return nil, 'Injected module lookup is unavailable' end
@@ -227,6 +261,12 @@ function M:_module()
     end
     base, why = self:_address(base, 64)
     if not base then return nil, why or 'game.dll is not loaded' end
+    return base
+end
+
+function M:_module()
+    local base, why = self:_module_base()
+    if not base then return nil, why end
     local dos = self:read(base, 64)
     if not dos or dos:sub(1, 2) ~= 'MZ' then return nil, 'game.dll DOS header is unavailable' end
     local pe_offset = u32_bytes(dos, 0x3C)

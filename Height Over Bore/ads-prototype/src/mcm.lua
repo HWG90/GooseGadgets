@@ -4,6 +4,7 @@ local ID = 'goose_hob_ads_prototype'
 function M.new(controller, log)
     local self = { provider = nil, handle = nil, stopping = false }
     local last_enabled, last_problem, last_status
+    local rendered_label, rendered_record, rendered_stopping
     log = log or function() end
     local function problem(why)
         why = tostring(why)
@@ -37,6 +38,8 @@ function M.new(controller, log)
         if last_problem then label = last_problem .. '; ' .. label end
         if label ~= last_status then log('Height Over Bore: ' .. label); last_status = label end
         local record = registration()
+        if record==rendered_record and label==rendered_label and self.stopping==rendered_stopping then return end
+        rendered_label,rendered_record,rendered_stopping=label,record,self.stopping
         if record then
             for _, page in ipairs(record.pages or {}) do
                 for _, control in ipairs(page.controls or {}) do

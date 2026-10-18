@@ -211,5 +211,216 @@ test('inactive controller skips discovery and changing controls fall back',funct
  eq(f.writes,0)
 end)
 
+local function poll_fixture()
+ local f=fixture();local active,why,snapshot=f:check();eq(active,true);eq(why,nil)
+ f.snapshot=snapshot
+ function f:poll() return Gate.poll(self.mem,self.ctx,self.snapshot) end
+ return f
+end
+local function poll_reject(f,contains)
+ local mode,why=f:poll();eq(mode,nil)
+ assert(type(why)=='string' and why:find(contains,1,true),tostring(why))
+ eq(f.writes,0)
+end
+
+test('settled ADS polling is bounded and performs no fingerprint or map discovery',function()
+ local f=poll_fixture();local before=f.reads
+ local fingerprint_reads=f.counts[f.game+0x12B29B0]
+ local local_map_reads=f.counts[f.world+0xF22EC8]
+ local held_map_reads=f.counts[f.world+0xF1AEB0]
+ for _=1,20 do
+  local start=f.reads;eq(f:poll(),'ads');eq(f.reads-start,24)
+ end
+ eq(f.reads-before,480)
+ eq(f.counts[f.game+0x12B29B0],fingerprint_reads)
+ eq(f.counts[f.world+0xF22EC8],local_map_reads)
+ eq(f.counts[f.world+0xF1AEB0],held_map_reads)
+ eq(f.writes,0)
+end)
+test('settled and inactive poll bodies allocate no nested function closures',function()
+ local util=require('jit.util');local bit=require('bit')
+ -- Derive FNEW from this LuaJIT rather than hard-coding an opcode number.
+ local factory=function()return function()end end
+ local fnew=bit.band(assert(util.funcbc(factory,1)),255)
+ local visited={}
+ local function inspect_functions(fn)
+  if visited[fn] then return end;visited[fn]=true
+  local info=util.funcinfo(fn)
+  if not info.bytecodes then return end
+  for pc=1,info.bytecodes-1 do
+   local instruction=util.funcbc(fn,pc)
+   assert(not instruction or bit.band(instruction,255)~=fnew,
+    'Settled polling helper must not create a new function per update')
+  end
+  for index=1,info.upvalues do
+   local _,value=debug.getupvalue(fn,index)
+   if type(value)=='function' then inspect_functions(value) end
+  end
+ end
+ inspect_functions(Gate.poll);inspect_functions(Gate.inactive);inspect_functions(Gate.edge);inspect_functions(Gate.idle)
+end)
+test('settled polling follows advancing and wrapping camera queues',function()
+ local f=poll_fixture();local original=f:raw(f.request,16)
+ f:u32(f.camera_context+0x1FC,2);f:poke(f.request+0xE8,original)
+ eq(f:poll(),'ads')
+ f:u32(f.camera_context+0x1F8,1);f:u32(f.camera_context+0x1FC,0)
+ f:poke(f.camera_context+0x200+31*0xE8,original);eq(f:poll(),'ads')
+ eq(f.writes,0)
+end)
+test('settled polling reuses equip anchors across native exit and ADS reentry',function()
+ local f=poll_fixture();f:poke(f.controller+4,'\0')
+ local before=f.reads;eq(f:poll(),'native');eq(f.reads-before,18)
+ f:poke(f.controller+4,'\1');eq(f:poll(),'ads')
+ f:poke(f.request,'\3');eq(f:poll(),'native')
+ f:poke(f.request,'\6');eq(f:poll(),'ads')
+ f:u32(f.camera_context+0x1FC,0);eq(f:poll(),'native')
+ f:u32(f.camera_context+0x1FC,1);eq(f:poll(),'ads')
+ eq(f.writes,0)
+end)
+test('settled polling ignores unrelated character bits but follows supported mode bits',function()
+ local f=poll_fixture()
+ f:poke(f.character+0x53E886,'\3');f:poke(f.character+0x53E887,'\255')
+ f:poke(f.character+0x53E88E,'\8');eq(f:poll(),'ads')
+ f:poke(f.character+0x53E886,'\2');eq(f:poll(),'native')
+ f:poke(f.character+0x53E886,'\1');f:poke(f.character+0x53E88E,'\4')
+ eq(f:poll(),'native');f:poke(f.character+0x53E88E,'\0');eq(f:poll(),'ads')
+ eq(f.writes,0)
+end)
+test('settled polling rejects context roots owner and held changes',function()
+ local f=poll_fixture();f.ctx.token='new';poll_reject(f,'context changed')
+ f=poll_fixture();f:ptr(f.game+0x346BF98,f.world+0x1000);poll_reject(f,'World roots changed')
+ f=poll_fixture();f:ptr(f.game+0x3326468,f.player+0x1000);poll_reject(f,'owner roots changed')
+ f=poll_fixture();f:u32(f.player+0x3A8,999);poll_reject(f,'local player changed')
+ f=poll_fixture();f:poke(f.character_desc,'x');poll_reject(f,'character owner descriptor changed')
+ f=poll_fixture();f:poke(f.wield_desc,'x');poll_reject(f,'wield owner descriptor changed')
+ f=poll_fixture();f:u32(f.wield_rows,999);poll_reject(f,'held weapon changed')
+ eq(f.writes,0)
+end)
+test('settled polling rejects map relocation and selected row changes',function()
+ for _,label in ipairs({'character owner','wield owner'}) do
+  local f=poll_fixture();local anchor=f.snapshot.poll.maps[label]
+  f:ptr(anchor.address,Memory.pointer_bytes(anchor.header)+0x1000)
+  poll_reject(f,'map changed')
+  f=poll_fixture();anchor=f.snapshot.poll.maps[label];f:u32(anchor.bucket+4,1)
+  poll_reject(f,'map row changed')
+ end
+ local f=poll_fixture();f:ptr(f.wield+0x60,f.wield_rows+0x1000)
+ poll_reject(f,'wield layout changed')
+ f=poll_fixture();f:ptr(f.wield_descriptors,f.wield_desc+0x1000)
+ poll_reject(f,'wield descriptor changed')
+ f=poll_fixture();f:ptr(f.character+0x110,f.character_desc+0x1000)
+ poll_reject(f,'character descriptor moved')
+end)
+test('settled polling batches nonzero character indices with the same read bound',function()
+ local f=fixture();f:u32(f.character+0x6C,3);f:map(f.character+0xF8,f.avatar,2)
+ f:ptr(f.character+0x120,f.character_desc)
+ f:poke(f.character+0x53E880+2*0x1238,string.rep('\0',6)..'\1'..string.rep('\0',17))
+ local active,why,snapshot=f:check();eq(active,true);eq(why,nil)
+ local before=f.reads;eq(Gate.poll(f.mem,f.ctx,snapshot),'ads');eq(f.reads-before,24)
+ eq(f.writes,0)
+end)
+test('settled polling rejects unreadable roots states and invalid camera layouts',function()
+ for _,offset in ipairs({0x346BF98,0x3326420,0x3326D20,0x347CE70,0x346D560}) do
+  local f=poll_fixture();f.unreadable=f.game+offset;poll_reject(f,'unreadable')
+ end
+ local f=poll_fixture();f.unreadable=f.controller;poll_reject(f,'unreadable')
+ f=poll_fixture();f:ptr(f.game+0x347CE70,f.controller+0x1000);poll_reject(f,'controller root changed')
+ f=poll_fixture();f:u32(f.camera_context+0x1FC,32);poll_reject(f,'indices are invalid')
+ f=poll_fixture();f:u32(f.request+8,999);poll_reject(f,'request ownership changed')
+ f=poll_fixture();f.on_read=function()error('reader failure')end;poll_reject(f,'unreadable')
+end)
+test('settled closing reads catch held controls queue and request mutation',function()
+ for _,which in ipairs({'world','held','controls','queue','request'}) do
+  local f=poll_fixture()
+  local at=which=='world' and f.game+0x346BF98 or which=='held' and f.wield_rows
+   or which=='controls' and f.controller or which=='queue' and f.camera_context+0x1F8 or f.request
+  local prior=f.counts[at] or 0
+  function f:on_read(address,n)
+   if address==at and self.counts[address]==prior+2 then
+    if which=='world' then self:ptr(address,self.world+0x1000)
+    elseif which=='held' then self:u32(address,999)
+    elseif which=='controls' then self:poke(address+4,'\0')
+    elseif which=='queue' then self:u32(address+4,2)
+    else self:u32(address+8,999)end
+   end
+  end
+  poll_reject(f,'changed during polling')
+ end
+end)
+
+test('transition observer uses eleven fresh reads and no setup replay',function()
+ local f=poll_fixture();local prior=f.reads
+ function f:on_read(at,n)
+  assert(at~=self.world+0xF22EC8 and at~=self.world+0xF1AEB0,'Transition hint walked a World map')
+  assert(at~=self.character_desc and at~=self.wield_desc,'Transition hint replayed owner descriptors')
+  assert(at~=self.game+0x12B29B0,'Transition hint fingerprinted code')
+ end
+ for _=1,100 do eq(Gate.edge(f.mem,f.ctx,f.snapshot),'ads') end
+ eq(f.reads-prior,1100);eq(f.writes,0)
+end)
+
+test('transition observer follows queue advancement wrap and native camera modes',function()
+ local f=poll_fixture();local record=f:raw(f.request,16)
+ f:u32(f.camera_context+0x1FC,2);f:poke(f.request+0xE8,record)
+ eq(Gate.edge(f.mem,f.ctx,f.snapshot),'ads')
+ f:u32(f.camera_context+0x1FC,0);f:poke(f.camera_context+0x200+31*0xE8,record)
+ f:u32(f.camera_context+0x1F8,1);eq(Gate.edge(f.mem,f.ctx,f.snapshot),'ads')
+ f:poke(f.camera_context+0x200+31*0xE8,'\4');eq(Gate.edge(f.mem,f.ctx,f.snapshot),'native')
+ f:u32(f.camera_context+0x1F8,0);eq(Gate.edge(f.mem,f.ctx,f.snapshot),'native')
+end)
+
+test('transition observer exits on controller inhibition release and unsupported character states',function()
+ for _,where in ipairs({'released','inhibited','guard','continuity','seated'}) do
+  local f=poll_fixture()
+  if where=='released' then f:poke(f.controller+4,'\0')
+  elseif where=='inhibited' then f:u32(f.controller,1)
+  elseif where=='guard' then f:poke(f.controller+5,'\1')
+  elseif where=='continuity' then f:poke(f.character+0x53E886,'\0')
+  else f:poke(f.character+0x53E88E,'\4') end
+  eq(Gate.edge(f.mem,f.ctx,f.snapshot),'native');eq(f.writes,0)
+ end
+end)
+
+test('transition observer rejects changed World equip storage and local owner',function()
+ for _,where in ipairs({'world','implementation','player','character','wield','unit','rows','held','camera','controller','request'}) do
+  local f=poll_fixture()
+  if where=='world' then f:ptr(f.game+0x346BF98,f.world+0x1000)
+  elseif where=='implementation' then f:ptr(f.game+0x346BFC8,f.implementation+0x1000)
+  elseif where=='player' then f:ptr(f.game+0x3326468,f.player+0x1000)
+  elseif where=='character' then f:ptr(f.game+0x3326D20,f.character+0x1000)
+  elseif where=='wield' then f:ptr(f.game+0x3326420,f.wield+0x1000)
+  elseif where=='unit' then f:u32(f.player+0x3A8,999)
+  elseif where=='rows' then f:ptr(f.wield+0x60,f.wield_rows+0x1000)
+  elseif where=='held' then f:u32(f.wield_rows,999)
+  elseif where=='camera' then f:ptr(f.camera_context,f.camera+0x1000)
+  elseif where=='controller' then f:ptr(f.game+0x347CE70,f.controller+0x1000)
+  else f:u32(f.request+8,999) end
+  eq(Gate.edge(f.mem,f.ctx,f.snapshot),nil);eq(f.writes,0)
+ end
+end)
+
+test('transition observer ignores unrelated equip counts and old camera request storage',function()
+ local f=poll_fixture();f:u32(f.wield+0x1C,2)
+ f.snapshot.request=0x1000 -- latest queue slot is selected fresh, never this address
+ eq(Gate.edge(f.mem,f.ctx,f.snapshot),'ads');eq(f.writes,0)
+end)
+
+test('transition observer rejects unreadable or invalid controller camera and owner fields',function()
+ for _,at in ipairs({'controller','camera_context','player','wield_rows'}) do
+  local f=poll_fixture();f.unreadable=at=='player' and f.player+0x3A8 or f[at]
+  eq(Gate.edge(f.mem,f.ctx,f.snapshot),nil);eq(f.writes,0)
+ end
+ local f=poll_fixture();f:u32(f.camera_context+0x1FC,32)
+ eq(Gate.edge(f.mem,f.ctx,f.snapshot),nil)
+end)
+
+test('native transition screening needs only two reads for released control',function()
+ local f=poll_fixture();f:poke(f.controller+4,'\0');local before=f.reads
+ eq(Gate.idle(f.mem,f.ctx),true);eq(f.reads-before,2)
+ f:poke(f.controller+4,'\1');eq(Gate.idle(f.mem,f.ctx),false)
+ f:poke(f.request,'\4');eq(Gate.idle(f.mem,f.ctx),true)
+ f.unreadable=f.controller;eq(Gate.idle(f.mem,f.ctx),false);eq(f.writes,0)
+end)
+
 for _,t in ipairs(tests) do local ok,why=pcall(t[2]);assert(ok,t[1]..': '..tostring(why)) end
 print('ADS gate: '..#tests..' offline contracts passed; no game access or writes')

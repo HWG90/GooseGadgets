@@ -20,7 +20,7 @@ end
 return {
     live_lua_api = 1,
     name = 'Height Over Bore',
-    version = '0.1.1-experimental',
+    version = '0.1.2-experimental',
     author = 'Goose',
     on_enable = function()
         assert(not controller, 'Previous Height Over Bore cleanup has not completed')
@@ -31,7 +31,7 @@ return {
         controller = Controller.new(Backend.new(log), log)
         menu = MCM.new(controller, log)
         menu:update()
-        log('Loaded 0.1.1-experimental; use MCM > Height Over Bore > Enabled')
+        log('Loaded 0.1.2-experimental; use MCM > Height Over Bore > Enabled')
     end,
     on_update = function(dt)
         if not controller or stopping then return end

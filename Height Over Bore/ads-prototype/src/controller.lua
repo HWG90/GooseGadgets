@@ -2,12 +2,14 @@ local M = {}
 local Parameters = mod.require('src/parameters.lua')
 local TARGET = Parameters.TARGET
 local LIMIT = 2 -- bounded journal including pending restoration of a prior record
+local INTERVAL = 1 / 60 -- maximum transition sampling rate, with no catch-up loop
 
 function M.new(backend, log)
     assert(type(backend) == 'table', 'Height Over Bore backend is required')
     local self = { enabled = false, closing = false, ledger = {}, foreign = {}, token = nil }
     local last_status
     local status = 'Off'
+    local elapsed, may_wait = 0, false
     log = log or function() end
 
     local function report(value)
@@ -106,9 +108,13 @@ function M.new(backend, log)
     end
     local function step()
         if self.closing or not self.enabled then
+            if type(backend.invalidate)=='function' then call('invalidate') end
             local done, why = restore_all()
             report(done and 'Off' or ('Restoring ' .. count(self.ledger) .. ' weapons: ' .. tostring(why)))
             return done, why
+        end
+        if type(backend.steady)=='function' and call('steady',self.ledger,self.foreign)==true then
+            return true
         end
         local view, why = call('observe')
         if type(view) ~= 'table' or type(view.token) ~= 'string' or type(view.weapons) ~= 'table' then
@@ -211,6 +217,9 @@ function M.new(backend, log)
             report('ADS convergence on ' .. active .. ' weapons; preserving ' .. blocked .. ' other edits')
         elseif #view.weapons == 0 then report(view.mode_status or 'Native aiming')
         else report('ADS convergence on ' .. active .. ' weapons') end
+        if not restoring and not problem and type(backend.settled)=='function' then
+            call('settled',view,self.ledger,self.foreign)
+        end
         return not restoring, problem
     end
     local function protected_step()
@@ -221,14 +230,26 @@ function M.new(backend, log)
     function self:set_enabled(value)
         if type(value) ~= 'boolean' then return false, 'Enabled must be a boolean' end
         if self.closing and value then return false, 'Loader restoration is pending' end
+        if value~=self.enabled and type(backend.invalidate)=='function' then call('invalidate') end
+        if value~=self.enabled then elapsed, may_wait = 0, false end
         self.enabled = value
         return true
     end
     function self:update(dt)
-        -- Check every loader update, including dt=0. No 100ms mode-exit delay.
-        -- Native state may still change after this callback; that frame boundary
-        -- must be measured in-game before claiming per-shot ADS isolation.
-        return protected_step()
+        -- Only a successful settled observation can wait. Pending ownership or
+        -- restoration retries immediately; disabled clean state does no I/O.
+        if not self.enabled and not next(self.ledger) then report('Off');return true end
+        local timed = type(dt)=='number' and dt>0 and dt<math.huge
+        if timed and may_wait and self.enabled and not self.closing then
+            elapsed = elapsed + dt
+            if elapsed < INTERVAL then return true end
+        end
+        -- Discard debt after a stall instead of issuing catch-up observations.
+        elapsed = 0
+        local done, why = protected_step()
+        may_wait = done==true and why==nil and type(backend.is_settled)=='function'
+            and call('is_settled')==true
+        return done, why
     end
     function self:is_clean() return next(self.ledger) == nil end
     function self:status() return status end

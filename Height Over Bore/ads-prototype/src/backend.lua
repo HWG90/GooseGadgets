@@ -46,8 +46,8 @@ for _, item in ipairs(FPS) do
     item.bytes=item[2]:gsub('%x%x',function(pair) return string.char(tonumber(pair,16)) end)
 end
 -- Read adjacent immutable code markers together, then compare every original
--- byte on every validation. No cached build result or runtime pointer survives
--- a call. Small spans bound copied bytes and avoid large per-frame strings.
+-- byte on each admission/mutation validation. Settled updates use read-only
+-- equip guards and never authorize a write. Small spans bound copied bytes.
 local fingerprint_spans={}
 do
     local sorted={}
@@ -90,6 +90,43 @@ local function recoverable_apply(bytes,native)
     return false
 end
 
+-- Discovery proofs become read-only invalidation guards. They never authorize
+-- a write. Adjacent anchors share one bounded read; only known slices compare.
+local function compile_watch(reads,skip_address,skip_size)
+    local anchors,seen={},{}
+    for i=1,#reads,3 do
+        local at,size,bytes=reads[i],reads[i+1],reads[i+2]
+        local key=text_id(at,size)
+        if not seen[key] and not (skip_address and at>=skip_address and at+size<=skip_address+skip_size) then
+            seen[key]=true;anchors[#anchors+1]={address=at,size=size,bytes=bytes}
+        end
+    end
+    table.sort(anchors,function(a,b)return a.address<b.address end)
+    local groups={}
+    for _,anchor in ipairs(anchors) do
+        local group=groups[#groups]
+        if not group or anchor.address+anchor.size-group.address>1024 then
+            group={address=anchor.address,size=anchor.size,anchors={}}
+            groups[#groups+1]=group
+        else group.size=math.max(group.size,anchor.address+anchor.size-group.address) end
+        anchor.offset=anchor.address-group.address
+        group.anchors[#group.anchors+1]=anchor
+    end
+    return groups
+end
+
+local function matches_watch(mem,groups)
+    if type(groups)~='table' then return false end
+    for _,group in ipairs(groups) do
+        local bytes=mem:read(group.address,group.size)
+        if not bytes then return false end
+        for _,anchor in ipairs(group.anchors) do
+            if bytes:sub(anchor.offset+1,anchor.offset+anchor.size)~=anchor.bytes then return false end
+        end
+    end
+    return true
+end
+
 -- Track map headers/buckets and all pointer/count/descriptor/row reads as well
 -- as the final field. Repeated equality detects observed mutation, not ABA.
 local function tracked(mem)
@@ -111,6 +148,20 @@ local function tracked(mem)
             if mem:read(reads[i],reads[i+1])~=reads[i+2] then return false end
         end
         return true
+    end
+    function reader:watch(skip_address,skip_size)
+        return compile_watch(reads,skip_address,skip_size)
+    end
+    function reader:mark() return count end
+    function reader:equip_watch(start,skip_address,skip_size,skip_count,skip_capacity)
+        local selected={}
+        for i=start+1,count,3 do
+            local at=reads[i]
+            if at~=skip_count and at~=skip_capacity then
+                selected[#selected+1]=at;selected[#selected+1]=reads[i+1];selected[#selected+1]=reads[i+2]
+            end
+        end
+        return compile_watch(selected,skip_address,skip_size)
     end
     return reader
 end
@@ -165,8 +216,11 @@ function M:_runtime(ctx,id,family)
         return nil,'retired'
     end
     local index
+    local equip_start=reader:mark()
     index,why=reader:hashmap(manager+family.runtime_map,id)
-    if not index then return nil,absent(why) and 'not applicable' or why end
+    if not index then
+        return nil,absent(why) and 'not applicable' or why,absent(why) and reader:equip_watch(equip_start) or nil
+    end
     local count,capacity=reader:u32(manager+family.runtime_count),reader:u32(manager+family.runtime_capacity)
     if not count or not capacity or count>capacity or capacity>MAX_ROWS or index>=count then
         return nil,family.id..' runtime row exceeds bounds'
@@ -189,10 +243,14 @@ function M:_runtime(ctx,id,family)
     return {key=text_id(ctx.token,family.id,manager,id,hex(identity)),token=ctx.token,
         game=ctx.game,world=ctx.world,manager=manager,family=family.id,entity=id,
         descriptor=identity,resource=identity:sub(1,8),descriptor_address=ep,
-        runtime_index=index,runtime_rows=rows,address=address,bytes=cap,native_mode=mode}
+        runtime_index=index,runtime_rows=rows,address=address,bytes=cap,native_mode=mode,
+        runtime_watch=reader:watch(address,4),
+        equip_watch=reader:equip_watch(equip_start,row+family.mode,5,
+            manager+family.runtime_count,manager+family.runtime_capacity),
+        mode_address=row+family.mode}
 end
 
-function M:_definition(ctx,id,descriptor,family)
+function M:_lookup_definition(ctx,id,descriptor,family)
     family=family_for(family)
     if not family then return nil,'Invalid weapon family' end
     local reader=tracked(self.mem)
@@ -241,15 +299,28 @@ function M:_definition(ctx,id,descriptor,family)
     local native,angle_value=Parameters.native_cap(angle)
     if not native then return nil,angle_value or 'Unsupported authored aiming angle' end
     return {native_angle_bytes=angle,native_bytes=native,native_angle=angle_value,
-        definition_flag=flag,definition_address=address,owned=owned}
+        definition_flag=flag,definition_address=address,owned=owned,definition_watch=reader:watch()}
+end
+
+function M:_definition(ctx,id,descriptor,family)
+    family=family_for(family)
+    if not family then return nil,'Invalid weapon family' end
+    local key=text_id(ctx.token,ctx.managers[family.id],family.id,id,hex(descriptor))
+    local cached=self._definition_cache
+    if cached and cached.key==key and matches_watch(self.mem,cached.value.definition_watch) then
+        return cached.value
+    end
+    local value,why=self:_lookup_definition(ctx,id,descriptor,family)
+    self._definition_cache=value and {key=key,value=value} or nil
+    return value,why
 end
 
 function M:_record(ctx,id,family,read_definition)
     if type(family)=='boolean' then read_definition,family=family,nil end
     family=family_for(family)
     if not family then return nil,'Invalid weapon family' end
-    local record,why=self:_runtime(ctx,id,family)
-    if not record then return nil,why end
+    local record,why,negative_watch=self:_runtime(ctx,id,family)
+    if not record then return nil,why,negative_watch end
     if read_definition~=false then
         local definition,problem=self:_definition(ctx,id,record.descriptor,family)
         if definition then for key,value in pairs(definition) do record[key]=value end
@@ -312,9 +383,10 @@ end
 function M:_collect(ctx,id)
     local all,eligible,reasons={},{},{}
     local family=FAMILIES[1]
-    local record,why=self:_record(ctx,id,family)
+    local record,why,negative_watch=self:_record(ctx,id,family)
     if not record then
         if why~='not applicable' then return nil,family.id..': '..tostring(why) end
+        ctx.negative_watch=negative_watch
     else
         local allowed,reason=guards(record)
         if allowed==nil then return nil,family.id..': '..tostring(reason) end
@@ -361,11 +433,102 @@ function M:observe()
         end
     end
     for _,record in ipairs(eligible) do record.ads_local_descriptor=local_descriptor end
+    ctx.ads_snapshot,ctx.all_records=closed,final
     ctx.weapons,ctx.native_reasons=eligible,reasons
     if #eligible>0 then ctx.mode_status='ADS convergence experiment'
     elseif #reasons>0 then ctx.mode_status='Native aiming: '..table.concat(reasons,'; ')
     else ctx.mode_status='Native aiming: beams remain native; held weapon has no projectile component' end
     return ctx
+end
+
+-- Retain only a settled observation. Pending/unknown journal entries always
+-- take the existing resolve/restore path, including on zero-delta updates.
+function M:settled(view,ledger,foreign)
+    self._settled=nil
+    if type(view)~='table' then return false end
+    local owned={}
+    for key,entry in pairs(ledger) do
+        if entry.phase~='owned' or entry.unknown then return false end
+        owned[key]=entry.expected
+    end
+    -- A restore can intentionally release a still-eligible weapon for this
+    -- update. It must be admitted on the next update, not cached as native.
+    for _,record in ipairs(view.weapons or {}) do
+        if not owned[record.key] and not foreign[record.key] then return false end
+    end
+    if view.ads_snapshot and type(AdsGate.poll)=='function' then
+        self._binding={ctx=view,snapshot=view.ads_snapshot,records=view.all_records or {},
+            negative_watch=view.negative_watch}
+    elseif self._binding and self._binding.ctx.token~=view.token then
+        self._binding=nil
+    end
+    local binding=self._binding
+    local state={ctx=view,owned=owned,mode=view.ads_snapshot and 'ads' or 'native',binding=binding,caps={}}
+    if state.mode=='ads' then
+        if not binding then return false end
+        if #binding.records==0 and not binding.negative_watch then return false end
+        local found={}
+        for _,record in ipairs(binding.records) do
+            local cap=self.mem:read(record.address,4)
+            if not cap or owned[record.key] and cap~=owned[record.key] then return false end
+            state.caps[record.key]=cap;found[record.key]=true
+        end
+        for key in pairs(owned) do if not found[key] then return false end end
+        -- Unrelated quarantined inventory weapons require no owned cleanup.
+        -- Resolve their retirement on the next equip/ordinary heavy pass.
+    elseif next(owned) then return false end
+    self._settled=state
+    return true
+end
+
+function M:invalidate()
+    self._settled=nil
+end
+
+function M:is_settled()
+    return self._settled~=nil
+end
+
+function M:steady(ledger,foreign)
+    local state=self._settled
+    if not state then return false end
+    -- Clear before any read can fail. Only a complete unchanged observation
+    -- reinstates this cache; it cannot hide a pending restoration.
+    self._settled=nil
+    for key,entry in pairs(ledger) do
+        if entry.phase~='owned' or entry.unknown or state.owned[key]~=entry.expected then return false end
+    end
+    for key in pairs(state.owned) do if not ledger[key] then return false end end
+    local ctx=state.ctx
+    local edge,binding=AdsGate.edge,state.binding
+    if state.mode=='native' then
+        if next(ledger) then return false end
+        if edge and binding then
+            if edge(self.mem,binding.ctx,binding.snapshot)~='native' then return false end
+        else
+            local roots=self.mem:read(ctx.game+OFF.world,OFF.implementation-OFF.world+8)
+            if Memory.pointer_bytes(roots)~=ctx.world
+                or Memory.pointer_bytes(roots,OFF.implementation-OFF.world)~=ctx.implementation then return false end
+            local idle=AdsGate.idle or AdsGate.inactive
+            if idle(self.mem,ctx)~=true then return false end
+        end
+    else
+        if type(edge)~='function' then
+            local roots=self.mem:read(ctx.game+OFF.world,OFF.implementation-OFF.world+8)
+            if Memory.pointer_bytes(roots)~=ctx.world
+                or Memory.pointer_bytes(roots,OFF.implementation-OFF.world)~=ctx.implementation then return false end
+        end
+        if not binding or (edge or AdsGate.poll)(self.mem,ctx,binding.snapshot)~='ads' then return false end
+        if #binding.records==0 and not matches_watch(self.mem,binding.negative_watch) then return false end
+        for _,record in ipairs(binding.records) do
+            if not matches_watch(self.mem,record.equip_watch) then return false end
+            local current=self.mem:read(record.mode_address,5)
+            if not current or current:byte(1)~=record.native_mode
+                or current:sub(2)~=state.caps[record.key] then return false end
+        end
+    end
+    self._settled=state
+    return true
 end
 
 function M:resolve(record)

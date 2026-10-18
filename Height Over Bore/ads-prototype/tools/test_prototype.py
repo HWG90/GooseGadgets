@@ -8,7 +8,7 @@ import sys
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-TEST_FILES=('parameters.lua','ads_gate_test.lua','prototype.lua','backend_prototype.lua','bsl.lua','loader_prototype.lua')
+TEST_FILES=('parameters.lua','ads_gate_test.lua','prototype.lua','backend_prototype.lua','scheduling.lua','bsl.lua','loader_prototype.lua')
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)

@@ -1,4 +1,4 @@
-# Height Over Bore 0.1.1 Experimental
+# Height Over Bore 0.1.2 Experimental
 
 Projectile ADS comparison without a weapon-name allowlist. Native hip fire, third-person aiming and continuous beam targeting are preserved. New installs start **Off**.
 
@@ -8,9 +8,27 @@ Disable the old 0.1.0 HoB mod before enabling this update. Install one loader va
 
 **LLL:** requires Live Lua Loader and DBF-MCM. Extract the complete `goose_hob_ads_prototype` folder into `%LOCALAPPDATA%/LLL/Helldivers2/Mods`, refresh discovery and enable it in LLL. Use **MCM → Height Over Bore → Enabled**.
 
-**BSL:** requires Bingus Shared Loader v15+ / API 1 and the original Mod Options Menu. Import the ZIP through Arsenal or your mod manager, enable the addon and restart normally. Use **Mod Options → Height Over Bore → Enabled**, then Apply. See [BSL instructions](https://github.com/HWG90/GooseGadgets/blob/hob-v0.1.1-experimental/Height%20Over%20Bore/ads-prototype/BSL-README.md).
+**BSL:** requires Bingus Shared Loader v15+ / API 1 and the original Mod Options Menu. Import the ZIP through Arsenal or your mod manager, enable the addon and restart normally. Use **Mod Options → Height Over Bore → Enabled**, then Apply. See [BSL instructions](https://github.com/HWG90/GooseGadgets/blob/main/Height%20Over%20Bore/ads-prototype/BSL-README.md).
 
-There is no 0.1.1 MDL package. Camera override experiments that control ADS should be disabled during comparison.
+There is no 0.1.2 MDL package. Camera override experiments that control ADS should be disabled during comparison.
+
+## Equipment cache
+
+Weapon-definition discovery is performed once per equipped generation and reused across ADS exit and reentry. The steady observer reads current controller/camera state, local owner and equipment identity, selected runtime storage, native mode and the owned cap. It does not replay authored definitions, code fingerprints or full ownership maps each frame. Equipment/storage changes and unreadable or competing runtime bytes invalidate the observation.
+
+Settled observations are capped at 60 per second, without catch-up bursts. Disabled clean state performs no backend work. Enable, shutdown and pending cleanup bypass this rate bound. This is bounded polling, not an event-driven implementation: a transition can remain unobserved for about 16.7 ms plus loader scheduling delay. Live LLL rapid ADS exit and primary/secondary swap testing passed qualitatively: aiming stayed normal and no hitch was noticed. Same-shot isolation remains unproved.
+
+An unchanged ADS update uses **16 protected reads** in the combined real Gate + Backend fixture, down from 40; released control uses **3**. Unchanged updates perform no full observation, definition lookup, resolution or write. These are offline operation counts; live timing is recorded separately.
+
+Acquisition, restoration and pending/partial cleanup still take the full fresh validation path. The transition observer cannot authorize a copy. Authored angle/flag changes and definition-table relocation are revalidated on the next aiming transition or equip rather than polled continuously. Changed runtime cap bytes or native modes invalidate the next sampled observation.
+
+Validated address conversions and copy lengths use a bounded cache. Every read still executes the protected Windows copy and checks its exact transferred count. Permission failures, changed bytes and recovery are observed on the next read.
+
+## Live performance
+
+Matched LLL ADS comparison on the same projectile weapon and scene, old → new → new → old: two 25-second samples per version after five-second warm-ups, about 115 updates/s. The backed-up prior installed version averaged **7.30 ms/s**; this implementation averaged **4.91 ms/s**, a **33% reduction**. Each sample stayed ADS with no full observations, definition lookups or writes. This compares complete versions, not only the scheduler.
+
+A separate rapid ADS-exit/weapon-swap sample averaged **7.00 ms/s**, with a **3.87 ms** worst update. The player reported normal aiming and no noticeable hitch. The transition peak remains unresolved; BSL live performance is unmeasured.
 
 ## Behavior
 
@@ -30,9 +48,9 @@ New ownership requires an exact native baseline derived from that weapon's autho
 
 ## Validation and remaining checks
 
-**111 isolated contracts plus 14 parameter cases pass**, including exact restoration, ADS exit, ownership changes, partial reads/writes, native beam preservation and both adapters. Both allowlisted packages build deterministically and pass archive integrity checks.
+**156 isolated contracts plus 14 parameter cases pass**, including exact restoration, ADS exit, ownership changes, partial reads/writes, native beam preservation and both adapters. Both allowlisted packages build deterministically and pass archive integrity checks.
 
-The live projectile comparisons used earlier LLL candidates with the same correction policy. This release also includes performance changes; no fresh live comparison of those changes is claimed. BSL has offline adapter coverage only. Same-shot transitions, movement, recoil, broader weapon alignment and complete historical equivalence remain unproved.
+The live projectile comparisons used earlier LLL candidates with the same correction policy. The equipment-cache changes passed matched live LLL ADS timing and rapid exit/swap testing. BSL has offline adapter coverage only. Same-shot transitions, movement, recoil, broader weapon alignment and complete historical equivalence remain unproved.
 
 For a live comparison, use stationary single projectile ADS shots at the same close ledge and distant mark, Off versus On. Check ADS exit, hip fire, third-person aim and weapon swap. Restoration-pending or conflict status means cleanup has not passed. Scythe beams should retain native aiming with the option Off or On.
 

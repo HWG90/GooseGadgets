@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.2-experimental — 2026-10-18
+
+- Cache weapon-definition discovery per equipped generation; reuse it across ADS exit/reentry.
+- Replace repeated full observations and resolutions with a single-pass ADS transition observer and selected-row lease checks. Full admission/copy/restoration checks remain fresh.
+- Invalidate on swaps, owner/World changes, moved runtime rows and unreadable or competing bytes. Authored metadata is revalidated on transitions instead of every frame. Pending and partial cleanup cannot skip work.
+- Update MCM status controls only when their rendered state changes.
+- Reuse ADS polling helpers instead of constructing functions every update; retain the same protected reads and closing checks.
+- Cache validated protected-read arguments in a bounded pool. Each call still copies fresh bytes and requires an exact transferred count.
+- 156 isolated contracts plus 14 parameter cases; combined real Gate + Backend fixture uses 16 protected reads per stable ADS update, down from 40 with zero full discovery or writes. Live timing is recorded separately.
+
+- Bound settled polling to 60/s without catch-up bursts; disabled clean state stays idle. Pending cleanup and shutdown remain immediate. Transition detection may lag by about 16.7 ms plus scheduling.
+- Matched live LLL ADS samples: prior installed version 7.30 ms/s, new 4.91 ms/s (33% lower overhead), same weapon and scene at about 115 updates/s. Rapid ADS exits/swaps passed qualitative testing; transition sample 7.00 ms/s, worst update 3.87 ms still under investigation. BSL live timing remains unmeasured.
+
 ## 0.1.1-experimental — 2026-10-16
 
 - Separate LLL and BSL ADS source under `ads-prototype`, with deterministic builders and offline fixtures.
