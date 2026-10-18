@@ -180,6 +180,34 @@ function M.new(options)
         if options.ensure_combat then local ok,why=options.ensure_combat();if ok~=true then return false,why or'Combat activation refused'end end
         return support:queue(index)
     end
+    -- Retained main-world GUI: redraw only when the loading stage changes.
+    -- No render callback, animation timer or additional readiness scan.
+    local progress_gui,progress_world,progress_key
+    function self:set_asset_progress(fraction,message)
+        if not fraction and not progress_gui then return true end
+        local sr=globals.stingray
+        if not sr or not sr.Gui or not sr.World or not sr.Application then return true end
+        local world=sr.Application.main_world()
+        local live=false
+        for _,candidate in pairs(sr.Application.worlds())do if candidate==world then live=true;break end end
+        if not live then progress_gui,progress_world,progress_key=nil,nil,nil;return true end
+        if progress_world~=world then progress_gui,progress_world,progress_key=nil,world,nil end
+        local key=fraction and tostring(fraction)..tostring(message)or nil
+        if key==progress_key then return true end
+        if progress_gui then sr.World.destroy_gui(world,progress_gui);progress_gui=nil end
+        progress_key=key
+        if not fraction then return true end
+        local sw,sh=sr.Gui.resolution();local width=math.min(620,sw*.6);local x=(sw-width)/2;local y=sh*.12
+        progress_gui=assert(sr.World.create_screen_gui(world,'scale',1,1))
+        local function color(r,g,b)return sr.Color(255,r,g,b)end
+        local function rect(px,py,w,h,r,g,b)sr.Gui.rect(progress_gui,sr.Vector3(px,py,900),sr.Vector2(w,h),color(r,g,b))end
+        rect(x-16,y-16,width+32,88,25,27,29);rect(x,y,width,5,65,66,68)
+        rect(x,y,width*math.max(0,math.min(1,fraction)),5,255,210,70)
+        local font='core/performance_hud/debug'
+        sr.Gui.text(progress_gui,'ARMORY / PREPARING ASSETS',font,20,font,sr.Vector3(x,y+43,901),color(255,210,70))
+        sr.Gui.text(progress_gui,message or 'Loading...',font,16,font,sr.Vector3(x,y+20,901),color(238,238,234))
+        return true
+    end
     function self:set_combat_state(value)
         assert(type(value)=='boolean','Combat status must be boolean')
         if self.combat==value then return true end
@@ -200,6 +228,7 @@ function M.new(options)
     end
     local function update()
         if not self.enabled or self.closing then
+            self:set_asset_progress(nil)
             local done,why=stop_terminal();if not done then return false,why end
             assets:update(false);self.reason=self.closing and'Wall terminal stopped'or'Wall terminal disabled';return true
         end
@@ -208,7 +237,7 @@ function M.new(options)
         if probing then
             self.next_probe=now()+zone.poll_seconds
             local observed,v=pcall(options.observe)
-            if not observed or not gate(v)then self.view=nil;self.near=false;self.armed=false;self.input_owner=nil
+            if not observed or not gate(v)then self:set_asset_progress(nil);self.view=nil;self.near=false;self.armed=false;self.input_owner=nil
             else
                 local session={};local changed=false
                 for _,key in ipairs({'game','world','pm','lc','avatar','ep'})do
@@ -220,6 +249,7 @@ function M.new(options)
                     self.reason='Reinitializing Bridge Combat for the new bridge actor';return true
                 end
                 self.session=session
+                if options.on_bridge_ready then options.on_bridge_ready(v)end
                 if not self.view or self.view.token~=v.token then self.armed=false;self.input_owner=nil end
                 self.view=v;local x,y,z=position(v);self.near=(x-zone.x)^2+(y-zone.y)^2<=zone.radius^2 and math.abs(z-zone.z)<=zone.vertical
                 local loaded,ready,why=pcall(assets.update,assets,true,v)
@@ -284,6 +314,7 @@ function M.new(options)
         local stopped,reason=stop_terminal();return stopped,not stopped and reason or self.reason
     end
     function self:shutdown()
+        self:set_asset_progress(nil)
         self.closing=true;self.enabled=false;self.place_requested=nil;refill:shutdown();support:shutdown()
         local done,why=stop_terminal();if done~=true then return false,why end
         assets:shutdown();self.reason='Wall terminal stopped';return true

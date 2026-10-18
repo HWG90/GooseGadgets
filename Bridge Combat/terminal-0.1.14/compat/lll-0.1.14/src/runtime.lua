@@ -304,6 +304,7 @@ function M.new(options)
     local ammo_station=options.ammo_station or load('src/wall_station.lua').new({io=io,backend=backend,load=load,
         support=support,anchor=wall_anchor,observe=raw_observe,globals=options.globals,now=options.now,log=log,
         config=options.config,save=options.save,on_session_changed=function()self.reinitialize=true end,
+        on_bridge_ready=function(view)self.preload_requested=true;self.preload_view=view end,
         set_combat=function(value)if options.set_combat then return options.set_combat(value)end;return self:set_enabled(value)end,
         ensure_combat=function()
             if self.enabled then return true end
@@ -401,6 +402,9 @@ function M.new(options)
         end
         if phase==self.combat_phase and message==self.combat_message then return end
         self.combat_phase,self.combat_message=phase,message
+        if ammo_station.set_asset_progress and phase=='loading' then
+            ammo_station:set_asset_progress(not ui_assets_ready and .15 or not fx_assets_ready and .6 or .9,message)
+        elseif ammo_station.set_asset_progress and phase=='ready' then ammo_station:set_asset_progress(nil)end
         if ammo_station.set_combat_progress then ammo_station:set_combat_progress(phase,message)end
     end
     function self:combat_loading()return self.combat_phase=='loading' end
@@ -410,7 +414,7 @@ function M.new(options)
         if not value then self.latched=false;weapon_ui_paused=false;weapon_resume_delay=0 end
         if self.enabled~=value then initialization_retry=0 end
         self.enabled=value
-        if not value then ui_assets_ready,fx_assets_ready=false,false end
+        if not value and not self.preload_requested then ui_assets_ready,fx_assets_ready=false,false end
         animation:set_enabled(value)
         publish_progress()
         if ammo_station.set_combat_state then ammo_station:set_combat_state(value)end
@@ -493,6 +497,27 @@ function M.new(options)
         local station_called,station_done,station_why=pcall(ammo_station.update,ammo_station)
         if self.reinitialize then return true end
         station_reason=not station_called and tostring(station_done)or station_done~=true and(station_why or'Wall terminal waiting')or nil
+        -- The station's existing bridge lifecycle probe starts warmup. Once
+        -- ready, this branch is idle until a new runtime owns the returned ship.
+        if self.preload_requested and not self.enabled and not base.active
+            and animation:is_clean() and weapon_menu:is_clean() then
+            if ui_assets_ready and fx_assets_ready then return true end
+            initialization_retry=math.max(0,initialization_retry-(type(dt)=='number'and math.max(0,math.min(dt,1))or .016))
+            if initialization_retry>0.000001 then return true end
+            initialization_retry=.5;observe()
+            asset_update_frame=true
+            local called,ready=pcall(ui_assets.update,ui_assets,true,observation)
+            ui_assets_ready=called and ready==true
+            local fx_called,fx_ready=pcall(fx_assets.update,fx_assets,true,observation)
+            fx_assets_ready=fx_called and fx_ready==true
+            asset_update_frame=false
+            if ammo_station.set_asset_progress then
+                local fraction
+                if not(ui_assets_ready and fx_assets_ready)and observation and observation.can_start then fraction=ui_assets_ready and .6 or .15 end
+                ammo_station:set_asset_progress(fraction,ui_assets_ready and 'Loading weapon effects and audio...' or 'Loading combat HUD assets...')
+            end
+            return true
+        end
         if one_shot and self.latched and self.enabled then
             if weapon_ui_paused then
                 weapon_resume_delay=math.max(0,weapon_resume_delay-(type(dt)=='number'and math.max(0,math.min(dt,1))or .016))
@@ -543,14 +568,15 @@ function M.new(options)
         end
         update_owners(dt)
         asset_update_frame=true
-        local called,ready,why=pcall(ui_assets.update,ui_assets,self.enabled,observation)
+        local asset_enabled=self.enabled or self.preload_requested==true
+        local called,ready,why=pcall(ui_assets.update,ui_assets,asset_enabled,observation)
         asset_update_frame=false
-        ui_assets_ready=self.enabled and called and ready==true or false
+        ui_assets_ready=asset_enabled and called and ready==true or false
         ui_assets_reason=not called and tostring(ready)or ready~=true and tostring(why or 'Loading bridge UI assets')or nil
         asset_update_frame=true
-        local fx_called,fx_ready,fx_why=pcall(fx_assets.update,fx_assets,self.enabled,observation)
+        local fx_called,fx_ready,fx_why=pcall(fx_assets.update,fx_assets,asset_enabled,observation)
         asset_update_frame=false
-        fx_assets_ready=self.enabled and fx_called and fx_ready==true or false
+        fx_assets_ready=asset_enabled and fx_called and fx_ready==true or false
         fx_assets_reason=not fx_called and tostring(fx_ready)or fx_ready~=true and tostring(fx_why or 'Loading bridge FX assets')or nil
         if self.enabled then
             local hide=base_matches(observation) and observation.menu_closed==true

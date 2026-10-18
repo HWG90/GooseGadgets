@@ -83,7 +83,7 @@ local function fixture(options)
     f.visibility=visibility
     local backend={write=function()record('backend.write');return true end,
         call=function(_,name)record('backend.call.'..name);return true end}
-    local ammo={set_combat_progress=function(_,phase,message)f.progress=f.progress or {};f.progress[#f.progress+1]={phase=phase,message=message}end,set_enabled=function(_,v)f.ammo_enabled=v;f.support_enabled=v;return true end,
+    local ammo={set_asset_progress=function(_,fraction,message)f.asset_progress=f.asset_progress or {};f.asset_progress[#f.asset_progress+1]={fraction=fraction,message=message}end,set_combat_progress=function(_,phase,message)f.progress=f.progress or {};f.progress[#f.progress+1]={phase=phase,message=message}end,set_enabled=function(_,v)f.ammo_enabled=v;f.support_enabled=v;return true end,
         update=function()if f.station_throw then error('Synthetic station failure')end;if f.ammo_enabled then f.ammo_updates=(f.ammo_updates or 0)+1;f.support_updates=(f.support_updates or 0)+1 end;if f.station_pending then return false,'Station cursor cleanup pending'end;return true end,
         queue_refill=function()f.refills=(f.refills or 0)+1;return true end,
         queue_support=function(_,index)f.support_index=index;return true end,queue_place=function()f.placement_queued=true;return true end,
@@ -484,4 +484,19 @@ end)
     eq(f.calls.observe,before,'Loading re-observed the actor every frame');eq(calls,1)
     f.runtime:update(.5);eq(f.calls.observe,before+1);eq(calls,2)
     assert(f.runtime:set_enabled(false));f.runtime:update(.001);yes(not f.runtime.enabled);yes(f.animation:is_clean());eq(f.base.active,nil)
+end)
+
+test('ship warmup keeps combat off, bounds discovery and becomes idle',function()
+    local ready=false;local calls=0
+    local f=fixture({fx_assets={update=function(_,enabled)yes(enabled);calls=calls+1;return ready end,shutdown=function()return true end}})
+    f.runtime.preload_requested=true
+    f.runtime:update(.001);eq(calls,1);eq(f.runtime.enabled,false);eq(f.base.active,nil)
+    for _=1,100 do f.runtime:update(.001)end
+    eq(calls,1,'Warmup polled every frame')
+    ready=true;f.runtime:update(.5);eq(calls,2);eq(f.asset_progress[#f.asset_progress].fraction,nil,'Ready overlay left visible')
+    local observed=f.calls.observe;local published=#f.asset_progress
+    for _=1,100 do f.runtime:update(.016)end
+    eq(calls,2);eq(f.calls.observe,observed);eq(#f.asset_progress,published);eq(f.base.active,nil)
+    f.runtime:set_enabled(true);f.tick(20);yes(f.base.active,'Warmed assets did not allow combat')
+    f.runtime:set_enabled(false);f.tick(20);eq(f.base.active,nil);eq(f.runtime.enabled,false)
 end)

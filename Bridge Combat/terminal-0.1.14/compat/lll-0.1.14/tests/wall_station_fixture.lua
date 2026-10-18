@@ -206,3 +206,20 @@ end)
     f.down=true;assert(f:tick(.01));assert(gates>n and f.opens==1,'Interact did not validate before capturing')
     assert(f.owner:shutdown())
 end)
+
+test('loading overlay is retained, stage-driven and retired with its world',function()
+    local f=fixture();local world={};local created,destroyed,rects=0,0,0
+    local sr={Application={main_world=function()return world end,worlds=function()return{world}end},World={
+        create_screen_gui=function()created=created+1;return{}end,
+        destroy_gui=function(w)assert(w==world);destroyed=destroyed+1 end},
+        Gui={resolution=function()return 1920,1080 end,rect=function()rects=rects+1 end,text=function()end},
+        Vector3=function(...)return{...}end,Vector2=function(...)return{...}end,Color=function(...)return{...}end}
+    f.globals.stingray=sr
+    f.owner:set_asset_progress(.15,'Loading HUD');assert(created==1 and rects==3)
+    for _=1,100 do f.owner:set_asset_progress(.15,'Loading HUD')end
+    assert(created==1 and destroyed==0 and rects==3)
+    f.owner:set_asset_progress(.6,'Loading effects');assert(created==2 and destroyed==1)
+    world={};f.owner:set_asset_progress(.6,'Loading effects');assert(created==3 and destroyed==1)
+    f.owner:set_asset_progress(nil);assert(destroyed==2)
+    f.owner:set_asset_progress(nil);assert(destroyed==2)
+end)
