@@ -2,7 +2,8 @@
 -- MCM Off, actor changes and mod reload. There is no final package unload here.
 local M={}
 local KEY='GOOSE_BRIDGE_COMBAT_FX_ASSETS_V1'
-local REVISION='mission-weapon-and-ui-audio-20261018'
+local REVISION='mission-generated-fx-20261018'
+local AUDIO_REVISION='mission-weapon-and-ui-audio-20261018'
 local PRIOR_REVISION='mission-weapon-dependencies-20261018'
 local LEGACY_REVISION='common25-tracer8-20261016'
 local function bytes(s)assert(type(s)=='string'and #s==16 and not s:find('[^%x]'),'Invalid FX catalog key');return(s:gsub('%x%x',function(x)return string.char(tonumber(x,16))end)):reverse()end
@@ -38,6 +39,7 @@ function M.new(options)
             assert(type(state)=='table'and state.schema==1 and state.game==identity.game and state.exe==identity.exe
                 and type(state.jobs)=='table'and state.slot and state.phase
                 and (state.revision==REVISION and #state.jobs==#catalog
+                    or state.revision==AUDIO_REVISION and #state.jobs==5
                     or state.revision==PRIOR_REVISION and #state.jobs==4
                     or state.revision==LEGACY_REVISION and #state.jobs==2),'Previous FX journal identity is unavailable')
             for i,job in ipairs(state.jobs)do

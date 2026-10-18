@@ -500,3 +500,10 @@ test('ship warmup keeps combat off, bounds discovery and becomes idle',function(
     f.runtime:set_enabled(true);f.tick(20);yes(f.base.active,'Warmed assets did not allow combat')
     f.runtime:set_enabled(false);f.tick(20);eq(f.base.active,nil);eq(f.runtime.enabled,false)
 end)
+test('suspended HUD retires during mission travel without waiting for bridge readiness',function()
+    local n=native_menu_fixture();local f=fixture({one_shot=true,weapon_menu=n});n.update_settled=function()return true end
+    f.enable();yes(f.runtime.latched);eq(n.acquires,1)
+    n.update_settled=function()return false,'Old bridge actor retired'end;f.unknown=true
+    f.tick(5);yes(n.clean,'Native Mission handoff was never requested');eq(n.stops,1);eq(n.acquires,1)
+    local before=n.stops;f.tick(30);eq(n.stops,before,'Completed handoff repeated destructive cleanup')
+end)

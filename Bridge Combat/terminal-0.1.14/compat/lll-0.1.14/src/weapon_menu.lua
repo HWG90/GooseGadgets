@@ -14,6 +14,7 @@ function M.new(options)
     local function report(reason)self.reason=reason;if last_message~=reason then log('Weapon menu: '..tostring(reason));last_message=reason end end
     local function state()local ok,s=pcall(native.status,native);if ok and type(s)=='table'then return s end;return nil end
     function self:is_clean()return clean(state())end
+    function self:ownership()return state()end
     function self:cleanup()
         if self:is_clean()then self.token=nil;return true end
         local called,done,why=pcall(native.stop,native)

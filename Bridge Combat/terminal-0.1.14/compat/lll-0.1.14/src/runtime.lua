@@ -530,7 +530,9 @@ function M.new(options)
                     self.latched=false;self.reinitialize=true;weapon_menu_reason='Combat actor retired'
                     return false,weapon_menu_reason
                 end
-                if observation and observation.menu_closed==true and observation.ready==true then
+                if not observation or observation.menu_closed==true then
+                    -- A suspended owner must also retire during mission travel,
+                    -- while stock Mission widgets provide the native handoff.
                     local done,why=weapon_menu_step(dt)
                     if done==true and not weapon_menu:is_clean()then
                         weapon_ui_paused=false;weapon_menu_reason=nil
@@ -605,10 +607,16 @@ function M.new(options)
         return called and type(view)=='table' and view.menu_closed==true
             and (view.can_start==true or view.hold==true) or false
     end
+    local ship_return
     function self:shutdown()
         self.closing=true;self.enabled=false;self.latched=false
         local station_done,station_why=ammo_station:shutdown()
         if station_done~=true then return false,station_why or'Wall terminal cleanup is pending'end
+        if self.reinitialize and base.active and weapon_menu.ownership and not weapon_menu:is_clean() then
+            ship_return=ship_return or load('src/ship_return.lua').new(io,backend)
+            local ok,view=pcall(raw_observe)
+            if ok then local done,why=pcall(ship_return.repair,ship_return,base.active,view,weapon_menu:ownership());if not done then return false,tostring(why)end end
+        end
         local menu_done,menu_why=weapon_menu:shutdown()
         if menu_done~=true or not weapon_menu:is_clean()then return false,menu_why or 'Native weapon menu release is pending'end
         ui_assets:shutdown()

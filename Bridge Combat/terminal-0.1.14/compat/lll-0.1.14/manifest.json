@@ -12,6 +12,7 @@
       "src/controller.lua",
       "src/mcm.lua",
       "src/runtime.lua",
+      "src/ship_return.lua",
       "src/bindings.lua",
       "src/ammo_console.lua",
       "src/ammo_station_anchor.lua",

@@ -14,7 +14,7 @@ local function key(s)
 end
 local function address(p)assert(type(p)=='number'and p%1==0 and p>=65536 and p<2^47,'Resource pointer unavailable');return p end
 function M.new(io,b,checks)
-    assert(type(checks)=='table'and #checks>0 and #checks<=64,'One to64 typed resources required')
+    assert(type(checks)=='table'and #checks>0 and #checks<=128,'One to128 typed resources required')
     local lookup={}
     for _,check in ipairs(checks)do
         assert(type(check)=='table'and type(check.type)=='string'and TYPES[check.type:upper()],'Unapproved resource type')

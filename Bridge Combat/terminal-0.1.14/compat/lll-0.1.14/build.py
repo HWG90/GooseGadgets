@@ -20,7 +20,7 @@ SHARED = {
     "ship_visibility": "src/ship_visibility.lua",
 }
 LOCAL = ("src/terminal_render.lua", "src/terminal_services.lua", "src/terminal_input_binary.lua", "main.lua", "manifest.json", "README.md", "LICENSE", "config/defaults.cfg",
-         "src/backend.lua", "src/controller.lua", "src/mcm.lua", "src/runtime.lua",
+         "src/ship_return.lua", "src/backend.lua", "src/controller.lua", "src/mcm.lua", "src/runtime.lua",
          "src/bindings.lua", "src/ammo_console.lua", "src/ammo_station_anchor.lua",
          "src/support_weapons.lua", "src/support_catalogue.lua", "src/terminal_icons.lua", "TERMINAL-ICONS.md",
          "src/wall_station.lua", "src/wall_terminal.lua", "src/wall_camera.lua", "src/wall_zoom.lua", "src/wall_pointer.lua",
