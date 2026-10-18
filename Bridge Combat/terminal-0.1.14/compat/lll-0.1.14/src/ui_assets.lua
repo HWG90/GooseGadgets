@@ -154,13 +154,31 @@ function M.new(options)
         if bound and self.state and self.state.clock()<self.state.next_at then return false,self.reason end
         if not bound and now()<self.retry_at then return false,self.reason end
         if not allowed()then return false,'Waiting for solo bridge gameplay'end
+        local began=now()
         local ok,ready,why=pcall(function()
             if not bound then attach()end
             local state=self.state
             if state.phase=='pending'then return false,self.reason end
             local time=state.clock()
             if time<state.next_at then return false,self.reason end
-            state.next_at=time+state.backoff
+            self.load_profile=self.load_profile or {started=time,requested={},ready={}}
+            state.next_at=time+.25
+            -- Queue both independent providers before waiting for either one.
+            for _,job in ipairs({{name='materials',lease=state.material,package=state.material_package,keys=state.material_keys},
+                {name='atlas',lease=state.atlas,package=state.atlas_package,keys={state.material_keys[1]}}})do
+                local status=job.lease:status()
+                if status.phase=='empty'then
+                    local accepted,reason=job.lease:acquire(job.package,job.keys)
+                    if accepted~=true then
+                        status=job.lease:status()
+                        if status.phase=='request_calling'or status.phase=='release_calling'then state.phase='pending';state.next_at=math.huge end
+                        report(reason or 'Requesting '..job.name);return false,self.reason
+                    end
+                    self.load_profile.requested[job.name]=state.clock()-self.load_profile.started
+                elseif status.phase=='request_calling'or status.phase=='release_calling'then
+                    state.phase='pending';state.next_at=math.huge;report('An asset request is unacknowledged; journal retained');return false,self.reason
+                end
+            end
             local function recover(lease,package)
                 if not state.ever_ready then return false,'Initial provider loading is still pending'end
                 if not state.loss then
@@ -202,12 +220,12 @@ function M.new(options)
             if not state.materials_ready then
                 local materials,reason=prepare(state.material,state.material_package,state.material_keys)
                 if materials~=true then state.backoff=math.min(15,state.backoff*2);report(reason or 'Loading material provider');return false,self.reason end
-                state.materials_ready=true
+                state.materials_ready=true;self.load_profile.ready.materials=state.clock()-self.load_profile.started
             end
             if not state.atlas_loaded then
                 local atlas,problem=prepare(state.atlas,state.atlas_package,{state.material_keys[1]})
                 if atlas~=true then state.backoff=math.min(15,state.backoff*2);report(problem or 'Loading atlas provider');return false,self.reason end
-                state.atlas_loaded=true
+                state.atlas_loaded=true;self.load_profile.ready.atlas=state.clock()-self.load_profile.started
             end
             local bases,base_reason=drop_ready(state.slot.io)
             if bases~=true then state.drop_materials_ready=false;state.backoff=math.min(15,state.backoff*2);report(base_reason);return false,self.reason end
@@ -220,8 +238,9 @@ function M.new(options)
             end
             state.phase='ready';state.next_at=math.huge;state.backoff=0.5
             state.ever_ready=true;state.loss=nil;deferred_loss=nil
-            verified_token=epoch;verify_at=state.clock()+VERIFY_SECONDS;report('Ready');return true
+            verified_token=epoch;verify_at=state.clock()+VERIFY_SECONDS;self.load_profile.elapsed=state.clock()-self.load_profile.started;log(('UI load verification: %.3fs'):format(self.load_profile.elapsed));report('Ready');return true
         end)
+        if self.load_profile then local elapsed=now()-began;local profile=self.load_profile;profile.cpu=(profile.cpu or 0)+elapsed;profile.max=math.max(profile.max or 0,elapsed);profile.passes=(profile.passes or 0)+1 end
         if not ok then report(tostring(ready));self.retry_at=now()+5;if self.state then self.state.backoff=math.min(15,self.state.backoff*2);self.state.next_at=self.state.clock()+self.state.backoff end;return false,self.reason end
         return ready,why
     end

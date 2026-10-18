@@ -207,7 +207,7 @@ test('first combat activation waits for both asset acknowledgements',function()
     local f=fixture({ui_assets={update=function()ui_calls=ui_calls+1;return ui_ready end,shutdown=function()return true end},
         fx_assets={update=function()fx_calls=fx_calls+1;return fx_ready end,shutdown=function()return true end}})
     f.runtime:set_enabled(true);f.tick(4)
-    eq(f.context,4);eq(f.base.active,nil);eq(f.calls['base.apply'],nil);eq(f.animation.active,nil);eq(ui_calls,1);eq(fx_calls,1)
+    eq(f.context,4);eq(f.base.active,nil);eq(f.calls['base.apply'],nil);eq(f.animation.active,nil);eq(ui_calls,2);eq(fx_calls,2)
     ui_ready=true;f.runtime:update(.5);eq(f.context,4);eq(f.base.active,nil)
     fx_ready=true;f.runtime:update(.5);eq(f.context,4);eq(f.base.active,nil)
     f.tick(12);eq(f.context,2);eq(f.calls['base.apply'],1);yes(f.animation.active)
@@ -476,7 +476,7 @@ test('combat loading progress follows asset readiness and stays idle when settle
     assert(f.runtime:set_enabled(false));f.tick(20);eq(f.progress[#f.progress].phase,'off')
 end)
 
- test('asset-wait discovery is bounded and Off bypasses the retry delay',function()
+ test('asset-wait discovery is bounded at 4Hz and Off bypasses the retry delay',function()
     local calls=0;local f=fixture({fx_assets={update=function()calls=calls+1;return false,'Effects pending'end,shutdown=function()return true end}})
     assert(f.runtime:set_enabled(true));f.runtime:update(.001)
     local before=f.calls.observe

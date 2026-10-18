@@ -504,7 +504,7 @@ function M.new(options)
             if ui_assets_ready and fx_assets_ready then return true end
             initialization_retry=math.max(0,initialization_retry-(type(dt)=='number'and math.max(0,math.min(dt,1))or .016))
             if initialization_retry>0.000001 then return true end
-            initialization_retry=.5;observe()
+            initialization_retry=.25;observe()
             asset_update_frame=true
             local called,ready=pcall(ui_assets.update,ui_assets,true,observation)
             ui_assets_ready=called and ready==true
@@ -547,13 +547,13 @@ function M.new(options)
             return true
         end
         -- Package completion has no subscription in this engine API. While no
-        -- actor/UI owner exists, bound its discovery/retry work to 2Hz. Explicit
+        -- actor/UI owner exists, bound its discovery/retry work to 4Hz. Explicit
         -- Off and every active/pending cleanup bypass this loading-only delay.
         if self.enabled and not base.active and animation:is_clean()and weapon_menu:is_clean()
             and(not ui_assets_ready or not fx_assets_ready)then
             initialization_retry=math.max(0,initialization_retry-(type(dt)=='number'and math.max(0,math.min(dt,1))or .016))
             if initialization_retry>0.000001 then return true end
-            initialization_retry=.5
+            initialization_retry=.25
         else initialization_retry=0 end
         if self.enabled or not animation:is_clean()or base.active or not weapon_menu:is_clean()then
             observe()

@@ -71,6 +71,7 @@ function M.new(options)
             for _,job in ipairs(state.jobs)do job.history_ready=job.ready==true;job.ready=false;job.loss_attempted=nil end
             state.phase='loading';state.next_at=0;state.backoff=.5
         end
+        self.load_profile={started=now(),requested={},ready={}}
         bound=true
     end
     function self:pause()
@@ -85,19 +86,30 @@ function M.new(options)
         if bound and self.state.clock()<self.state.next_at then return false,self.reason end
         if not bound and now()<self.retry_at then return false,self.reason end
         if not allowed()then return false,'Waiting for solo bridge gameplay'end
+        local began=now()
         local ok,ready,why=pcall(function()
             if not bound then attach()end
             local state=self.state
             if state.phase=='ready'then report('Ready');return true end
             if state.clock()<state.next_at then return false,self.reason end
-            state.next_at=state.clock()+state.backoff
-            for _,job in ipairs(state.jobs)do if not job.ready then
+            state.next_at=state.clock()+.25
+            -- Independent providers enter the native asynchronous queue together.
+            -- Accepted holds are never submitted again; ambiguity stops the batch.
+            for _,job in ipairs(state.jobs)do
                 local status=job.lease:status()
-                if status.phase=='empty'then local accepted,reason=job.lease:acquire(job.package,job.keys)
-                    if accepted~=true then state.backoff=math.min(15,state.backoff*2);report(reason or 'Requesting '..job.name..' provider');return false,self.reason end
+                if status.phase=='empty'then
+                    local accepted,reason=job.lease:acquire(job.package,job.keys)
+                    if accepted~=true then
+                        status=job.lease:status()
+                        if status.phase=='request_calling'or status.phase=='release_calling'then state.phase='pending';state.next_at=math.huge end
+                        report(reason or 'Requesting '..job.name..' provider');return false,self.reason
+                    end
+                    self.load_profile.requested[job.name]=now()-self.load_profile.started
+                elseif status.phase=='request_calling'or status.phase=='release_calling'then
+                    state.phase='pending';state.next_at=math.huge;report('An FX request is unacknowledged; journal retained');return false,self.reason
                 end
-                status=job.lease:status()
-                if status.phase=='request_calling'or status.phase=='release_calling'then state.phase='pending';state.next_at=math.huge;report('An FX request is unacknowledged; journal retained');return false,self.reason end
+            end
+            for _,job in ipairs(state.jobs)do if not job.ready then
                 local done,reason=job.lease:poll()
                 if done~=true then
                     if job.history_ready and not job.loss_attempted and options.recovery_gate then
@@ -111,14 +123,15 @@ function M.new(options)
                             report(message);return false,self.reason
                         end
                     end
-                    state.backoff=math.min(15,state.backoff*2);report(reason or 'Loading '..job.name..' provider');return false,self.reason
+                    state.backoff=.25;report(reason or 'Loading '..job.name..' provider');return false,self.reason
                 end
                 local remembered,problem=recovery:remember_ready(job.lease)
                 if remembered~=true then report(problem);return false,self.reason end
-                job.ready=true
+                job.ready=true;self.load_profile.ready[job.name]=now()-self.load_profile.started
             end end
-            state.phase='ready';state.next_at=math.huge;report('Ready');return true
+            state.phase='ready';state.next_at=math.huge;self.load_profile.elapsed=now()-self.load_profile.started;log(('FX load verification: %.3fs'):format(self.load_profile.elapsed));report('Ready');return true
         end)
+        if self.load_profile then local elapsed=now()-began;local profile=self.load_profile;profile.cpu=(profile.cpu or 0)+elapsed;profile.max=math.max(profile.max or 0,elapsed);profile.passes=(profile.passes or 0)+1 end
         if not ok then report(tostring(ready));self.retry_at=now()+5;if self.state then self.state.backoff=math.min(15,self.state.backoff*2);self.state.next_at=self.state.clock()+self.state.backoff end;return false,self.reason end
         return ready,why
     end

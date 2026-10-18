@@ -14,11 +14,17 @@ The charcoal, gold and white Armory displays a **7 × 5** icon grid on a **4096 
 
 Turning combat off removes terminal-delivered support gear, restores native ship animations and returns loadout weapons to their carried attachments. Changing areas retires the old owners and initializes the new bridge session. Shared effects are loaded through the normal package loader with exact resource checks; settled FX state does no polling.
 
+## Loading and performance
+
+Shared combat UI, effects and audio preload as normal ship gameplay becomes available; preloading does not enable combat. A retained charcoal/gold loading bar shows the current stage and disappears when ready. Independent providers are submitted together, accepted requests are never replayed, and readiness checks run at most four times per second while loading. Ready runtime asset state is idle until lifecycle invalidation.
+
+A fresh LLL process verified UI providers in 1.11 seconds and all FX/audio providers in 1.64 seconds. The old request spread was about 47 seconds due to serialized providers and 15-second retry delays. This is a loading-stage comparison, not a full old/new startup benchmark. A one-time UI verification peak of 22 ms was observed; no hitch-free startup claim is made. Detailed evidence is in CHECKPOINT.md.
+
 ## Validation and limits
 
 Experimental test build. The Recoilless material/texture dependency fix was confirmed in gameplay and after an area change. Offline fixtures cover ownership, cleanup acknowledgements, replacement ordering and idle behavior. BSL uses the same embedded modules but has not received equivalent gameplay validation for this checkpoint. Native helper results that cannot be acknowledged retain ownership and are never replayed.
 
-A solid cabinet collider remains unfinished. Native weapon audio and HUD transitions are still under live review. No account unlocks or saved loadout choices are changed.
+A fitted cabinet collision box and native weapon holstering during emotes remain unfinished. The oversized fog-producing environmental collider trial was removed and is not packaged. Native zoom audio, chat, hidden name/XP and the emote wheel have been confirmed in prior live checks. No account unlocks or saved loadout choices are changed.
 
 ## Build
 
