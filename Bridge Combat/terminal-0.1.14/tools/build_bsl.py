@@ -23,7 +23,7 @@ LLL_REVIEW = ROOT / "dist" / "releases" / "bridge-combat-0.1.14-experimental-rev
 ENTRY = "mods/goose/bridge_combat_014/startup"
 GUID = "3d9b4a1f-7c52-4e6a-8b31-9f0d2c5a6e84"
 ARCHIVE = "9ba626afa44a3aa3.patch_0"
-EXTRA_MODULES = ("bsl/mcm_bridge.lua", "bsl/render_bridge.lua")
+EXTRA_MODULES = ()
 PACKAGE_FILES = ("manifest.json", "Addon/" + ARCHIVE, "Addon/" + ARCHIVE + ".stream",
                  "Addon/" + ARCHIVE + ".gpu_resources", "README-BSL.md", "LICENSE", "TERMINAL-ICONS.md")
 STARTUP_NAME = "BridgeCombat-0.1.14-BSL-startup.lua"
@@ -101,9 +101,8 @@ def make_startup(sources: dict[str, bytes], native_asset: str, native_body: byte
 
 
 def make_package(startup: bytes) -> dict[str, bytes]:
-    description = ("Bridge Combat " + VERSION + ". Requires Bingus Shared Loader v15+ / API 1 and the original Mod Options Menu API 1. "
-                   "Optional Mod Bindings Menu v3 adds a Toggle Bridge Combat hotkey. Experimental: use your loadout on the Super Destroyer bridge. "
-                   "Includes its screen render dispatcher; the full terminal requires standalone DBF-MCM input services.")
+    description = ("Bridge Combat " + VERSION + ". Requires an existing Bingus Shared Loader v15+ / API 1 installation. "
+                   "Own terminal input, settings, rendering and native helpers are included. MCM and Mod Bindings are optional. No loader or menu framework is bundled.")
     manifest = {"Version": 1, "Guid": str(uuid.UUID(GUID)), "Author": "Goose",
                 "Name": "Bridge Combat " + VERSION, "Description": description,
                 "Options": [{"Name": "Bridge Combat " + VERSION, "Description": description, "Include": ["Addon"]}]}

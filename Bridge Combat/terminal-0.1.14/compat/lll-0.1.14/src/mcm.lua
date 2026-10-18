@@ -1,7 +1,9 @@
 local M = {}
 local ID = 'goose_bridge_combat'
 
-function M.new(controller, log)
+function M.new(controller, log, options)
+    options=options or {};local config=options.config or{}
+    local settings={enabled=config.enabled==true,ammo_station=config.ammo_station~=false}
     local self = { provider = nil, handle = nil, stopping = false }
     local last_enabled, last_problem, last_status,last_ammo
     log = log or function() end
@@ -16,6 +18,8 @@ function M.new(controller, log)
         if self.stopping then return false, 'Restoration is pending' end
         assert(type(value) == 'boolean', 'Enabled must be a boolean')
         if value == last_enabled then return true end
+        if options.save and settings.enabled~=value then local ok,why=options.save('enabled',value);if ok==false then return false,why end end
+        settings.enabled=value
         last_enabled = value
         local ok, why = controller:set_enabled(value)
         if ok == false and why then log('Bridge Combat: ' .. tostring(why)) end
@@ -31,6 +35,8 @@ function M.new(controller, log)
         if self.stopping then return false,'Restoration is pending'end
         assert(type(value)=='boolean','Ammo station must be boolean')
         if value==last_ammo then return true end
+        if options.save and settings.ammo_station~=value then local ok,why=options.save('ammo_station',value);if ok==false then return false,why end end
+        settings.ammo_station=value
         last_ammo=value
         return controller:set_ammo_station(value)
     end
@@ -73,16 +79,12 @@ function M.new(controller, log)
         if self.stopping then self:refresh_status(); return end
         local api = rawget(_G, 'DBFMCM')
         if type(api) ~= 'table' or type(api.register) ~= 'function' then
-            -- The UI is a required dependency. Queue restoration without
-            -- overwriting its saved setting; handle.get restores intent later.
-            apply(false)
-            ammo(false)
-            return problem('Waiting for DBF-MCM')
+            apply(settings.enabled);ammo(settings.ammo_station)
+            return true
         end
         if api ~= self.provider then
             if self.handle then
-                apply(false)
-                ammo(false)
+                -- Optional UI replacement must not toggle runtime owners.
                 local ok, why = pcall(self.handle.unregister)
                 if not ok then return problem(why) end
                 self.handle, self.provider = nil, nil
@@ -137,15 +139,14 @@ function M.new(controller, log)
     end
 
     function self:toggle()
-        if not registered()then return false,'Bridge Combat settings are not ready'end
+        if self.stopping then return false,'Bridge Combat cleanup pending'end
         if controller.combat_loading and controller:combat_loading()then return true,'Combat is already loading'end
-        return self:set_enabled(not self.handle.get('enabled'))
+        return self:set_enabled(not settings.enabled)
     end
     function self:set_enabled(value)
         assert(type(value)=='boolean','Enabled must be boolean')
-        if self.stopping or not registered() or self.provider~=rawget(_G,'DBFMCM') then
-            return false,'Bridge Combat settings are not ready'
-        end
+        if self.stopping then return false,'Bridge Combat cleanup pending'end
+        if not registered()or self.provider~=rawget(_G,'DBFMCM')then return apply(value)end
         if type(self.handle.set)~='function' then return false,'MCM cannot save Enabled' end
         -- Use the same saved setting and callback as the visible MCM switch.
         if self.handle.get('enabled')==value then last_enabled=nil;return apply(value)end
@@ -153,8 +154,9 @@ function M.new(controller, log)
     end
 
     function self:hotkey_allowed()
-        if self.stopping or not registered() or self.provider~=rawget(_G,'DBFMCM') then return false end
-        local api=self.provider
+        if self.stopping then return false end
+        local api=rawget(_G,'GOOSE_BRIDGE_SERVICES')or self.provider
+        if not api then return false end
         if type(api.is_open)~='function' or api.is_open() then return false end
         if type(api.menu_binding_status)~='function' then return false end
         local status=api.menu_binding_status()

@@ -11,6 +11,8 @@ local Menu={new=function()return{update=function()end,refresh_status=function()e
 local Bindings={new=function()return{update=function()end,shutdown=function()end}end}
 mod={log=function()end,config={},require=function(path)
     if path=='src/runtime.lua'then return Runtime elseif path=='src/mcm.lua'then return Menu end
+    if path=='src/terminal_render.lua'then return {}end
+    if path=='src/terminal_services.lua'then return {new=function()return{shutdown=function()return true end}end}end
     assert(path=='src/bindings.lua');return Bindings
 end}
 local main=dofile(root..'/main.lua');main.on_enable();assert(#controllers==1)

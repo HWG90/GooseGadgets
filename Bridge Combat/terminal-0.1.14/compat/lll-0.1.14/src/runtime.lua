@@ -96,8 +96,8 @@ function M.observer(backend,io,globals)
         local current,depth=u(menu+0x4294),u(menu+0x42B0)
         assert(current<53 and depth<=5,'Native menu bounds differ')
         local menu_closed=current==0 and depth==0
-        local mcm=rawget(globals,'DBFMCM')
-        local mcm_ready=type(mcm)=='table' and type(mcm.register)=='function'
+        local mcm=(rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'))
+        local mcm_ready=type(mcm)=='table' and (type(mcm.register)=='function'or type(mcm.camera_input)=='table')
         local photo,fixed,photo_provider=photo_state(globals)
         local overlap=false
         for _,key in ipairs({'NOVA_BRIDGE_EXIT_POSE_TEST','NOVA_BRIDGE_BLEND_POSE_TEST',
@@ -109,7 +109,7 @@ function M.observer(backend,io,globals)
         for _,sample in ipairs(samples)do
             assert(io.read(sample[1],sample[2])==sample[3],'Actor or menu changed during observation')
         end
-        local reason=not mcm_ready and 'Waiting for DBF-MCM'
+        local reason=not mcm_ready and 'Waiting for Bridge Combat input'
             or overlap and 'A private bridge test still owns the actor'
             or not menu_closed and 'Ship menu is open'
             or fixed and 'Photo Mode owns a fixed pose'

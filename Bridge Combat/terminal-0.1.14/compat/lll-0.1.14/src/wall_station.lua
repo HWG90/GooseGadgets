@@ -50,7 +50,7 @@ function M.new(options)
     local function input_gate(v)
         if not basic(v)then return false end
         if options.gate then return options.gate(v)==true end
-        local api=rawget(globals,'DBFMCM');if type(api)~='table'or type(api.is_open)~='function'or api.is_open()~=false or type(api.menu_binding_status)~='function'then return false end
+        local api=(rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'));if type(api)~='table'or type(api.is_open)~='function'or api.is_open()~=false or type(api.menu_binding_status)~='function'then return false end
         local status=api.menu_binding_status();if type(status)~='table'or status.focused~=true or status.editing~=false then return false end
         local g=v.base.game;local menu,chat=p(g+0x347CE28),p(g+0x346D538)
         return u(menu+0x4294)==0 and u(menu+0x42B0)==0 and r(chat+0x27E50,1)=='\0'and p(g+0x346D538)==chat
@@ -128,7 +128,7 @@ function M.new(options)
         self.reason=options.save and'Screen placement saved'or'Screen placement confirmed for this session';return true
     end
     local function create_terminal(preview)
-        local sr=options.sr or rawget(globals,'stingray');local mcm=rawget(globals,'DBFMCM')
+        local sr=options.sr or rawget(globals,'stingray');local mcm=(rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'))
         assert(sr and mcm and mcm.camera_input,'Terminal engine/input APIs unavailable')
         local cam=camera_owner();local placement=self.placement
         if preview then
@@ -139,7 +139,7 @@ function M.new(options)
         local zoom=(options.Zoom or load('src/wall_zoom.lua')).new({sr=sr,camera=cam,now=mcm.camera_input.now or now,placement=function()return self.placement end})
         local pointer=(options.Pointer or load('src/wall_pointer.lua')).new()
         local terminal;terminal=Terminal.new({sr=sr,bridge=render_bridge,input=mcm.camera_input,combat=self.combat==true,combat_phase=self.combat_phase,combat_message=self.combat_message,
-            available=function()return self.enabled and not self.closing and rawget(globals,'DBFMCM')==mcm and rawget(globals,'HUDRenderBridge')==render_bridge and input_gate(self.view)end,
+            available=function()return self.enabled and not self.closing and (rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'))==mcm and rawget(globals,'HUDRenderBridge')==render_bridge and input_gate(self.view)end,
             focus_render=function()if terminal and terminal.interactive then return zoom:render()end;return true end,
             project=function(x,y,z)if zoom.projection_ready and zoom:projection_ready()then return zoom:project(x,y,z)end;return cam:project(x,y,z)end,
             project_sample=function()if zoom.projection_ready and zoom:projection_ready()then return true end;return cam:sample()end,choices=support:choices(),icons=load('src/terminal_icons.lua'),
@@ -230,7 +230,7 @@ function M.new(options)
         if self.terminal and probing and self.view and self.terminal_token~=self.view.token then
             local done,why=stop_terminal();if done then self.next_probe=0 end;return done,why
         end
-        if self.terminal and(rawget(globals,'DBFMCM')~=self.terminal_mcm or rawget(globals,'HUDRenderBridge')~=self.terminal_bridge)then
+        if self.terminal and((rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'))~=self.terminal_mcm or rawget(globals,'HUDRenderBridge')~=self.terminal_bridge)then
             local done,why=stop_terminal();if done then self.next_probe=0 end;return done,why
         end
         if not probing and not(self.terminal and self.terminal.interactive)and not self.near and not self.place_requested then return true end

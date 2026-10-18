@@ -20,9 +20,9 @@ contract('discovery header intact', data:sub(1, #'-- HD2-Addon: mods/goose/bridg
     == '-- HD2-Addon: mods/goose/bridge_combat_014/startup')
 local count, bridge_module = 0, false
 for _ in data:gmatch("sources%['src/[%.%w_-]+%.lua%'%]") do count = count + 1 end
-contract('39 embedded src modules', count == 39)
+contract('42 embedded src modules', count == 42)
 for name in data:gmatch("sources%['([%.%w_/-]+%.lua)'%]") do
-    if name == 'bsl/mcm_bridge.lua' then bridge_module = true end
+    if name == 'src/terminal_services.lua' then bridge_module = true end
 end
 contract('bridge module embedded', bridge_module)
 local hex = data:match("local NATIVE_HEX = '(%x+)'\n")
@@ -31,5 +31,5 @@ contract('embedded native hex present and even length', hex ~= nil and #hex % 2 
 contract('embedded native sha256 well formed', sha ~= nil and #sha == 64)
 local asset_hash = data:match("'native/BridgeCombatWeaponMenu%-(%x+)%.dll'")
 contract('native asset name matches embedded sha prefix', asset_hash == sha:sub(1, 12))
-contract('startup mentions Mod Options entry', data:find('Mod Options > Bridge Combat > Enabled', 1, true) ~= nil)
+contract('startup mentions Mod Options entry', data:find('terminal WEAPONS FREE switch', 1, true) ~= nil)
 print('bsl_startup_compile_fixture: ' .. passed .. ' contracts passed; no game process attached')

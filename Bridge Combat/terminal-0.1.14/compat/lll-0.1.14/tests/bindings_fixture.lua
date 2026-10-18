@@ -128,3 +128,12 @@ test('MCM focus capture chat and shutdown suppress hotkey activation',function()
     f.menu:begin_shutdown();eq(f.menu:hotkey_allowed(),false);eq(f.menu:toggle(),false);f:finish()
 end)
 print(('PASS %d native binding and saved-toggle contracts'):format(count))
+
+ test('optional MCM absence preserves independent terminal settings and combat intent',function()
+    local old=_G.DBFMCM;_G.DBFMCM=nil
+    local c={set_enabled=function(self,v)self.enabled=v;return true end,set_ammo_station=function(self,v)self.ammo=v;return true end}
+    local saved={};local m=MCM.new(c,nil,{config={enabled=true,ammo_station=true},save=function(k,v)saved[k]=v;return true end})
+    assert(m:update());assert(c.enabled and c.ammo);assert(m:set_enabled(false));assert(c.enabled==false and saved.enabled==false)
+    assert(m:toggle());assert(c.enabled==true and saved.enabled==true)
+    for _=1,20 do m:update()end;assert(c.enabled and c.ammo);assert(m:shutdown());_G.DBFMCM=old
+end)

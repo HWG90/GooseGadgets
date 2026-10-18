@@ -131,6 +131,23 @@ local function save_placement(value)
     return ok, not ok and tostring(why) or nil
 end
 
+-- Only boolean runtime settings live here; screen placement has its own validated record.
+local settings_path=root..'/settings.cfg'
+local standalone_settings={enabled=false,ammo_station=true}
+do local f=io.open(settings_path,'rb');if f then local data=f:read('*a');f:close()
+    for _,key in ipairs({'enabled','ammo_station'})do local value=data:match(key..'=(%a+)');if value=='true'or value=='false'then standalone_settings[key]=value=='true'end end
+end end
+local function save_setting(key,value)
+    assert((key=='enabled'or key=='ammo_station')and type(value)=='boolean','Unsupported Bridge Combat setting')
+    local next_values={enabled=standalone_settings.enabled,ammo_station=standalone_settings.ammo_station};next_values[key]=value
+    local ok,why=pcall(function()
+        local f=assert(io.open(settings_path..'.partial','wb'));assert(f:write('enabled='..tostring(next_values.enabled)..'\nammo_station='..tostring(next_values.ammo_station)..'\n'));f:close()
+        pcall(ffi.cdef,[[int BridgeCombatBSL014_MoveFileExA(const char *,const char *,uint32_t) __asm__("MoveFileExA");]])
+        assert(ffi.load('kernel32').BridgeCombatBSL014_MoveFileExA(settings_path..'.partial',settings_path,9)~=0,'Settings replacement failed')
+    end)
+    if ok then standalone_settings[key]=value end;return ok,not ok and tostring(why)or nil
+end
+
 local previous_update = assert(rawget(_G, 'update'), 'Game update callback is unavailable')
 assert(type(previous_update) == 'function', 'Game update callback is unsupported')
 local previous_shutdown = rawget(_G, 'shutdown')
@@ -138,18 +155,22 @@ local previous_shutdown = rawget(_G, 'shutdown')
 local owner = {provider = 'BSL', version = VERSION, stopping = false}
 local wrapper, shutdown_wrapper
 local last_problem, last_station
+local probe_file=io.open(root..'/measure-once','rb');local probe
+if probe_file then probe_file:close();os.remove(root..'/measure-once');probe={frames=0,seconds=0,max=0}end
 
 local function report(why)
     why = tostring(why)
     if why ~= last_problem then log(why); last_problem = why end
 end
 
--- LLL detection: a real DBF-MCM (or the 0.2.0 BSL owner) means this entry
+-- LLL detection: its Bridge Combat record (or the 0.2.0 BSL owner) means this entry
 -- must not run. A shim installed by an earlier instance of this addon is
 -- replaceable and does not count. LLL loads its mods before the first update
 -- ticks, so a short grace window is a reliable discriminator.
 local function lll_stack_present()
     if rawget(_G, 'GOOSE_BRIDGE_COMBAT_BSL_OWNER') ~= nil then return true end
+    local loader=rawget(_G,'LiveLuaLoader')
+    if type(loader)=='table'and type(loader.records)=='table'and loader.records['live/goose_bridge_combat']then return true end
     local mcm = rawget(_G, 'DBFMCM')
     return type(mcm) == 'table' and mcm.bridgecombat_bsl_shim ~= true
         and type(mcm.mods) == 'table' and mcm.mods.goose_bridge_combat ~= nil
@@ -157,27 +178,29 @@ end
 
 local GRACE_SECONDS = 3
 local elapsed, refused, wired = 0, false, false
-local controller, menu, bindings, bridge, bridge_installed
+local controller, menu, bindings, bridge, bridge_installed, services
 
 local function wire()
     if wired or refused or owner.stopping then return end
     wired = true
     if not extract_native() then return end
-    require_module('bsl/render_bridge.lua')
-    bridge, bridge_installed = require_module('bsl/mcm_bridge.lua').install(_G, log)
+    require_module('src/terminal_render.lua')
+    assert(not rawget(_G,'GOOSE_BRIDGE_SERVICES'),'Another Bridge Combat input service is active')
+    services=require_module('src/terminal_services.lua').new({load=require_module})
+    rawset(_G,'GOOSE_BRIDGE_SERVICES',services)
     local Runtime = require_module('src/runtime.lua')
     local MCM = require_module('src/mcm.lua')
     controller = Runtime.new({load = require_module, log = log, native_dir = root,
         native_read = native_read, config = {wall_terminal = load_placement()},
         save = save_placement,enable_combat=function()if not menu then return false,'Combat settings unavailable'end;return menu:set_enabled(true)end,
         set_combat=function(value)if not menu then return false,'Combat settings unavailable'end;return menu:set_enabled(value)end})
-    menu = MCM.new(controller, log)
+    menu = MCM.new(controller, log,{config=standalone_settings,save=save_setting})
     bindings = require_module('src/bindings.lua').new({
         log = log,
         toggle = function() return menu:toggle() end,
         allowed = function() return menu:hotkey_allowed() and controller:hotkey_allowed() end,
     })
-    log('Bridge Combat ' .. VERSION .. ' loaded. Use Mod Options > Bridge Combat > Enabled, then Apply. '
+    log('Bridge Combat ' .. VERSION .. ' loaded. Use the terminal WEAPONS FREE switch. '
         .. 'Bind Toggle Bridge Combat under Options > Controls > MODS.')
 end
 
@@ -212,7 +235,8 @@ function owner.stop()
     end
     -- Only a shim this instance installed may be shut down; a real provider
     -- is shared state that belongs to its own loader.
-    if bridge and bridge_installed and bridge.shutdown then bridge.shutdown() end
+    if services then local ok,why=services.shutdown();if ok~=true then return false,why end
+        if rawget(_G,'GOOSE_BRIDGE_SERVICES')==services then rawset(_G,'GOOSE_BRIDGE_SERVICES',nil)end;services=nil end
     owner.cleaned = true
     if rawget(_G, 'update') == wrapper then rawset(_G, 'update', previous_update) end
     if rawget(_G, 'shutdown') == shutdown_wrapper then rawset(_G, 'shutdown', previous_shutdown) end
@@ -242,8 +266,11 @@ local function step(dt)
         if menu then menu:begin_shutdown()end
         local done,why=controller:shutdown();if done~=true then report(why);return end
         if menu then local released,reason=menu:shutdown();if released~=true then report(reason);return end end
+        if services then local ok,why=services.shutdown();if ok~=true then report(why);return end
+            if rawget(_G,'GOOSE_BRIDGE_SERVICES')==services then rawset(_G,'GOOSE_BRIDGE_SERVICES',nil)end;services=nil end
         controller,menu,bindings=nil,nil,nil;wired=false;wire()
     end
+    local begin=probe and services.camera_input.now()
     local called, why = pcall(function()
         menu:update()
         if bridge and bridge.update then bridge.update() end
@@ -255,6 +282,10 @@ local function step(dt)
         local station = tostring(controller:ammo_station_status())
         if station ~= last_station then log('Wall terminal: ' .. station); last_station = station end
     end)
+    if probe then
+        local t=services.camera_input.now();local cost=t-begin;probe.frames=probe.frames+1;probe.seconds=probe.seconds+cost;probe.max=math.max(probe.max,cost);probe.start=probe.start or t
+        if t-probe.start>=10 then log(string.format('PERFORMANCE update frames=%d ms/s=%.3f max_ms=%.3f station=%s',probe.frames,probe.seconds*1000/(t-probe.start),probe.max*1000,tostring(controller:ammo_station_status())));probe=nil end
+    end
     if not called then
         report('Bridge Combat update failed: ' .. tostring(why))
         owner.stop()

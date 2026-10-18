@@ -35,7 +35,7 @@ function M.new(options)
             and view.base.world == self.view.base.world and view.base.pm == self.view.base.pm
             and view.base.avatar == self.view.base.avatar, 'Wall terminal actor changed before resource request')
         assert(backend:u32(view.base.pm + 0x70) == 1, 'Wall terminal assets require a solo bridge')
-        local mcm = rawget(globals, 'DBFMCM')
+        local mcm = (rawget(globals, 'GOOSE_BRIDGE_SERVICES')or rawget(globals, 'DBFMCM'))
         assert(type(mcm) == 'table' and type(mcm.is_open) == 'function' and mcm.is_open() == false
             and type(mcm.menu_binding_status) == 'function', 'Close MCM before loading terminal assets')
         local input = mcm.menu_binding_status()

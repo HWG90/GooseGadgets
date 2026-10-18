@@ -6,7 +6,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 CASES = [HERE / "tests" / name for name in (
-    "runtime_fixture.lua", "session_restart_fixture.lua", "one_shot_cleanup_fixture.lua", "cleanup_native_fixture.lua", "ui_assets_fixture.lua", "ui_package_fixture.lua",
+    "terminal_services_fixture.lua", "runtime_fixture.lua", "session_restart_fixture.lua", "one_shot_cleanup_fixture.lua", "cleanup_native_fixture.lua", "ui_assets_fixture.lua", "ui_package_fixture.lua",
     "ui_material_fixture.lua", "ui_atlas_fixture.lua", "ui_package_recovery_fixture.lua", "fx_assets_fixture.lua",
     "fx_resource_fixture.lua", "weapon_menu_fixture.lua", "weapon_menu_native_fixture.lua",
     "sha256_fixture.lua", "bindings_fixture.lua", "ammo_console_fixture.lua",

@@ -1,4 +1,4 @@
-local controller, menu, bindings
+local controller, menu, bindings, services
 local stopping = false
 
 local function log(message)
@@ -18,6 +18,8 @@ local function shutdown()
         local done, why = menu:shutdown()
         if done ~= true then return false, why end
     end
+    if services then local ok,why=services.shutdown();if ok~=true then return false,why end
+        if rawget(_G,'GOOSE_BRIDGE_SERVICES')==services then rawset(_G,'GOOSE_BRIDGE_SERVICES',nil)end;services=nil end
     controller, menu, bindings = nil, nil, nil
     return true
 end
@@ -27,11 +29,15 @@ local function start()
         stopping = false
         local Runtime = mod.require('src/runtime.lua')
         local MCM = mod.require('src/mcm.lua')
+        mod.require('src/terminal_render.lua')
+        assert(not rawget(_G,'GOOSE_BRIDGE_SERVICES'),'Another Bridge Combat input service is active')
+        services=mod.require('src/terminal_services.lua').new({load=mod.require})
+        rawset(_G,'GOOSE_BRIDGE_SERVICES',services)
         controller = Runtime.new({load=mod.require,log=log,native_dir=mod.dir,native_read=mod.read,
             config=mod.config,save=function(value)return mod.set('wall_terminal',value)end,
             enable_combat=function()if not menu then return false,'Combat settings unavailable'end;return menu:set_enabled(true)end,
             set_combat=function(value)if not menu then return false,'Combat settings unavailable'end;return menu:set_enabled(value)end})
-        menu = MCM.new(controller, log)
+        menu = MCM.new(controller, log,{config=mod.config,save=function(k,v)return mod.set(k,v)end})
         menu:update()
         bindings = mod.require('src/bindings.lua').new({
             toggle=function()return menu:toggle()end,

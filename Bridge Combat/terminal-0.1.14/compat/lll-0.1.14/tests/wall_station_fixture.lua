@@ -40,7 +40,7 @@ local function fixture(config)
             project=function()return 100,100 end}
     end}
     local Terminal={new=function(options)
-        assert(options.bridge==f.globals.HUDRenderBridge and options.input==f.globals.DBFMCM.camera_input)
+        assert(options.bridge==f.globals.HUDRenderBridge and options.input==(f.globals.GOOSE_BRIDGE_SERVICES or f.globals.DBFMCM).camera_input)
         assert(#options.choices==2);f.creates=f.creates+1
         local t={options=options,interactive=false,phase='active'};f.terminals[#f.terminals+1]=t
         function t:start(p)f.starts=f.starts+1;self.placement=p;return true end
@@ -189,4 +189,11 @@ test('captured Interact follows the native action mapping when rebound',function
     down[69]=true;assert(t.options.interact_down())
     vk=70;assert(not t.options.interact_down(),'Old E binding must not remain active')
     down[70]=true;assert(t.options.interact_down())
+end)
+
+ test('independent service creates and opens the terminal with no MCM global',function()
+    local f=fixture();f.globals.GOOSE_BRIDGE_SERVICES=f.globals.DBFMCM;f.globals.DBFMCM=nil
+    f:enable();assert(f.creates==1 and f.starts==1)
+    f.down=false;assert(f:tick(.6));f.down=true;assert(f:tick(.6));assert(f.opens==1)
+    assert(f.owner:shutdown());assert(f.globals.DBFMCM==nil)
 end)

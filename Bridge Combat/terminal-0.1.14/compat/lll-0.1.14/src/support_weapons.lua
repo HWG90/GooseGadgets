@@ -51,7 +51,7 @@ function M.new(options)
             and view.menu_closed==true and not view.photo and not view.fixed_pose and view.base and view.base.scene==3,'Support request waiting for normal bridge gameplay')
         local g,_,gs=io.module('game.dll');local e,_,es=io.module('helldivers2.exe');local b=view.base
         assert(g and e and gs==0x6AB3B43F and es==0x6AB382E4 and b.game==g,'Support request build changed')
-        local m=rawget(globals,'DBFMCM');assert(type(m)=='table'and type(m.is_open)=='function'and m.is_open()==false
+        local m=(rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'));assert(type(m)=='table'and type(m.is_open)=='function'and m.is_open()==false
             and type(m.menu_binding_status)=='function','Close the console menu before delivery')
         local focus=m.menu_binding_status();assert(type(focus)=='table'and focus.focused==true and focus.editing==false,'Support request input is captured')
         local state,menu,chat=p(g+0x3326340),p(g+0x347CE28),p(g+0x346D538)

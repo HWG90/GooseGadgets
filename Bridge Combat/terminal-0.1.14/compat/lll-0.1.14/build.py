@@ -19,7 +19,7 @@ SHARED = {
     "animation_blend": "tools/live_blend_pairs.lua",
     "ship_visibility": "src/ship_visibility.lua",
 }
-LOCAL = ("main.lua", "manifest.json", "README.md", "LICENSE", "config/defaults.cfg",
+LOCAL = ("src/terminal_render.lua", "src/terminal_services.lua", "src/terminal_input_binary.lua", "main.lua", "manifest.json", "README.md", "LICENSE", "config/defaults.cfg",
          "src/backend.lua", "src/controller.lua", "src/mcm.lua", "src/runtime.lua",
          "src/bindings.lua", "src/ammo_console.lua", "src/ammo_station_anchor.lua",
          "src/support_weapons.lua", "src/support_catalogue.lua", "src/terminal_icons.lua", "TERMINAL-ICONS.md",

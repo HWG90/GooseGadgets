@@ -2,11 +2,11 @@
 
 Use your loadout on the Super Destroyer with native combat controls, animations, health/stamina, weapon options and chat. Supported game/executable builds: `6AB3B43F` / `6AB382E4`.
 
-The LLL variant requires Live Lua Loader R31+, DBF-MCM and the HUD render bridge. The separate **self-contained BSL test ZIP** bundles its mod prerequisites; use only one variant at a time.
+Choose LLL (Live Lua Loader R31+) or BSL (Bingus Shared Loader API 1). Bridge Combat includes its own terminal input, settings, render dispatcher and native helpers. MCM is optional. No loader or menu framework is bundled. Use only one variant at a time.
 
 ## Use
 
-Enable **Bridge Combat** and **Wall terminal** in MCM. At the fixed cabinet, press the game's **Interact action** to focus its screen; press Interact again or Escape to return. Rebinding Interact is supported. The virtual arrow cursor follows the display, stays within the game window and scales with it. The camera frames the cabinet and restores your view afterward.
+Enable Bridge Combat in your loader. The wall terminal is enabled by default; MCM can optionally expose its settings. At the fixed cabinet, press the game's **Interact action** to focus its screen; press Interact again or Escape to return. Rebinding Interact is supported. The virtual arrow cursor follows the display, stays within the game window and scales with it. The camera frames the cabinet and restores your view afterward.
 
 The charcoal, gold and white Armory displays a **7 × 5** icon grid on a **4096 × 2560** render target. Longer labels wrap. Mousewheel scrolls the weapon list when it exceeds the visible rows. Icons are credited in TERMINAL-ICONS.md.
 
@@ -22,4 +22,4 @@ A solid cabinet collider remains unfinished. Native weapon audio and HUD transit
 
 ## Build
 
-Run `py -3 compat/lll-0.1.14/verify.py`, then `py -3 compat/lll-0.1.14/build.py --output dist/releases/terminal-review --native-receipt native/weapon-menu-receipt.json` from this source folder. The immutable native DLL and receipt must match. Local distribution builders use explicitly supplied BSL/menu/MCM dependency archives; players of the self-contained test ZIP do not need those tools.
+Run `py -3 compat/lll-0.1.14/verify.py`, then `py -3 compat/lll-0.1.14/build.py --output dist/releases/terminal-review --native-receipt native/weapon-menu-receipt.json` from this source folder. The immutable native DLL and receipt must match. The BSL builder embeds the same allowlisted modules; no external menu or loader archives are combined. Build the independent input helper with `py -3 native/build_terminal_input.py` when changing its native source.

@@ -34,7 +34,7 @@ function M.new(options)
         if type(view)~='table'or view.can_start~=true or(view.context~=2 and view.context~=4)
             or view.menu_closed~=true or view.photo or view.fixed_pose or not view.base or view.base.scene~=3 then return false end
         if options.gate then return options.gate(view)==true end
-        local m=rawget(globals,'DBFMCM')
+        local m=(rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'))
         if type(m)~='table'or type(m.is_open)~='function'or m.is_open()~=false or type(m.menu_binding_status)~='function'then return false end
         local status=m.menu_binding_status()
         if type(status)~='table'or status.focused~=true or status.editing~=false then return false end
@@ -103,7 +103,7 @@ function M.new(options)
     end
     local function open_console(view)
         if options.open_console then return options.open_console(view)end
-        local api=rawget(globals,'DBFMCM')
+        local api=(rawget(globals,'GOOSE_BRIDGE_SERVICES')or rawget(globals,'DBFMCM'))
         assert(type(api)=='table'and type(api.focus_page)=='function','Console page is unavailable')
         return api.focus_page('goose_bridge_combat','console')
     end

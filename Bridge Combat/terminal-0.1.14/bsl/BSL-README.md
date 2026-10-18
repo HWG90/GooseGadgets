@@ -1,9 +1,11 @@
-# Bridge Combat 0.1.14 experimental — BSL
+# Bridge Combat - independent BSL package
 
-This addon embeds the validated LLL module bytes, its terminal render dispatcher and the same immutable native weapon-menu helper. For an installation with **no separate mod prerequisites**, use **BridgeCombat-0.1.14-SelfContained-BSL-Test.zip**. That archive includes BSL, Mod Options, Mod Bindings and standalone DBF-MCM. Disable duplicate Bridge Combat, loader, menu and MCM packages before deploying it.
+Requires an existing compatible Bingus Shared Loader installation. No loader, MCM, Mod Options or Mod Bindings framework is bundled or required by the terminal.
 
-The addon-only BSL ZIP requires a compatible BSL installation, Mod Options and standalone DBF-MCM. Use one Bridge Combat variant per process. The addon refuses a competing LLL DBF-MCM owner.
+Enable this package and disable other Bridge Combat variants. The fixed Armory terminal loads on the solo bridge. Interact opens it and frames the display; Interact again or Escape releases it. Native action mappings follow your Interact binding. The flat arrow stays inside the screen, with raw mouse movement and native wheel scrolling through the 7x5 weapon grid.
 
-Import the ZIP in Arsenal or HD2MM, deploy it, and start the game normally. Bridge Combat settings control combat and the fixed Armory terminal. Interact focuses the cabinet; Interact again or Escape returns to gameplay. The 7 × 5 icon grid uses native mousewheel input. WEAPONS FREE toggles combat; requesting support gear enables it before equipping the weapon and matching backpack.
+WEAPONS FREE toggles combat. Equipping a support weapon enables combat first, replaces the previous delivered support gear and includes its matching backpack. Refill and floor cleanup remain on the terminal. Turning combat off removes delivered gear and restores the normal carried loadout.
 
-The self-contained archive is a test distribution. It does not need an external HUD package or LLL. Its assembled startup and module parity are verified offline; equivalent BSL gameplay acceptance remains pending. Do not use this alongside other Bridge Combat variants.
+Bridge Combat owns its input capture and restores the game window, cursor, and camera on release, loss of focus, cleanup or area change. Settings are stored under LocalAppData/Goose/BridgeCombat/settings.cfg; placement stays in wall-terminal.txt. MCM can optionally expose settings, and an existing Mod Bindings Menu can optionally expose the combat hotkey.
+
+This is an experimental build. Source tests and package integrity do not establish live acceptance. Cabinet collision and emote weapon holstering remain unfinished.

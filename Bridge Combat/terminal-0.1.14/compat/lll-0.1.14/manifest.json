@@ -46,7 +46,10 @@
       "src/wall_zoom.lua",
       "src/wall_pointer.lua",
       "src/wall_terminal_anchor.lua",
-      "src/wall_terminal_assets.lua"
+      "src/wall_terminal_assets.lua",
+      "src/terminal_services.lua",
+      "src/terminal_input_binary.lua",
+      "src/terminal_render.lua"
     ]
   }
 }
