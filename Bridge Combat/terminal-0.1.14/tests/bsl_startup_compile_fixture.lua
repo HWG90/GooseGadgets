@@ -1,7 +1,7 @@
 -- Compile and structure contracts for the assembled BSL startup. No game
 -- process attached; the file is only parsed, never executed.
 local root = assert(BRIDGE_COMBAT_TEST_ROOT, 'Test root is unavailable')
-local path = root .. '/dist/releases/bridge-combat-0.1.14-experimental-bsl-review/BridgeCombat-0.1.14-BSL-startup.lua'
+local path = root .. '/dist/releases/bridge-combat-0.1.15-experimental-bsl-review/BridgeCombat-0.1.15-BSL-startup.lua'
 local file = assert(io.open(path, 'rb'), 'Assembled BSL startup is unavailable')
 local data = file:read('*a'); file:close()
 local passed = 0
@@ -10,7 +10,7 @@ local function contract(name, ok)
     passed = passed + 1
 end
 
-contract('startup parses as LuaJIT source', loadstring(data, '@BridgeCombat-0.1.14-BSL-startup.lua') ~= nil)
+contract('startup parses as LuaJIT source', loadstring(data, '@BridgeCombat-0.1.15-BSL-startup.lua') ~= nil)
 contract('no template markers remain', data:find('__MODULES__', 1, true) == nil
     and data:find('__NATIVE_HEX__', 1, true) == nil
     and data:find("'__VERSION__'", 1, true) == nil
@@ -20,7 +20,7 @@ contract('discovery header intact', data:sub(1, #'-- HD2-Addon: mods/goose/bridg
     == '-- HD2-Addon: mods/goose/bridge_combat_014/startup')
 local count, bridge_module = 0, false
 for _ in data:gmatch("sources%['src/[%.%w_-]+%.lua%'%]") do count = count + 1 end
-contract('42 embedded src modules', count == 42)
+contract('43 embedded src modules', count == 43)
 for name in data:gmatch("sources%['([%.%w_/-]+%.lua)'%]") do
     if name == 'src/terminal_services.lua' then bridge_module = true end
 end

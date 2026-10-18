@@ -2,7 +2,7 @@
   "id": "goose_bridge_combat",
   "name": "Bridge Combat",
   "author": "Goose",
-  "version": "0.1.14-experimental",
+  "version": "0.1.15-experimental",
   "description": "Bridge combat with a fixed equipment terminal, focused mouse controls, resupply and support weapons.",
   "lll": {
     "entry": "main.lua",

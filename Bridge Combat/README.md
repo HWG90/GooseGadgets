@@ -2,7 +2,7 @@
 
 Experimental Helldivers 2 mod by Goose. Use your loadout on the Super Destroyer bridge, or request support weapons from an integrated Armory cabinet.
 
-The current release is **0.1.14 Experimental**. [Download the LLL or self-contained BSL package](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018). Choose one variant and disable duplicate Bridge Combat installs. Neither download bundles a loader; MCM is optional.
+The current release is **0.1.15 Experimental**. [Download the LLL or self-contained BSL package](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018). Choose one variant and disable duplicate Bridge Combat installs. Neither download bundles a loader; MCM is optional.
 
 ## What it includes
 
@@ -17,8 +17,8 @@ The current release is **0.1.14 Experimental**. [Download the LLL or self-contai
 
 | Variant | Requirement | Installation |
 | --- | --- | --- |
-| `BridgeCombat-0.1.14-experimental-LLL.zip` | Live Lua Loader R31+ | Extract the full `goose_bridge_combat` folder into `%LOCALAPPDATA%/LLL/Helldivers2/Mods`, then enable it in LLL. |
-| `BridgeCombat-0.1.14-BSL-Standalone.zip` | An existing Bingus Shared Loader installation, API 1 | Import through Arsenal or your mod manager, enable the addon, and launch normally. No MCM, Mod Options Menu, or extra input/render provider is required. |
+| `BridgeCombat-0.1.15-experimental-LLL.zip` | Live Lua Loader R31+ | Extract the full `goose_bridge_combat` folder into `%LOCALAPPDATA%/LLL/Helldivers2/Mods`, then enable it in LLL. |
+| `BridgeCombat-0.1.15-BSL-Standalone.zip` | An existing Bingus Shared Loader installation, API 1 | Import through Arsenal or your mod manager, enable the addon, and launch normally. No MCM, Mod Options Menu, or extra input/render provider is required. |
 
 The terminal is enabled by default; new combat settings start Off. MCM can optionally expose settings. Mod Bindings Menu can optionally supply a combat hotkey. The terminal works without either menu. BSL details: [installation and settings](BSL-README.md).
 
