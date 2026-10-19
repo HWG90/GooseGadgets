@@ -100,6 +100,7 @@ local function fixture(options)
         weapon_menu=options.weapon_menu or {update=function()return true end,shutdown=function()return true end,is_clean=function()return true end},
         Lifecycle={valid=function()return true end},clips=clips,pose=pose,idle=idle,assets=assets,blend=blend,
         AnimationController=Animation,load=function(path)
+            if options.ship_return_factory and path=='src/ship_return.lua'then return {new=function()return options.ship_return_factory(f)end}end
             if options.ui_factory and path=='src/ui_assets.lua'then
                 return {new=function(spec)f.recovery_gate=spec.recovery_gate;return options.ui_factory(f)end}
             end
@@ -506,4 +507,17 @@ test('suspended HUD retires during mission travel without waiting for bridge rea
     n.update_settled=function()return false,'Old bridge actor retired'end;f.unknown=true
     f.tick(5);yes(n.clean,'Native Mission handoff was never requested');eq(n.stops,1);eq(n.acquires,1)
     local before=n.stops;f.tick(30);eq(n.stops,before,'Completed handoff repeated destructive cleanup')
+end)
+
+test('unowned ship preflight runs before native acquire and stays idle in combat',function()
+ local n=native_menu_fixture();function n:ownership()return{phase=self.clean and 0 or 9,owned=not self.clean}end
+ n.update_settled=function()return true end
+ local f=fixture({one_shot=true,weapon_menu=n,ship_return_factory=function(f)
+  return{repair=function(_,lease,view,status,preflight)
+   yes(preflight);eq(view.context,2);eq(lease,f.base.active);eq(status.phase,0);eq(n.acquires,0)
+   f.record('preflight.repair');return true
+  end}
+ end})
+ f.enable();yes(f.runtime.latched);eq(f.calls['preflight.repair'],1);eq(n.acquires,1)
+ f.tick(100);eq(f.calls['preflight.repair'],1)
 end)

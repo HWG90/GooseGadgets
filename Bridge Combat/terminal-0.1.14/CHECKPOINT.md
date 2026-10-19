@@ -46,3 +46,9 @@ Focused verification, including journal migration and completely idle Ready-stat
 ## Package version 0.1.15
 
 The mission-return and generated-effects repair is released as 0.1.15 Experimental. Package manifests, runtime version and archive filenames are bumped together. Source layout, BSL startup resource identity, owner keys and settings paths remain stable for upgrade compatibility. The existing release page and its original checkpoint tag are retained; the release notes link the current source commit.
+
+## Ship-return preflight follow-up (2026-10-19)
+
+A returned ship can have Mission-active=1 and role8 set before the native menu acquires any ownership, with Mission-init=0 and all native weapon roots empty. The earlier retired-owner-only recovery did not cover this case. A separate once-per-initialization preflight journal now normalizes that stale presentation and role only for the acknowledged current combat-control actor on the ship. It requires exact builds, live generation and player row, empty widgets, closed actions and initialized Ship/no Mission owner. Owned, pending, live Mission, mismatched actor and unknown-call states are preserved. The retired-owner repair retains a separate journal.
+
+Focused stale-state/refusal/idle fixtures and runtime ordering coverage passed. The live guarded recovery cleared the stale state; reloading the saved runtime restored Ready and native weapon-menu ownership without a game restart. Another full travel-return test remains required for end-to-end automatic transition confirmation. No steady-state repair polling was added.

@@ -136,7 +136,7 @@ function M.new(options)
     local log=options.log or function()end
     local backend=options.backend or load('src/backend.lua').new(log)
     local self={enabled=false,closing=false,latched=false};local one_shot=options.one_shot~=false
-    local base,animation,weapon_menu
+    local base,animation,weapon_menu,ship_return,ship_return_preflight
     local asset_update_frame=false
     local visibility_reason,weapon_menu_reason
     local weapon_ui_paused,weapon_resume_delay=false,0
@@ -371,6 +371,16 @@ function M.new(options)
         local raw=observation
         local ready=self.enabled and ui_assets_ready and fx_assets_ready and base_matches(raw)
             and raw.ready==true and raw.context==2 and not (animation.active and animation.active.restoring)
+        -- One-time preflight repair only when the native helper owns nothing.
+        -- A stale Mission-active byte/role after travel must not block acquire.
+        if ready and weapon_menu.ownership then
+            local ownership=weapon_menu:ownership()
+            if ownership and ownership.phase==0 and not ownership.owned then
+                ship_return_preflight=ship_return_preflight or load('src/ship_return.lua').new(io,backend)
+                local ok,why=pcall(ship_return_preflight.repair,ship_return_preflight,base.active,raw,ownership,true)
+                if not ok then weapon_menu_reason=tostring(why);return false,weapon_menu_reason end
+            end
+        end
         local view=raw and {token=raw.token,pid=raw.pid,avatar=raw.base and raw.base.avatar,ready=ready}or nil
         local called,done,why=pcall(weapon_menu.update,weapon_menu,self.enabled,view,dt)
         if called and done==true then weapon_menu_reason=nil;return true end
@@ -607,7 +617,6 @@ function M.new(options)
         return called and type(view)=='table' and view.menu_closed==true
             and (view.can_start==true or view.hold==true) or false
     end
-    local ship_return
     function self:shutdown()
         self.closing=true;self.enabled=false;self.latched=false
         local station_done,station_why=ammo_station:shutdown()
