@@ -137,3 +137,9 @@ print(('PASS %d native binding and saved-toggle contracts'):format(count))
     assert(m:toggle());assert(c.enabled==true and saved.enabled==true)
     for _=1,20 do m:update()end;assert(c.enabled and c.ammo);assert(m:shutdown());_G.DBFMCM=old
 end)
+
+test('MBM v4 registers once and exposes the same action to MCM import',function()
+ local f=fixture();f.host.version=4;f:tick(false);eq(f.registrations,1)
+ for i=1,100 do f:tick(false)end;eq(f.registrations,1)
+ f:tick(true);eq(f.toggles,1)
+end)

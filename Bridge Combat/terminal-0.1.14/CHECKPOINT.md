@@ -60,3 +60,7 @@ The user confirmed automatic combat readiness after a complete mission-return te
 ## Release 0.1.16 Experimental
 
 Publishes the current-actor preflight recovery and default-Off behavior together. The user confirmed a complete mission-return cycle loads successfully. The default-Off live readback confirmed combat Off, terminal enabled and both asset groups Ready. Saved settings paths and BSL resource identity are unchanged.
+
+## Optional binding-provider compatibility (2026-10-19)
+
+Bridge Combat now accepts MBM API 1 versions 3 and 4 using the unchanged registration/readiness/action contract. The previous version-3-only check prevented registration with the installed version 4 provider, which also removed the binding from MCM import. Live readback confirms MBM registration/ready and the imported MCM Keybindings control. A version-4 fixture verifies one registration across repeated updates and normal press-edge activation; unsupported versions remain refused. The standalone terminal input path is unchanged.

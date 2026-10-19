@@ -20,7 +20,7 @@ function M.new(options)
         if self.stopping then return end
         local api=rawget(globals,'ModBindingsMenu')
         if api~=self.provider then self.provider=api;self.registered=false;refused_revision=nil;reset()end
-        if type(api)~='table'or api.api~=1 or api.version~=3
+        if type(api)~='table'or api.api~=1 or (api.version~=3 and api.version~=4)
             or type(api.register_binding)~='function'or type(api.is_down)~='function'
             or type(api.ready)~='function' then
             reset();return problem('Waiting for native Mod Bindings Menu')
