@@ -1,6 +1,6 @@
-# Bridge Combat 0.1.16 — self-contained BSL
+# Bridge Combat 0.1.17 — self-contained BSL
 
-Download `BridgeCombat-0.1.16-BSL-Standalone.zip` from the [current experimental release](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018). Import it through Arsenal or your mod manager, enable the addon, and launch normally.
+Download `BridgeCombat-0.1.17-BSL-Standalone.zip` from the [current experimental release](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018). Import it through Arsenal or your mod manager, enable the addon, and launch normally.
 
 An existing **Bingus Shared Loader / API 1** installation is required. Bridge Combat includes its own input capture, cursor confinement, scrolling, camera, render dispatch, settings and native helpers. It requires no MCM or Mod Options Menu, and bundles no loader. MCM and Mod Bindings Menu remain optional.
 

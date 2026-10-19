@@ -143,3 +143,9 @@ test('MBM v4 registers once and exposes the same action to MCM import',function(
  for i=1,100 do f:tick(false)end;eq(f.registrations,1)
  f:tick(true);eq(f.toggles,1)
 end)
+
+test('MBM numeric versions 3 and newer are accepted, older and malformed refused',function()
+ for _,version in ipairs({3,4,5,99})do local f=fixture();f.host.version=version;f:tick(false);eq(f.registrations,1)end
+ for _,version in ipairs({0,2,'3',false})do local f=fixture();f.host.version=version;f:tick(false);eq(f.registrations,0);eq(f.reads,0)end
+ local f=fixture();f.host.version=nil;f:tick(false);eq(f.registrations,0)
+end)

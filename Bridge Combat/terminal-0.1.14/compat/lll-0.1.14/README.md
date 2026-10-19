@@ -1,4 +1,4 @@
-# Bridge Combat 0.1.16 experimental — Armory terminal
+# Bridge Combat 0.1.17 experimental — Armory terminal
 
 Use your loadout on the Super Destroyer with native combat controls, animations, health/stamina, weapon options and chat. Supported game/executable builds: `6AB3B43F` / `6AB382E4`.
 

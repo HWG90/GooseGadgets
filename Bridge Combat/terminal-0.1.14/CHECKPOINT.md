@@ -64,3 +64,7 @@ Publishes the current-actor preflight recovery and default-Off behavior together
 ## Optional binding-provider compatibility (2026-10-19)
 
 Bridge Combat now accepts MBM API 1 versions 3 and 4 using the unchanged registration/readiness/action contract. The previous version-3-only check prevented registration with the installed version 4 provider, which also removed the binding from MCM import. Live readback confirms MBM registration/ready and the imported MCM Keybindings control. A version-4 fixture verifies one registration across repeated updates and normal press-edge activation; unsupported versions remain refused. The standalone terminal input path is unchanged.
+
+## Release 0.1.17
+
+Optional MBM discovery accepts numeric API 1 provider versions >=3, retaining function/readiness checks, single registration and edge quarantine. Covers both maintained binding adapters. Versions 3, 4, 5 and 99 pass compatibility fixtures; older/malformed versions remain refused.

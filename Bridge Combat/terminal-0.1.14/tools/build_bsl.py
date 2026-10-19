@@ -1,4 +1,4 @@
-"""Build the self-contained BSL Bridge Combat 0.1.16 review ZIP; never install or publish it.
+"""Build the self-contained BSL Bridge Combat 0.1.17 review ZIP; never install or publish it.
 
 Modules are taken byte-for-byte from the validated LLL review build so the BSL
 variant runs the same tested sources; the native helper is revalidated through
@@ -19,16 +19,16 @@ import zipfile
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 COMPAT = ROOT / "compat" / "lll-0.1.14"
-LLL_REVIEW = ROOT / "dist" / "releases" / "bridge-combat-0.1.16-experimental-review"
+LLL_REVIEW = ROOT / "dist" / "releases" / "bridge-combat-0.1.17-experimental-review"
 ENTRY = "mods/goose/bridge_combat_014/startup"
 GUID = "3d9b4a1f-7c52-4e6a-8b31-9f0d2c5a6e84"
 ARCHIVE = "9ba626afa44a3aa3.patch_0"
 EXTRA_MODULES = ()
 PACKAGE_FILES = ("manifest.json", "Addon/" + ARCHIVE, "Addon/" + ARCHIVE + ".stream",
                  "Addon/" + ARCHIVE + ".gpu_resources", "README-BSL.md", "LICENSE", "TERMINAL-ICONS.md")
-STARTUP_NAME = "BridgeCombat-0.1.16-BSL-startup.lua"
+STARTUP_NAME = "BridgeCombat-0.1.17-BSL-startup.lua"
 BUILD_ID = "bridge-combat-014-bsl-v1"
-VERSION = "0.1.16-experimental"
+VERSION = "0.1.17-experimental"
 
 
 def _load(name: str, path: Path):
