@@ -56,3 +56,7 @@ Focused stale-state/refusal/idle fixtures and runtime ordering coverage passed. 
 ## Default Off on each ship session (2026-10-19)
 
 The user confirmed automatic combat readiness after a complete mission-return test of the preflight repair. Combat now starts Off at startup and every new ship session, including optional MCM saved-On state. WEAPONS FREE, the action binding and weapon requests still opt in during that session. Ship-entry asset preloading and the terminal stay enabled independently. Only combat intent is reset; terminal placement and other settings are preserved. Session-restart/default-Off and existing binding contracts pass.
+
+## Release 0.1.16 Experimental
+
+Publishes the current-actor preflight recovery and default-Off behavior together. The user confirmed a complete mission-return cycle loads successfully. The default-Off live readback confirmed combat Off, terminal enabled and both asset groups Ready. Saved settings paths and BSL resource identity are unchanged.

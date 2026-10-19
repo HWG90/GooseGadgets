@@ -1,5 +1,5 @@
 -- HD2-Addon: mods/goose/bridge_combat_014/startup
--- Standalone BSL entry for Bridge Combat 0.1.15. The builder embeds every
+-- Standalone BSL entry for Bridge Combat 0.1.16. The builder embeds every
 -- module and the immutable native weapon-menu helper; nothing is read from
 -- the addon archive after this startup runs.
 -- Under the LLL stack (which also loads Bingus addons) this entry goes inert:

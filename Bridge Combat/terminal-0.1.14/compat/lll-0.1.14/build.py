@@ -1,4 +1,4 @@
-"""Build0.1.15 only with an accepted immutable persistent native-menu receipt."""
+"""Build0.1.16 only with an accepted immutable persistent native-menu receipt."""
 from pathlib import Path
 import argparse
 import hashlib
@@ -107,7 +107,7 @@ def native_payload(receipt_path):
 def build(output, native_receipt):
     manifest = json.loads((HERE / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["id"] == "goose_bridge_combat"
-    assert manifest["version"] == "0.1.15-experimental"
+    assert manifest["version"] == "0.1.16-experimental"
     native_name, native_bytes, native_spec, native = native_payload(native_receipt)
     manifest["description"] = "Bridge combat with a fixed equipment terminal, focused mouse controls, resupply and support weapons."
     manifest["native"] = {"file": native_name, "sha256": native["sha256"], "api": 1}
@@ -132,7 +132,7 @@ def build(output, native_receipt):
         target = folder / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(data)
-    archive = output / "BridgeCombat-0.1.15-experimental-LLL.zip"
+    archive = output / "BridgeCombat-0.1.16-experimental-LLL.zip"
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as z:
         for name, data in sorted(payload.items()):
             entry = zipfile.ZipInfo(manifest["id"] + "/" + name, (2026, 10, 16, 0, 0, 0))

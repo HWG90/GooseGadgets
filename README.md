@@ -4,7 +4,7 @@ Standalone Helldivers 2 mods by Goose. Each gadget has its own source, instructi
 
 | Gadget | What it does | Current downloads |
 | --- | --- | --- |
-| [Bridge Combat](Bridge%20Combat/README.md) | An integrated ship Armory with a 7 × 5 weapon-icon grid, direct support weapon/backpack delivery, native combat controls/HUD/effects, and ship-entry asset preloading with a loading bar. | [0.1.15 Experimental: LLL and self-contained BSL](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018) |
+| [Bridge Combat](Bridge%20Combat/README.md) | An integrated ship Armory with a 7 × 5 weapon-icon grid, direct support weapon/backpack delivery, native combat controls/HUD/effects, and ship-entry asset preloading with a loading bar. | [0.1.16 Experimental: LLL and self-contained BSL](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018) |
 | [Height Over Bore](Height%20Over%20Bore/README.md) | Limits projectile ADS target correction to an experimental 0.5 degrees, preserving native hip fire, third-person aiming and continuous beams. Tracks supported weapon and ADS transitions. | [0.1.3 Experimental: LLL and BSL](https://github.com/HWG90/GooseGadgets/releases/tag/hob-v0.1.3-experimental) |
 
 ## Bridge Combat
