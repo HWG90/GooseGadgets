@@ -3,7 +3,7 @@ local ID = 'goose_bridge_combat'
 
 function M.new(controller, log, options)
     options=options or {};local config=options.config or{}
-    local settings={enabled=config.enabled==true,ammo_station=config.ammo_station~=false}
+    local settings={enabled=options.start_off~=true and config.enabled==true,ammo_station=config.ammo_station~=false}
     local self = { provider = nil, handle = nil, stopping = false }
     local last_enabled, last_problem, last_status,last_ammo
     log = log or function() end
@@ -122,6 +122,10 @@ function M.new(controller, log, options)
             end
             self.provider, self.handle = api, handle
             last_enabled, last_problem,last_ammo = nil, nil,nil
+            -- A fresh ship session starts Off even if optional MCM saved On.
+            if options.start_off and handle.get('enabled')==true then
+                local ok,why=handle.set('enabled',false);if ok==false then return problem(why)end
+            end
             -- MCM restores saved values without firing on_change callbacks.
             apply(handle.get('enabled'))
             ammo(handle.get('ammo_station'))

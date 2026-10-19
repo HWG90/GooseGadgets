@@ -27,6 +27,10 @@ end
 local function start()
         assert(not controller, 'Previous Bridge Combat cleanup has not completed')
         stopping = false
+        -- Combat is opt-in for each fresh ship session; preload stays independent.
+        if mod.config.enabled==true then
+            local ok,why=mod.set('enabled',false);assert(ok~=false,why or 'Cannot reset combat intent')
+        end
         local Runtime = mod.require('src/runtime.lua')
         local MCM = mod.require('src/mcm.lua')
         mod.require('src/terminal_render.lua')
@@ -37,7 +41,7 @@ local function start()
             config=mod.config,save=function(value)return mod.set('wall_terminal',value)end,
             enable_combat=function()if not menu then return false,'Combat settings unavailable'end;return menu:set_enabled(true)end,
             set_combat=function(value)if not menu then return false,'Combat settings unavailable'end;return menu:set_enabled(value)end})
-        menu = MCM.new(controller, log,{config=mod.config,save=function(k,v)return mod.set(k,v)end})
+        menu = MCM.new(controller, log,{start_off=true,config=mod.config,save=function(k,v)return mod.set(k,v)end})
         menu:update()
         bindings = mod.require('src/bindings.lua').new({
             toggle=function()return menu:toggle()end,
