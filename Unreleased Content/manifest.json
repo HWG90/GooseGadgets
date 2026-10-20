@@ -1,0 +1,18 @@
+{
+  "id": "goose_unreleased_content",
+  "name": "Unreleased Content",
+  "author": "Goose",
+  "version": "0.1.3-experimental",
+  "description": "Adds the native LAS-22 Shear to the Armory selection catalogue.",
+  "lll": {
+    "entry": "main.lua",
+    "defaults": "config/defaults.cfg",
+    "modules": [
+      "src/catalogue.lua",
+      "src/backend.lua",
+      "src/memory.lua",
+      "src/customization.lua",
+      "src/group.lua"
+    ]
+  }
+}

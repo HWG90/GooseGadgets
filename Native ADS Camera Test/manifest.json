@@ -1,0 +1,37 @@
+{
+  "id": "goose_native_ads_camera_test",
+  "name": "Native ADS Camera Test",
+  "author": "Goose",
+  "version": "0.1.49-test",
+  "description": "Native first-person rig retention, stable head fallback, head/torso hiding, backward locomotion and live TPV hip FOV.",
+  "lll": {
+    "entry": "main.lua",
+    "defaults": "config/defaults.cfg",
+    "modules": [
+      "src/backend.lua",
+      "src/profile.lua",
+      "src/controller.lua",
+      "src/menu.lua",
+      "src/alignment.lua",
+      "src/pose.lua",
+      "src/placement_editor.lua",
+      "src/fov.lua",
+      "src/camera.lua",
+      "src/motion.lua",
+      "src/locomotion.lua",
+      "src/motion_runtime.lua",
+      "src/action_state.lua",
+      "src/camera_compat.lua",
+      "src/head_visibility.lua",
+      "src/first_person_movement.lua",
+      "src/blur.lua",
+      "src/dof.lua",
+      "src/action_placement.lua",
+      "src/fird_person.lua",
+      "src/skinned_placement.lua",
+      "src/support_hand.lua",
+      "src/head_placement.lua"
+    ],
+    "retain_until_exit": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "goose_hob_native_review",
+  "name": "Height Over Bore Native Review",
+  "author": "Goose",
+  "version": "0.1.3-native-review.2",
+  "description": "Experimental event-driven native HoB review. Start disabled; disable the existing HoB prototype before use.",
+  "lll": {
+    "entry": "main.lua",
+    "modules": [
+      "native.lua",
+      "lifecycle.lua"
+    ]
+  }
+}
