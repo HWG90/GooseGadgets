@@ -30,8 +30,12 @@ Live LLL fresh-process testing verified UI assets in **1.11 seconds** and all FX
 
 ## Compatibility and limits
 
-Windows x64; supported game/executable fingerprints `6AB3B43F` / `6AB382E4`. Unknown builds or uncertain native ownership refuse unsafe work. No account unlocks or saved loadout choices are changed.
+Windows x64; the 0.1.17 release supports game/executable fingerprints `6AB3B43F` / `6AB382E4`, and the 26251122 build below supports `6AE0E5FF` / `6AE0964A`. Unknown builds or uncertain native ownership refuse unsafe work. No account unlocks or saved loadout choices are changed.
 
 A correctly sized cabinet collision box and normal weapon holstering during emotes remain unfinished. The oversized environmental-blocker trial was removed; it is not included in either download. BSL shares the source modules and passes package/startup contracts; the newest loading timings were measured under LLL.
 
-Current source, builds and tests: [terminal-0.1.14](terminal-0.1.14/README.md). The older 0.2 actor-route investigation is preserved separately as [historical documentation](docs/LEGACY-0.2-ACTOR-ROUTE.md); it is not the current Armory release.
+## Steam build 26251122 (7.2.0 and later)
+
+The 7.2.0 game update (2026-10-20) keeps code pages encrypted until the game first runs them, which stops the 0.1.17 package on the ship. [terminal-26251122](terminal-26251122/README.md) is the same 0.1.17 design rebuilt on the 26251122 offsets, with LAS-44 Nova and AMW-20 Apex and a per-frame code warm-up on the bridge; the LLL package `0.1.17-experimental-26251122.3` is in that tree with its receipt, fixtures and evidence. LLL only (LuaJIT build); checked live on Linux under Proton on 2026-10-30, not yet on Windows itself. The Apex backpack and a BSL variant are not done.
+
+Current source, builds and tests: [terminal-0.1.14](terminal-0.1.14/README.md) for the 0.1.17 release and [terminal-26251122](terminal-26251122/README.md) for Steam build 26251122. The older 0.2 actor-route investigation is preserved separately as [historical documentation](docs/LEGACY-0.2-ACTOR-ROUTE.md); it is not the current Armory release.

@@ -1,0 +1,232 @@
+{
+ "version": "0.1.17-experimental-26251122.3",
+ "weapon_menu": {
+  "file": "native/BridgeCombatWeaponMenu-bcb24cbfd1cd.dll",
+  "sha256": "bcb24cbfd1cd47d30bca49db9cf9c70861a372c5cfca0195840daa8e41c7dbd4",
+  "bytes": 477696
+ },
+ "verify": {
+  "lua": {
+   "rows": 311,
+   "same": 43
+  },
+  "dll": {
+   "rows": 36,
+   "same": 36
+  }
+ },
+ "warmup_sites": 44,
+ "unport": {
+  "changed_lines": 283,
+  "hand": [
+   [
+    "backend.lua",
+    274,
+    "0x347CF20",
+    "0x3382000"
+   ],
+   [
+    "animation_io.lua",
+    5,
+    "0x347CF20",
+    "0x3382000"
+   ],
+   [
+    "animation_io.lua",
+    5,
+    "0x1A100F8",
+    "0x1AB7700"
+   ],
+   [
+    "support_weapons.lua",
+    115,
+    "0x1A10238",
+    "0x1AB7838"
+   ],
+   [
+    "wall_terminal_assets.lua",
+    44,
+    "0x346D538",
+    "0x2E28788"
+   ],
+   [
+    "wall_terminal_assets.lua",
+    46,
+    "0x346D538",
+    "0x2E28788"
+   ],
+   [
+    "ui_package_lease.lua",
+    34,
+    "0x3326308",
+    "0x2ce14c8"
+   ],
+   [
+    "ui_package_recovery.lua",
+    27,
+    "0x347CEB0",
+    "0x2e381e8"
+   ],
+   [
+    "ui_package_recovery.lua",
+    27,
+    "0x3326308",
+    "0x2ce14c8"
+   ],
+   [
+    "ui_package_lease.lua",
+    6,
+    "0x320DD0",
+    "0x2f01e0"
+   ],
+   [
+    "ui_package_lease.lua",
+    6,
+    "488bd1488b0d2ef46e01488b8900040000e98a282e00cccc",
+    "488bd1488b0d1e767c01488b8900040000e97a333500"
+   ],
+   [
+    "ui_package_lease.lua",
+    7,
+    "0x321030",
+    "0x2f0440"
+   ],
+   [
+    "ui_package_lease.lua",
+    7,
+    "488bd1488b0dcef16e01488b8900040000e93a2a2e00cccc",
+    "488bd1488b0dbe737c01488b8900040000e92a353500"
+   ],
+   [
+    "ui_package_lease.lua",
+    8,
+    "0x321450",
+    "0x2f0860"
+   ],
+   [
+    "ui_package_lease.lua",
+    8,
+    "48895c2408574883ec20488b05a7ed6e01488bd1488bf948",
+    "48895c2408574883ec20488b05976f7c01488bd1488bf948"
+   ],
+   [
+    "backend.lua",
+    353,
+    "pc + 0xFE0, 12",
+    "pc + 0xFD8, 12"
+   ]
+  ],
+  "keep": [
+   [
+    "animation_io.lua",
+    212
+   ],
+   [
+    "backend.lua",
+    168
+   ],
+   [
+    "sha256.lua",
+    6
+   ],
+   [
+    "sha256.lua",
+    7
+   ],
+   [
+    "sha256.lua",
+    8
+   ],
+   [
+    "sha256.lua",
+    9
+   ],
+   [
+    "sha256.lua",
+    10
+   ],
+   [
+    "ship_return.lua",
+    24
+   ],
+   [
+    "ship_visibility.lua",
+    16
+   ],
+   [
+    "ship_visibility.lua",
+    17
+   ],
+   [
+    "support_weapons.lua",
+    214
+   ],
+   [
+    "terminal_services.lua",
+    55
+   ],
+   [
+    "ui_material_readiness.lua",
+    11
+   ],
+   [
+    "ui_material_readiness.lua",
+    14
+   ]
+  ]
+ },
+ "files": {
+  "LICENSE": "b0568f2a9459b2a5b973086fd1d7c8664be9f08b6f4f73c9263070944100915d",
+  "README.md": "35d6a054ea2132d137d0bbdb7973f2ec5824d47ce00669e3959d5e23e1d69eb5",
+  "TERMINAL-ICONS.md": "0162b921e127e87fe4c2539e3e2afdf6c017c107c3d65f63870785215964281c",
+  "config/defaults.cfg": "122d429f7eae1e13536927a389e96cdeb63c5c8b12f1533a3b2b40c9fa2a7522",
+  "main.lua": "ce9b970da6b9b7e9a4cdd54179248a8090e931cae342473822106190158142d0",
+  "manifest.json": "fa5a855e4a6f000511228cddb35ff367a3346848a088d89e0193eca45c5bf38d",
+  "native/BridgeCombatWeaponMenu-bcb24cbfd1cd.dll": "bcb24cbfd1cd47d30bca49db9cf9c70861a372c5cfca0195840daa8e41c7dbd4",
+  "src/ammo_console.lua": "61ab52c651a017ae7f36b3deb5af7c9d91daf189edd40267c21fdaa18955076a",
+  "src/ammo_station_anchor.lua": "9224edc7c68b95327ed913e2164cb488bd0fd951cfdc3fd8daddd7b828f9b761",
+  "src/animation_blend.lua": "756b4005a2e6c5603c285da3b79b3cbb67bb79230fe9cf364b7feef6a235a24a",
+  "src/animation_clips.lua": "f04ccebcc13e5476706bf6116dd1b4c20d30dc0a4b293283dbfb1adf184aa1da",
+  "src/animation_controller.lua": "e97bbad939349ff3e430b9eebfa04a30838f39588e5f6d063858a931d433f91a",
+  "src/animation_idle.lua": "d1cffcc6075398d92303f80a1a2505d2280a730974e892eefd1479331bb39222",
+  "src/animation_io.lua": "8e7ae99718426621279a305968f2a57367e5faf1fd2863383fcb34a21600e8bd",
+  "src/animation_lifecycle.lua": "50b7b6f37363ee3c8b94757cef8e6a3350c9b73e0e251d1f18454617a84e39da",
+  "src/animation_packages.lua": "05f279a670f31afe2f80de4951b08b58e5b9d7d00d7a815229e7affc4c28fe5a",
+  "src/animation_pose.lua": "4b11290150c7159626f44d74da3fc56245a38e27528f62a3a543ee59a06f04e0",
+  "src/backend.lua": "7fb757ab25dc1e97622bc2929d6133ee0b83897d05fb955f82025dff3f9564be",
+  "src/bindings.lua": "b414142d56e69389aa42246084ce3d0121725f40cb0c311a1a3d34929207f437",
+  "src/code_warmup.lua": "fc2972ac2c533b18c64576c40520e6c1b2d4782c585afe60e024e53f2501bb83",
+  "src/code_warmup_sites.lua": "7c44f9409068986781bb066060d3d29773c3b35bb021a2fc2c29f7d5ab59d139",
+  "src/controller.lua": "ad9d96f4f15ac6b60935daaf9b27b88183046588eab3bb2a228662f71b7abfc0",
+  "src/fx_assets.lua": "89044a201280f8e6d8e83c8726b03881f511fa131bf3b9405832107223fbcea0",
+  "src/fx_assets_catalog.lua": "726548c6593c4d4553130d1a38940fd96fece7d8b943ad082b90f8a69b992bd2",
+  "src/fx_resource_readiness.lua": "43a7662fcf1927cbe248c70cfb0be305855803c8c225eeed91748008386233c7",
+  "src/mcm.lua": "25e7f58e572f0ececbf39c15ba60edf26a75f4892d91bcab084f4bc65669a359",
+  "src/runtime.lua": "a87cc7cead79febfe367704bb0a0587b2121ce5e1ca779bb602b63366918e8db",
+  "src/sha256.lua": "795a0d393f65b96773ddc49670d327d48022b848e5b795dd23e4a703518c4985",
+  "src/ship_return.lua": "93b5a23171fb3b3414e38350424a37a63130b71d69e6b19fbbb7211bc96f8542",
+  "src/ship_visibility.lua": "796bf1d58352ccc43c6edf597b7029d7e48ad56187482ccd5461f7675fdba9be",
+  "src/support_catalogue.lua": "0c93dda627f3df268feaaa118550ac90849dc9247576ee12f4fbc666efee200e",
+  "src/support_weapons.lua": "46985047704b6c618cc792edac99af3114bbf855e31140efd197a9976d62d6f9",
+  "src/terminal_icons.lua": "8ba74a328d95748ed4946cb1fbf921dcf052d3397a77f5155422657856f4f526",
+  "src/terminal_input_binary.lua": "e36c8813100b30b272184f1d06432f72676ac1a4bd99057cfa04ceeb5244a5a3",
+  "src/terminal_render.lua": "d6c67bc6a3e477cc0ae1efa938a5a433247757170197215d86ba415a374ca5c8",
+  "src/terminal_services.lua": "9ac9c69a250365f4fa9be1f7755d5b64512503f9795034b521fb079e12a9eedd",
+  "src/ui_assets.lua": "17ccf4132f9ec3d882b4268eb1ed7053e8f497316cbf5b99b9eb24f9007c7290",
+  "src/ui_assets_catalog.lua": "33ca84eab666a34c24968ddb167847f091f9546227bb26adc6657299f45d6cdf",
+  "src/ui_atlas_readiness.lua": "ff872dc423969bce58d2d8191da3bdaf6587d422efbe4f2ed8c0373ceaeb97b3",
+  "src/ui_material_readiness.lua": "5090355722897b30b6c459ce8c393505cf763f62f3cc84b6f6f4106249042a93",
+  "src/ui_package_lease.lua": "eae9522ef3daeed80649a57a5aed53194ee9b2fc9231b6c5879c7a922967234c",
+  "src/ui_package_recovery.lua": "c4ef96a538bcd64f21757792cb37e093a74dce9d9437a894fb67a95fbd2014a4",
+  "src/wall_camera.lua": "ac5abc0f544e6e670333c319dd72a62aa38a822e1446b9f60abbd7079f90de48",
+  "src/wall_pointer.lua": "0d91343eee5389ba97f7aad2de85611b0aa69cf172043e42ec01f62b22285543",
+  "src/wall_station.lua": "08b650d4d5597cf90196bb76b838351007486b8f3211340a2475e92edb943f3d",
+  "src/wall_terminal.lua": "f8708787d2852e5eadac1fdf30c7ca0a0aaa0e0cfbfdfdbc845dc04573b70104",
+  "src/wall_terminal_anchor.lua": "a1e189c32b8b275e51d808641fbfaf6fa013e41de56d7492f707a3bdc16e111f",
+  "src/wall_terminal_assets.lua": "b343c726ec36ee80b36ea01f4c5a8561210b5b70d8acb70638c648258f04239b",
+  "src/wall_zoom.lua": "0e4ae319228616d61c0959afc4470fa36d0a7d22c89cda675ab6d06ef3570b74",
+  "src/weapon_menu.lua": "fbc70c6dbdc52ffbe5a68de1a2afc8bf47d71d5fd60a3a36a11d7de45973f558",
+  "src/weapon_menu_binary.lua": "c4e41149886ef9fa29e69195b769cc3e35fe259003714f43c53bf028ad919a51",
+  "src/weapon_menu_native.lua": "74c32245f2c5ccde362716d9095cf0cd364acbf0cccdf6b76d4e8418369bae82"
+ }
+}

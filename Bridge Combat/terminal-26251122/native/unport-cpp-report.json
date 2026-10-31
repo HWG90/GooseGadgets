@@ -1,0 +1,603 @@
+{
+ "changed": 29,
+ "unresolved": [
+  {
+   "line": 48,
+   "text": "constexpr uintptr_t HEALTH=0x24E340+0x60,STAMINA=0x24E340+0x5778;",
+   "literals": [
+    "0x24E340",
+    "0x60",
+    "0x24E340",
+    "0x5778"
+   ]
+  },
+  {
+   "line": 95,
+   "text": "{0x1816A60,\"488bc4488958084889701048897818554154415541564157\"},",
+   "literals": [
+    "0x1816A60",
+    "488bc4488958084889701048897818554154415541564157"
+   ]
+  },
+  {
+   "line": 96,
+   "text": "{0x181DE50,\"488bc44889580848897010488978185541564157488d68a9\"},",
+   "literals": [
+    "0x181DE50",
+    "488bc44889580848897010488978185541564157488d68a9"
+   ]
+  },
+  {
+   "line": 97,
+   "text": "{0x1819A70,\"4c8bdc554155498dab38ffffff4881ecb8010000488b0585\"},",
+   "literals": [
+    "0x1819A70",
+    "4c8bdc554155498dab38ffffff4881ecb8010000488b0585"
+   ]
+  },
+  {
+   "line": 98,
+   "text": "{0x181EB90,\"4c8bdc53554881ecd8000000410f2973c8488b0568d4e100\"},",
+   "literals": [
+    "0x181EB90",
+    "4c8bdc53554881ecd8000000410f2973c8488b0568d4e100"
+   ]
+  },
+  {
+   "line": 99,
+   "text": "{0x1823910,\"488bc4488958084889701048897818554154415541564157\"},",
+   "literals": [
+    "0x1823910",
+    "488bc4488958084889701048897818554154415541564157"
+   ]
+  },
+  {
+   "line": 100,
+   "text": "{0x17B4830,\"488bc4488958105556574154415541564157488d68a14881\"},",
+   "literals": [
+    "0x17B4830",
+    "488bc4488958105556574154415541564157488d68a14881"
+   ]
+  },
+  {
+   "line": 101,
+   "text": "{0x1825F40,\"488bc4488958104889681848897020574154415541564157\"},",
+   "literals": [
+    "0x1825F40",
+    "488bc4488958104889681848897020574154415541564157"
+   ]
+  },
+  {
+   "line": 102,
+   "text": "{0x17B6560,\"488bc4488958185556574154415541564157488d68a14881\"},",
+   "literals": [
+    "0x17B6560",
+    "488bc4488958185556574154415541564157488d68a14881"
+   ]
+  },
+  {
+   "line": 103,
+   "text": "{0x144C5C0,\"40534883ec204c8bca488bd9488b91e00000004885d27454\"},",
+   "literals": [
+    "0x144C5C0",
+    "40534883ec204c8bca488bd9488b91e00000004885d27454"
+   ]
+  },
+  {
+   "line": 104,
+   "text": "{0x144C2C0,\"488b81e00000004532c94c8bc14885c0742f0f1f40006666\"},",
+   "literals": [
+    "0x144C2C0",
+    "488b81e00000004532c94c8bc14885c0742f0f1f40006666"
+   ]
+  },
+  {
+   "line": 105,
+   "text": "{0x144DD70,\"40534883ec20488bd9e8a20b00008b03c1e81283e00f83f8\"},",
+   "literals": [
+    "0x144DD70",
+    "40534883ec20488bd9e8a20b00008b03c1e81283e00f83f8"
+   ]
+  },
+  {
+   "line": 106,
+   "text": "{0xAA0AA0,\"48895c2408574883ec20488b1a488bfa4c8b89900f00004c\"},",
+   "literals": [
+    "0xAA0AA0",
+    "48895c2408574883ec20488b1a488bfa4c8b89900f00004c"
+   ]
+  },
+  {
+   "line": 107,
+   "text": "{0xAA0BB0,\"48895c2418574883ec20488bb9800f00004c8bc94c8b5a10\"},",
+   "literals": [
+    "0xAA0BB0",
+    "48895c2418574883ec20488bb9800f00004c8bc94c8b5a10"
+   ]
+  },
+  {
+   "line": 108,
+   "text": "{0x1448AD0,\"40574883ec20f30f104144488bf90f2ec17a237521f70100\"},",
+   "literals": [
+    "0x1448AD0",
+    "40574883ec20f30f104144488bf90f2ec17a237521f70100"
+   ]
+  },
+  {
+   "line": 109,
+   "text": "{0xAA0760,\"4883ec48488b05a5b8b9014833c448894424388b0148895c\"},",
+   "literals": [
+    "0xAA0760",
+    "4883ec48488b05a5b8b9014833c448894424388b0148895c"
+   ]
+  },
+  {
+   "line": 110,
+   "text": "{0x1828A70,\"4883ec3880b9d0bc0000000f85fe000000f30f101de7e2b9\"},",
+   "literals": [
+    "0x1828A70",
+    "4883ec3880b9d0bc0000000f85fe000000f30f101de7e2b9"
+   ]
+  },
+  {
+   "line": 111,
+   "text": "{0x1450DD0,\"40564881ec90000000f30f102d8f5ff7000f28e30f297c24\"},",
+   "literals": [
+    "0x1450DD0",
+    "40564881ec90000000f30f102d8f5ff7000f28e30f297c24"
+   ]
+  },
+  {
+   "line": 112,
+   "text": "{0x1448870,\"4053574883ec78f30f104144410fb6d90f2ec1488bf90f8a\"},",
+   "literals": [
+    "0x1448870",
+    "4053574883ec78f30f104144410fb6d90f2ec1488bf90f8a"
+   ]
+  },
+  {
+   "line": 113,
+   "text": "{0x137D500,\"40554883ec3080b97897080000488be90f84d30600004889\"},",
+   "literals": [
+    "0x137D500",
+    "40554883ec3080b97897080000488be90f84d30600004889"
+   ]
+  },
+  {
+   "line": 114,
+   "text": "{0x137DA69,\"488d4d08e8fe020d00488d8d\"},",
+   "literals": [
+    "0x137DA69",
+    "488d4d08e8fe020d00488d8d"
+   ]
+  },
+  {
+   "line": 115,
+   "text": "{0x12F1540,\"40554883ec3080b934e3240000488be90f84590400004889\"},",
+   "literals": [
+    "0x12F1540",
+    "40554883ec3080b934e3240000488be90f84590400004889"
+   ]
+  },
+  {
+   "line": 116,
+   "text": "{0x1446A90,\"40534883ec20448b09488bd9418bc1c1e806a8017450418b\"},",
+   "literals": [
+    "0x1446A90",
+    "40534883ec20448b09488bd9418bc1c1e806a8017450418b"
+   ]
+  },
+  {
+   "line": 117,
+   "text": "{0x144CBC0,\"4154415641574883ec304c8bb9e0000000440fb6e24c8bf1\"},",
+   "literals": [
+    "0x144CBC0",
+    "4154415641574883ec304c8bb9e0000000440fb6e24c8bf1"
+   ]
+  },
+  {
+   "line": 118,
+   "text": "{0x144F6E0,\"8b01c1e81283e00f83c0fd83f80a77444c8d050909bbfe41\"},",
+   "literals": [
+    "0x144F6E0",
+    "8b01c1e81283e00f83c0fd83f80a77444c8d050909bbfe41"
+   ]
+  },
+  {
+   "line": 119,
+   "text": "{0xAB2FA0,\"48895c240848896c241856574154415641574883ec308bda\"},",
+   "literals": [
+    "0xAB2FA0",
+    "48895c240848896c241856574154415641574883ec308bda"
+   ]
+  },
+  {
+   "line": 120,
+   "text": "{0xAB309C,\"899f1cc20a00\"},",
+   "literals": [
+    "0xAB309C"
+   ]
+  },
+  {
+   "line": 121,
+   "text": "{0x18298F0,\"488bc4488958084889701048897818554154415541564157\"},",
+   "literals": [
+    "0x18298F0",
+    "488bc4488958084889701048897818554154415541564157"
+   ]
+  },
+  {
+   "line": 122,
+   "text": "{0x182A550,\"488bc4488958084889701048897818554154415541564157\"},",
+   "literals": [
+    "0x182A550",
+    "488bc4488958084889701048897818554154415541564157"
+   ]
+  },
+  {
+   "line": 123,
+   "text": "{0xA51CA0,\"48895c24084889742410574883ec20410fb6f1488bda488b\"},",
+   "literals": [
+    "0xA51CA0",
+    "48895c24084889742410574883ec20410fb6f1488bda488b"
+   ]
+  },
+  {
+   "line": 124,
+   "text": "{0xA521F0,\"41574883ec50488b05139ebe014833c448894424388b0144\"},",
+   "literals": [
+    "0xA521F0",
+    "41574883ec50488b05139ebe014833c448894424388b0144"
+   ]
+  },
+  {
+   "line": 125,
+   "text": "{0x182D0B0,\"48895c2408574883ec6080b9d01c0000000fb6fa488bd90f\"},",
+   "literals": [
+    "0x182D0B0",
+    "48895c2408574883ec6080b9d01c0000000fb6fa488bd90f"
+   ]
+  },
+  {
+   "line": 126,
+   "text": "{0x12E9F9C,\"498d8f18930100c745d40000003f4533c9488b55d041b858\"},",
+   "literals": [
+    "0x12E9F9C",
+    "498d8f18930100c745d40000003f4533c9488b55d041b858"
+   ]
+  },
+  {
+   "line": 127,
+   "text": "{0x12EA8A7,\"498d8e18930100e8bd341600498d8e20760100e8b1341600\"},",
+   "literals": [
+    "0x12EA8A7",
+    "498d8e18930100e8bd341600498d8e20760100e8b1341600"
+   ]
+  },
+  {
+   "line": 128,
+   "text": "{0x12EC133,\"498d8e18930100448bce448bc30f28cfe808e45300498d8e\"},",
+   "literals": [
+    "0x12EC133",
+    "498d8e18930100448bce448bc30f28cfe808e45300498d8e"
+   ]
+  },
+  {
+   "line": 129,
+   "text": "{0x1829B4C,\"498d9f30030000488bcbe8554fc1ff4584ed0f84b5000000\"},",
+   "literals": [
+    "0x1829B4C",
+    "498d9f30030000488bcbe8554fc1ff4584ed0f84b5000000"
+   ]
+  },
+  {
+   "line": 153,
+   "text": "bool presentation(std::string& e,bool cleaning=false){uint32_t flags{};uintptr_t parent{},context{};uint8_t a{},b{},c{},d{};if(value<uintptr_t>(target.game+UI)!=ui||value<uintptr_t>(target.game+GUI)!=",
+   "literals": [
+    "0xAC21C",
+    "0x24E334",
+    "0x820",
+    "0x820",
+    "0xF0",
+    "0x258",
+    "0x820",
+    "0xF8",
+    "0x3698"
+   ]
+  },
+  {
+   "line": 156,
+   "text": "bool closed(std::string& e){uint32_t v{};uint8_t aux_open{},drop_closed{};return(read(pc+0xFD8,v)&&!(v&owned_actions)&&aux_record&&read(aux_record+5,aux_open)&&aux_open==0&&(journal.drop!=3||(read(ui+",
+   "literals": [
+    "0xFD8",
+    "0x1CD0"
+   ]
+  },
+  {
+   "line": 172,
+   "text": "if(cursor>=t.nodes.size()||node!=t.nodes[cursor++]||node<t.base||node>t.limit-0x110)return false;",
+   "literals": [
+    "0x110"
+   ]
+  },
+  {
+   "line": 174,
+   "text": "if(!read(node,flags)||!(flags&1)||!read(node+0xF0,actual_parent)||actual_parent!=parent||!read(node+0xF8,context)||context!=gui+5*0x3698||!read(node+0xE0,child))return false;",
+   "literals": [
+    "0xF0",
+    "0xF8",
+    "0x3698",
+    "0xE0"
+   ]
+  },
+  {
+   "line": 175,
+   "text": "while(child){uintptr_t next{};if(!read(child+0xE8,next)||!tree_matches(t,child,node,cursor,e))return false;child=next;}return true;",
+   "literals": [
+    "0xE8"
+   ]
+  },
+  {
+   "line": 177,
+   "text": "bool tree_present(const Tree& t,std::string& e){size_t cursor{};return(tree_matches(t,t.base,ui+0x820,cursor,e)&&cursor==t.nodes.size())||fail(e,\"Weapon UI owned widget tree retired/changed; native ca",
+   "literals": [
+    "0x820"
+   ]
+  },
+  {
+   "line": 186,
+   "text": "bool drop_empty(){return drop_attached_empty()&&empty(ui+DROP+0x330);}",
+   "literals": [
+    "0x330"
+   ]
+  },
+  {
+   "line": 191,
+   "text": "const auto n=ui+DROP+0x330;uint32_t flags{},index{};uint64_t dimensions{};",
+   "literals": [
+    "0x330"
+   ]
+  },
+  {
+   "line": 202,
+   "text": "if(value<uint32_t>(ui+DROP+0x1CE0,UINT32_MAX)!=0||value<uint8_t>(ui+DROP+0x1CD0,2)>1||value<uint8_t>(ui+DROP+0x1CF0,1)!=0||!drop_orphan_present())return fail(e,\"Weapon UI Drop type/state/detached prim",
+   "literals": [
+    "0x1CE0",
+    "0x1CD0",
+    "0x1CF0"
+   ]
+  },
+  {
+   "line": 205,
+   "text": "if(value<uintptr_t>(ui+DROP+off+0xF0)!=ui+DROP+(root_child?0:outer?0x220:0x110))return fail(e,\"Weapon UI authored Drop child parent changed\");}}",
+   "literals": [
+    "0xF0",
+    "0x220",
+    "0x110"
+   ]
+  },
+  {
+   "line": 211,
+   "text": "bool retired_root_clear(std::vector<uintptr_t>& found,std::string& e){uintptr_t n{};if(!read(ui+0x820+0xE0,n))return fail(e,\"Weapon UI current root children unreadable\");while(n){if(found.size()>=1024",
+   "literals": [
+    "0x820",
+    "0xE0",
+    "0xF0",
+    "0x820",
+    "0xF8",
+    "0x3698",
+    "0xE8"
+   ]
+  },
+  {
+   "line": 217,
+   "text": "bool call_drop_ctor(){begin(\"drop_ctor\");__try{construct_drop(reinterpret_cast<void*>(ui+DROP),0x3F0000003F000000ULL,0x258,0,false);return true;}__except(capture_exception(GetExceptionInformation())){",
+   "literals": [
+    "0x3F0000003F000000",
+    "0x258"
+   ]
+  },
+  {
+   "line": 233,
+   "text": "const auto root=ui+0x46D900+8;std::array<uintptr_t,32> seen{};size_t seen_count=0;",
+   "literals": [
+    "0x46D900"
+   ]
+  },
+  {
+   "line": 234,
+   "text": "while(parent){if(seen_count>=seen.size())return false;for(size_t i=0;i<seen_count;++i)if(seen[i]==parent)return false;seen[seen_count++]=parent;uint32_t f{};uintptr_t context{},next{};if(!read(parent,",
+   "literals": [
+    "0xF8",
+    "0xF0"
+   ]
+  },
+  {
+   "line": 252,
+   "text": "constexpr const char* gui_delete_fp=\"e98b1cf2ffcccccccccccccccccccccc4883ec28e80756f2\";",
+   "literals": [
+    "e98b1cf2ffcccccccccccccccccccccc4883ec28e80756f2"
+   ]
+  },
+  {
+   "line": 267,
+   "text": "if(!natives(e)||!actor(e)||value<uintptr_t>(target.game+UI)!=ui||value<uintptr_t>(target.game+GUI)!=gui||value<uintptr_t>(target.game+GS)!=state||value<uint32_t>(state+0xAC21C)!=3||value<uint8_t>(ui+0",
+   "literals": [
+    "0xAC21C",
+    "0x24E334"
+   ]
+  },
+  {
+   "line": 286,
+   "text": "bool call_destroy(uintptr_t node){begin(node==ui+WHEEL?\"wheel_destroy\":node==ui+SIBLING?\"sibling_destroy\":node==ui+DROP?\"drop_destroy\":node==ui+DROP+0x330?\"drop_detached_primitive_destroy\":\"retired_di",
+   "literals": [
+    "0x330"
+   ]
+  },
+  {
+   "line": 290,
+   "text": "if(index)construct_stamina(reinterpret_cast<void*>(ui+STAMINA),0x4280000000000000ULL,0x3F000000ULL,0x3F000000ULL,0x226);",
+   "literals": [
+    "0x4280000000000000",
+    "0x3F000000",
+    "0x3F000000",
+    "0x226"
+   ]
+  },
+  {
+   "line": 291,
+   "text": "else construct_health(reinterpret_cast<void*>(ui+HEALTH),0,0,0,0x226);",
+   "literals": [
+    "0x226"
+   ]
+  },
+  {
+   "line": 295,
+   "text": "bool drop_orphan_absent(){return retired_node(ui+DROP+0x330,false)&&value<uintptr_t>(ui+DROP+0x330+0x148,UINTPTR_MAX)==0&&value<uintptr_t>(ui+DROP+0x330+0x150,UINTPTR_MAX)==0;}",
+   "literals": [
+    "0x330",
+    "0x330",
+    "0x148",
+    "0x330",
+    "0x150"
+   ]
+  },
+  {
+   "line": 306,
+   "text": "if(!call_destroy(ui+DROP+0x330))return interrupted(e,\"Weapon UI detached Drop primitive teardown interrupted; no replay\");",
+   "literals": [
+    "0x330"
+   ]
+  },
+  {
+   "line": 347,
+   "text": "if(!roles(false,e)||!closed(e)||!read(ui+WHEEL+0xBCD0,custom_closed)||custom_closed!=1)return fail(e,\"Weapon UI retired authored close acknowledgement pending\");",
+   "literals": [
+    "0xBCD0"
+   ]
+  },
+  {
+   "line": 399,
+   "text": "while(node){if(seen.size()>=1024)return false;for(auto old:seen)if(old==node)return false;seen.push_back(node);if(!read(node,f)||!(f&1)||!read(node+0xF0,parent)||parent!=root||!read(node+0xF8,context)",
+   "literals": [
+    "0xF0",
+    "0xF8",
+    "0x3698",
+    "0xE8"
+   ]
+  },
+  {
+   "line": 404,
+   "text": "Tree a,b,c;a.base=ui+WHEEL;a.limit=a.base+0xBCF0;b.base=ui+SIBLING;b.limit=b.base+0x20B8;c.base=ui+DROP;c.limit=c.base+0x1CF8;if(!tree_capture(a,ui+0x820,e)||!tree_capture(b,ui+0x820,e)||!tree_capture",
+   "literals": [
+    "0xBCF0",
+    "0x20B8",
+    "0x1CF8",
+    "0x820",
+    "0x820",
+    "0x820"
+   ]
+  },
+  {
+   "line": 409,
+   "text": "return phase!=Phase::Interrupted&&!scope.pending()&&natives(e)&&original_retired()&&value<uintptr_t>(target.game+UI)==ui&&value<uintptr_t>(target.game+GUI)==gui&&value<uintptr_t>(target.game+GS)==stat",
+   "literals": [
+    "0xAC21C",
+    "0x24E334"
+   ]
+  },
+  {
+   "line": 437,
+   "text": "if(scene==3&&value<uint8_t>(ui+0x24E334)==1&&value<uint8_t>(ui+MINIT)==0&&value<uint8_t>(ui+SINIT)==1&&!(first.roles&8)&&!(first.actions&owned_actions)&&first.auxopen==0&&current_root(false))complete=",
+   "literals": [
+    "0x24E334"
+   ]
+  },
+  {
+   "line": 468,
+   "text": "float scale{};if(!actor(e)||!presentation(e)||!menu_clear()||!roles(false,e)||!closed(e)||!(value<uint64_t>(pc+0xFD0)&2)||!empty(ui+WHEEL)||!empty(ui+SIBLING)||!drop_attached_empty()||!read(ui+0x24E32",
+   "literals": [
+    "0xFD0",
+    "0x24E324"
+   ]
+  },
+  {
+   "line": 470,
+   "text": "if(enable_vitals){vitals[0].tree.base=ui+HEALTH;vitals[0].tree.limit=ui+STAMINA;vitals[1].tree.base=ui+STAMINA;vitals[1].tree.limit=ui+0x24E340+0x8208;",
+   "literals": [
+    "0x24E340",
+    "0x8208"
+   ]
+  },
+  {
+   "line": 472,
+   "text": "construct_health=reinterpret_cast<VitalsCtor>(id.game+0x1816A60);construct_stamina=reinterpret_cast<VitalsCtor>(id.game+0x181DE50);update_health=reinterpret_cast<WheelTick>(id.game+0x1819A70);update_s",
+   "literals": [
+    "0x1816A60",
+    "0x181DE50",
+    "0x1819A70",
+    "0x181EB90",
+    "0x18298F0",
+    "0x182A550",
+    "0x144F6E0",
+    "0x1823910",
+    "0x17B4830",
+    "0x1825F40",
+    "0x17B6560",
+    "0x144C5C0"
+   ]
+  },
+  {
+   "line": 481,
+   "text": "if(!empty(ui+DROP+0x330)){",
+   "literals": [
+    "0x330"
+   ]
+  },
+  {
+   "line": 484,
+   "text": "!(value<uint64_t>(pc+0xFD0)&2)||!empty(ui+WHEEL)||!empty(ui+SIBLING)||",
+   "literals": [
+    "0xFD0"
+   ]
+  },
+  {
+   "line": 492,
+   "text": "wheel_tree.base=ui+WHEEL;wheel_tree.limit=wheel_tree.base+0xBCF0;sibling_tree.base=ui+SIBLING;sibling_tree.limit=sibling_tree.base+0x20B8;drop_tree.base=ui+DROP;drop_tree.limit=drop_tree.base+0x1CF8;p",
+   "literals": [
+    "0xBCF0",
+    "0x20B8",
+    "0x1CF8"
+   ]
+  },
+  {
+   "line": 500,
+   "text": "journal.attach_drop=1;if(!call_attach(ui+DROP))return interrupted(e,\"Weapon UI Drop attachment interrupted\");journal.attach_drop=2;if(!before_call(e)||!tree_capture(drop_tree,ui+0x820,e)||!drop_geomet",
+   "literals": [
+    "0x820"
+   ]
+  },
+  {
+   "line": 503,
+   "text": "v.attached=1;if(!call_attach(v.tree.base))return interrupted(e,\"Native vitals attachment interrupted\");v.attached=2;if(!before_call(e)||!tree_capture(v.tree,ui+0x820,e)||!call_flush())return interrupt",
+   "literals": [
+    "0x820"
+   ]
+  },
+  {
+   "line": 519,
+   "text": "if(read(pc+0xFD8,actions)&&!(actions&owned_actions)&&aux_record&&read(aux_record+5,auxiliary_open)&&auxiliary_open==0",
+   "literals": [
+    "0xFD8"
+   ]
+  },
+  {
+   "line": 520,
+   "text": "&&read(ui+WHEEL+0xBCD0,wheel_closed)&&wheel_closed==1&&read(ui+DROP+0x1CD0,drop_closed)&&drop_closed==1){",
+   "literals": [
+    "0xBCD0",
+    "0x1CD0"
+   ]
+  }
+ ]
+}

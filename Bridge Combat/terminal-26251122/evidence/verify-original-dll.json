@@ -1,0 +1,650 @@
+[
+ {
+  "text": "488bc4488958084889701048897818554154415541564157",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23690416,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 95
+   }
+  ],
+  "new_rva": 23690416,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc4488958084889701048897818554154415541564157"
+ },
+ {
+  "text": "488bc44889580848897010488978185541564157488d68a9",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23720096,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 96
+   }
+  ],
+  "new_rva": 23720096,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc44889580848897010488978185541564157488d68a9"
+ },
+ {
+  "text": "4c8bdc554155498dab38ffffff4881ecb8010000488b0535",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23702720,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 97
+   }
+  ],
+  "new_rva": 23702720,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "4c8bdc554155498dab38ffffff4881ecb8010000488b0535"
+ },
+ {
+  "text": "4c8bdc53554881ecd8000000410f2973c8488b051852e100",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23723488,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 98
+   }
+  ],
+  "new_rva": 23723488,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "4c8bdc53554881ecd8000000410f2973c8488b051852e100"
+ },
+ {
+  "text": "488bc4488958084889701048897818554154415541564157",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23742464,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 99
+   }
+  ],
+  "new_rva": 23742464,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc4488958084889701048897818554154415541564157"
+ },
+ {
+  "text": "488bc4488958105556574154415541564157488d68a14881",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23288512,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 100
+   }
+  ],
+  "new_rva": 23288512,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc4488958105556574154415541564157488d68a14881"
+ },
+ {
+  "text": "488bc4488958104889681848897020574154415541564157",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23752240,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 101
+   }
+  ],
+  "new_rva": 23752240,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc4488958104889681848897020574154415541564157"
+ },
+ {
+  "text": "488bc4488958185556574154415541564157488d68a14881",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23295984,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 102
+   }
+  ],
+  "new_rva": 23295984,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc4488958185556574154415541564157488d68a14881"
+ },
+ {
+  "text": "40534883ec204c8bca488bd9488b91e00000004885d27454",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19808976,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 103
+   }
+  ],
+  "new_rva": 19808976,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40534883ec204c8bca488bd9488b91e00000004885d27454"
+ },
+ {
+  "text": "488b81e00000004532c94c8bc14885c0742f0f1f40006666",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19808208,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 104
+   }
+  ],
+  "new_rva": 19808208,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488b81e00000004532c94c8bc14885c0742f0f1f40006666"
+ },
+ {
+  "text": "40534883ec20488bd9e8a20b00008b03c1e81283e00f83f8",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19815040,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 105
+   }
+  ],
+  "new_rva": 19815040,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40534883ec20488bd9e8a20b00008b03c1e81283e00f83f8"
+ },
+ {
+  "text": "48895c2408574883ec20488b1a488bfa4c8b89980f00004c",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 11257216,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 106
+   }
+  ],
+  "new_rva": 11257216,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "48895c2408574883ec20488b1a488bfa4c8b89980f00004c"
+ },
+ {
+  "text": "48895c2418574883ec20488bb9880f00004c8bc94c8b5a10",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 11257488,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 107
+   }
+  ],
+  "new_rva": 11257488,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "48895c2418574883ec20488bb9880f00004c8bc94c8b5a10"
+ },
+ {
+  "text": "40574883ec20f30f104144488bf90f2ec17a237521f70100",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19793888,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 108
+   }
+  ],
+  "new_rva": 19793888,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40574883ec20f30f104144488bf90f2ec17a237521f70100"
+ },
+ {
+  "text": "4883ec48488b05c58d9f014833c448894424388b0148895c",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 11256384,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 109
+   }
+  ],
+  "new_rva": 11256384,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "4883ec48488b05c58d9f014833c448894424388b0148895c"
+ },
+ {
+  "text": "4883ec3880b9d0bc0000000f85fe000000f30f101d3bccb9",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23763296,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 110
+   }
+  ],
+  "new_rva": 23763296,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "4883ec3880b9d0bc0000000f85fe000000f30f101d3bccb9"
+ },
+ {
+  "text": "40564881ec90000000f30f102dc3daf5000f28e30f297c24",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19827424,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 111
+   }
+  ],
+  "new_rva": 19827424,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40564881ec90000000f30f102dc3daf5000f28e30f297c24"
+ },
+ {
+  "text": "4053574883ec78f30f104144410fb6d90f2ec1488bf90f8a",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19793280,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 112
+   }
+  ],
+  "new_rva": 19793280,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "4053574883ec78f30f104144410fb6d90f2ec1488bf90f8a"
+ },
+ {
+  "text": "40554883ec3080b97897080000488be90f84d30600004889",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 18956432,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 113
+   }
+  ],
+  "new_rva": 18956432,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40554883ec3080b97897080000488be90f84d30600004889"
+ },
+ {
+  "text": "488d4d08e87e140d00488d8d",
+  "bytes": 12,
+  "module": "game",
+  "old_rva": 18957817,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 114
+   }
+  ],
+  "new_rva": 18957817,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488d4d08e87e140d00488d8d"
+ },
+ {
+  "text": "40554883ec3080b934e3240000488be90f84590400004889",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 18367392,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 115
+   }
+  ],
+  "new_rva": 18367392,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40554883ec3080b934e3240000488be90f84590400004889"
+ },
+ {
+  "text": "40534883ec20448b09488bd9418bc1c1e806a8017450418b",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19785632,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 116
+   }
+  ],
+  "new_rva": 19785632,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40534883ec20448b09488bd9418bc1c1e806a8017450418b"
+ },
+ {
+  "text": "4154415641574883ec304c8bb9e0000000440fb6e24c8bf1",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19810512,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 117
+   }
+  ],
+  "new_rva": 19810512,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "4154415641574883ec304c8bb9e0000000440fb6e24c8bf1"
+ },
+ {
+  "text": "8b01c1e81283e00f83c0fd83f80a77444c8d05f98bd1fe41",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19821552,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 118
+   }
+  ],
+  "new_rva": 19821552,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "8b01c1e81283e00f83c0fd83f80a77444c8d05f98bd1fe41"
+ },
+ {
+  "text": "48895c240848896c241856574154415641574883ec308bda",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 11332816,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 119
+   }
+  ],
+  "new_rva": 11332816,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "48895c240848896c241856574154415641574883ec308bda"
+ },
+ {
+  "text": "488bc4488958084889701048897818554154415541564157",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23767008,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 121
+   }
+  ],
+  "new_rva": 23767008,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc4488958084889701048897818554154415541564157"
+ },
+ {
+  "text": "488bc4488958084889701048897818554154415541564157",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23770176,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 122
+   }
+  ],
+  "new_rva": 23770176,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "488bc4488958084889701048897818554154415541564157"
+ },
+ {
+  "text": "48895c24084889742410574883ec20410fb6f1488bda488b",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 10929328,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 123
+   }
+  ],
+  "new_rva": 10929328,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "48895c24084889742410574883ec20410fb6f1488bda488b"
+ },
+ {
+  "text": "41574883ec50488b050386a4014833c448894424388b0144",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 10930688,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 124
+   }
+  ],
+  "new_rva": 10930688,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "41574883ec50488b050386a4014833c448894424388b0144"
+ },
+ {
+  "text": "48895c2408574883ec6080b9d01c0000000fb6fa488bd90f",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23781280,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 125
+   }
+  ],
+  "new_rva": 23781280,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "48895c2408574883ec6080b9d01c0000000fb6fa488bd90f"
+ },
+ {
+  "text": "498d8f988e0100c745d40000003f4533c9488b55d041b858",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 18337244,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 126
+   }
+  ],
+  "new_rva": 18337244,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "498d8f988e0100c745d40000003f4533c9488b55d041b858"
+ },
+ {
+  "text": "498d8e988e0100e88d831600498d8ea0710100e881831600",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 18339559,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 127
+   }
+  ],
+  "new_rva": 18339559,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "498d8e988e0100e88d831600498d8ea0710100e881831600"
+ },
+ {
+  "text": "498d8e988e0100448bce448bc30f28cfe8b8c45200498d8e",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 18345843,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 128
+   }
+  ],
+  "new_rva": 18345843,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "498d8e988e0100448bce448bc30f28cfe8b8c45200498d8e"
+ },
+ {
+  "text": "498d9f30030000488bcbe875bdc2ff4584ed0f84b5000000",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 23767612,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 129
+   }
+  ],
+  "new_rva": 23767612,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "498d9f30030000488bcbe875bdc2ff4584ed0f84b5000000"
+ },
+ {
+  "text": "40534883ec20ba03000000488bd9e87d7d000048c7442430",
+  "bytes": 24,
+  "module": "game",
+  "old_rva": 19752896,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 130
+   }
+  ],
+  "new_rva": 19752896,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "40534883ec20ba03000000488bd9e87d7d000048c7442430"
+ },
+ {
+  "text": "405356574883ec30488b8180000000be0800000048896c2450488bfa488be94c",
+  "bytes": 32,
+  "module": "exe",
+  "old_rva": 2465760,
+  "reversed": false,
+  "uses": [
+   {
+    "file": "native/weapon_menu.cpp",
+    "line": 253
+   }
+  ],
+  "new_rva": 2465760,
+  "rva_evidence": "verify",
+  "status": "same",
+  "notes": [],
+  "new_text": "405356574883ec30488b8180000000be0800000048896c2450488bfa488be94c"
+ }
+]

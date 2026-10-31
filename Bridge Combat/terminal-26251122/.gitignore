@@ -1,0 +1,7 @@
+lua-test-root/
+dist/
+*.exe
+*.pdb
+*.lib
+__pycache__/
+*.pyc

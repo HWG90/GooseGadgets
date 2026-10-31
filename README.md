@@ -4,7 +4,7 @@ Standalone Helldivers 2 mods by Goose. Each gadget has its own source, instructi
 
 | Gadget | What it does | Current downloads |
 | --- | --- | --- |
-| [Bridge Combat](Bridge%20Combat/README.md) | An integrated ship Armory with a 7 × 5 weapon-icon grid, direct support weapon/backpack delivery, native combat controls/HUD/effects, and ship-entry asset preloading with a loading bar. | [0.1.17 Experimental: LLL and self-contained BSL](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018) |
+| [Bridge Combat](Bridge%20Combat/README.md) | An integrated ship Armory with a 7 × 5 weapon-icon grid, direct support weapon/backpack delivery, native combat controls/HUD/effects, and ship-entry asset preloading with a loading bar. | [0.1.17 Experimental: LLL and self-contained BSL](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.14-standalone-20261018) · [0.1.17 on Steam build 26251122: LLL package in the tree](Bridge%20Combat/terminal-26251122/README.md) |
 | [Height Over Bore](Height%20Over%20Bore/README.md) | Limits projectile ADS target correction to an experimental 0.5 degrees, preserving native hip fire, third-person aiming and continuous beams. Tracks supported weapon and ADS transitions. | [0.1.3 Experimental: LLL and BSL](https://github.com/HWG90/GooseGadgets/releases/tag/hob-v0.1.3-experimental) |
 
 ## Bridge Combat
@@ -13,7 +13,7 @@ Press Interact at the fixed Armory cabinet to use a charcoal/gold screen with st
 
 WEAPONS FREE toggles combat and reflects its state in red. Request support weapons with their normal attachments and matching backpack, replace old terminal gear, refill ammo or clear loose support weapons. Combat uses native health/stamina, crosshair, quick actions, chat, animations and weapon effects; turning it off restores ship behavior and carried loadout weapons.
 
-LLL and BSL downloads include Bridge Combat's own terminal dependencies. **MCM is optional and no loader is bundled**; install your chosen loader separately. Assets preload on normal ship entry without switching combat on. Independent providers queue together, and completion checks stop when ready. The current fresh LLL test verified UI in 1.11 seconds and FX/audio in 1.64 seconds. Cabinet collision and emote weapon holstering remain unfinished. [Installation, validation and limits](Bridge%20Combat/README.md).
+LLL and BSL downloads include Bridge Combat's own terminal dependencies. **MCM is optional and no loader is bundled**; install your chosen loader separately. Assets preload on normal ship entry without switching combat on. Independent providers queue together, and completion checks stop when ready. The current fresh LLL test verified UI in 1.11 seconds and FX/audio in 1.64 seconds. Cabinet collision and emote weapon holstering remain unfinished. [Installation, validation and limits](Bridge%20Combat/README.md). For the game as updated from 7.2.0 (Steam build 26251122), the same design is rebuilt on the new offsets with LAS-44 Nova, AMW-20 Apex and a code warm-up: [terminal-26251122](Bridge%20Combat/terminal-26251122/README.md), LLL only.
 
 ## Height Over Bore
 

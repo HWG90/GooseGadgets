@@ -1,0 +1,677 @@
+{
+ "file": "/home/goose/Worktrees/linux-hd2/bridge-combat-26251122/native-work/bridge-original/dll/BridgeCombatWeaponMenu-bcb24cbfd1cd.dll",
+ "sha256": "bcb24cbfd1cd47d30bca49db9cf9c70861a372c5cfca0195840daa8e41c7dbd4",
+ "bytes": 477696,
+ "source_sha256": "f4d744e8ec38b5a37dee696dcc5f3d893bf068dd8bb3b643e9559f36fbeaa0f9",
+ "fixture_exe_sha256": "9fe05e47c40928f4036e5a7dc05e0c1ece92fe99c701b821b375aebd62716454",
+ "fixture_modes": 110,
+ "fixture_passed": 110,
+ "vitals": {
+  "0x1816A60": "0x1697cb0",
+  "0x181DE50": "0x169f0a0",
+  "0x1819A70": "0x169acc0",
+  "0x181EB90": "0x169fde0"
+ },
+ "results": [
+  {
+   "mode": "ordinary",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner ordinary\r\n"
+  },
+  {
+   "mode": "actor-retired",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner actor-retired\r\n"
+  },
+  {
+   "mode": "attach-fault",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS interrupted journal attach-fault\r\n"
+  },
+  {
+   "mode": "aux-missing",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS pure preflight aux-missing\r\n"
+  },
+  {
+   "mode": "both-arrays-move",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner both-arrays-move\r\n"
+  },
+  {
+   "mode": "cancel-pending",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner cancel-pending\r\n"
+  },
+  {
+   "mode": "closed-idle",
+   "code": 0,
+   "seconds": 0.069,
+   "output": "PASS persistent native owner closed-idle\r\n"
+  },
+  {
+   "mode": "closed-tick-fault",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner closed-tick-fault\r\n"
+  },
+  {
+   "mode": "destroy-ack",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner destroy-ack\r\n"
+  },
+  {
+   "mode": "dirty-ack-delay",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS empty dirty descendant normalization dirty-ack-delay\r\nPASS persistent native owner dirty-ack-delay\r\n"
+  },
+  {
+   "mode": "dirty-animation",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS empty dirty descendant normalization dirty-animation\r\nPASS persistent native owner dirty-animation\r\n"
+  },
+  {
+   "mode": "dirty-context",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS empty dirty descendant normalization dirty-context\r\nPASS persistent native owner dirty-context\r\n"
+  },
+  {
+   "mode": "dirty-delegate",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS empty dirty descendant normalization dirty-delegate\r\nPASS persistent native owner dirty-delegate\r\n"
+  },
+  {
+   "mode": "dirty-fault",
+   "code": 0,
+   "seconds": 0.008,
+   "output": "PASS empty dirty descendant normalization dirty-fault\r\nPASS persistent native owner dirty-fault\r\n"
+  },
+  {
+   "mode": "dirty-foreign-flags",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS empty dirty descendant normalization dirty-foreign-flags\r\nPASS persistent native owner dirty-foreign-flags\r\n"
+  },
+  {
+   "mode": "dirty-multiple",
+   "code": 0,
+   "seconds": 0.008,
+   "output": "PASS empty dirty descendant normalization dirty-multiple\r\nPASS persistent native owner dirty-multiple\r\n"
+  },
+  {
+   "mode": "dirty-newactor8",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS empty dirty descendant normalization dirty-newactor8\r\nPASS persistent native owner dirty-newactor8\r\n"
+  },
+  {
+   "mode": "dirty-old-live",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS empty dirty descendant normalization dirty-old-live\r\nPASS persistent native owner dirty-old-live\r\n"
+  },
+  {
+   "mode": "dirty-opaque",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS empty dirty descendant normalization dirty-opaque\r\nPASS persistent native owner dirty-opaque\r\n"
+  },
+  {
+   "mode": "drop-cancel-pending",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS native Drop prerequisite drop-cancel-pending\r\n"
+  },
+  {
+   "mode": "drop-child-missing",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native Drop prerequisite drop-child-missing\r\n"
+  },
+  {
+   "mode": "drop-early-barrier",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native Drop prerequisite drop-early-barrier\r\n"
+  },
+  {
+   "mode": "drop-material-missing",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS native Drop prerequisite drop-material-missing\r\n"
+  },
+  {
+   "mode": "drop-native-mission-handoff",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native Drop prerequisite drop-native-mission-handoff\r\n"
+  },
+  {
+   "mode": "drop-parent-changed",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS native Drop prerequisite drop-parent-changed\r\n"
+  },
+  {
+   "mode": "drop-parent-foreign",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native Drop prerequisite drop-parent-foreign\r\n"
+  },
+  {
+   "mode": "drop-partial",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS native Drop prerequisite drop-partial\r\n"
+  },
+  {
+   "mode": "drop-physical-actions",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native Drop prerequisite drop-physical-actions\r\n"
+  },
+  {
+   "mode": "drop-preimage-foreign",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native Drop prerequisite drop-preimage-foreign\r\n"
+  },
+  {
+   "mode": "drop-retired-open-refuse",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS native Drop prerequisite drop-retired-open-refuse\r\n"
+  },
+  {
+   "mode": "drop-tick-fault",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native Drop prerequisite drop-tick-fault\r\n"
+  },
+  {
+   "mode": "duplicate-observer",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS pure preflight duplicate-observer\r\n"
+  },
+  {
+   "mode": "executable-slot",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS pure preflight executable-slot\r\n"
+  },
+  {
+   "mode": "foreign-slot",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner foreign-slot\r\n"
+  },
+  {
+   "mode": "generation-array-move",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner generation-array-move\r\n"
+  },
+  {
+   "mode": "handoff-array-move",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner handoff-array-move\r\n"
+  },
+  {
+   "mode": "handoff-foreign-ship8",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner handoff-foreign-ship8\r\n"
+  },
+  {
+   "mode": "handoff-foreign-ui",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner handoff-foreign-ui\r\n"
+  },
+  {
+   "mode": "handoff-live-original",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner handoff-live-original\r\n"
+  },
+  {
+   "mode": "handoff-missing-observer",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner handoff-missing-observer\r\n"
+  },
+  {
+   "mode": "handoff-mission",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner handoff-mission\r\n"
+  },
+  {
+   "mode": "handoff-partial",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner handoff-partial\r\n"
+  },
+  {
+   "mode": "handoff-root-missing",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner handoff-root-missing\r\n"
+  },
+  {
+   "mode": "handoff-ship",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner handoff-ship\r\n"
+  },
+  {
+   "mode": "idempotent",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner idempotent\r\n"
+  },
+  {
+   "mode": "menu-initial",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS pure preflight menu-initial\r\n"
+  },
+  {
+   "mode": "menu-pause",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner menu-pause\r\n"
+  },
+  {
+   "mode": "no-observer",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS pure preflight no-observer\r\n"
+  },
+  {
+   "mode": "no-witness",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS pure preflight no-witness\r\n"
+  },
+  {
+   "mode": "not-ready",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS pure preflight not-ready\r\n"
+  },
+  {
+   "mode": "observer-overflow",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS pure preflight observer-overflow\r\n"
+  },
+  {
+   "mode": "orphan-ack-delay",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS detached Drop primitive ownership orphan-ack-delay\r\nPASS persistent native owner orphan-ack-delay\r\n"
+  },
+  {
+   "mode": "orphan-afk",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS detached Drop primitive ownership orphan-afk\r\nPASS persistent native owner orphan-afk\r\n"
+  },
+  {
+   "mode": "orphan-child",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS detached Drop primitive ownership orphan-child\r\nPASS persistent native owner orphan-child\r\n"
+  },
+  {
+   "mode": "orphan-context",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS detached Drop primitive ownership orphan-context\r\nPASS persistent native owner orphan-context\r\n"
+  },
+  {
+   "mode": "orphan-defaults",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS detached Drop primitive ownership orphan-defaults\r\nPASS persistent native owner orphan-defaults\r\n"
+  },
+  {
+   "mode": "orphan-delegate",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS detached Drop primitive ownership orphan-delegate\r\nPASS persistent native owner orphan-delegate\r\n"
+  },
+  {
+   "mode": "orphan-destroy-fault",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS detached Drop primitive ownership orphan-destroy-fault\r\nPASS persistent native owner orphan-destroy-fault\r\n"
+  },
+  {
+   "mode": "orphan-dirty",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS detached Drop primitive ownership orphan-dirty\r\nPASS persistent native owner orphan-dirty\r\n"
+  },
+  {
+   "mode": "orphan-external-retired",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS detached Drop primitive ownership orphan-external-retired\r\nPASS persistent native owner orphan-external-retired\r\n"
+  },
+  {
+   "mode": "orphan-material",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS detached Drop primitive ownership orphan-material\r\nPASS persistent native owner orphan-material\r\n"
+  },
+  {
+   "mode": "orphan-native-mission",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS detached Drop primitive ownership orphan-native-mission\r\nPASS persistent native owner orphan-native-mission\r\n"
+  },
+  {
+   "mode": "orphan-parent",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS detached Drop primitive ownership orphan-parent\r\nPASS persistent native owner orphan-parent\r\n"
+  },
+  {
+   "mode": "orphan-reacquire",
+   "code": 0,
+   "seconds": 0.009,
+   "output": "PASS detached Drop primitive ownership orphan-reacquire\r\nPASS persistent native owner orphan-reacquire\r\n"
+  },
+  {
+   "mode": "orphan-tween",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS detached Drop primitive ownership orphan-tween\r\nPASS persistent native owner orphan-tween\r\n"
+  },
+  {
+   "mode": "orphan-type",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS detached Drop primitive ownership orphan-type\r\nPASS persistent native owner orphan-type\r\n"
+  },
+  {
+   "mode": "partial-sibling",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS interrupted journal partial-sibling\r\n"
+  },
+  {
+   "mode": "partial-wheel",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS interrupted journal partial-wheel\r\n"
+  },
+  {
+   "mode": "photo-pause",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner photo-pause\r\n"
+  },
+  {
+   "mode": "readonly-slot",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS pure preflight readonly-slot\r\n"
+  },
+  {
+   "mode": "reenter",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner reenter\r\n"
+  },
+  {
+   "mode": "revalidate-executable-after-sibling",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner revalidate-executable-after-sibling\r\n"
+  },
+  {
+   "mode": "revalidate-fingerprint-after-sibling",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner revalidate-fingerprint-after-sibling\r\n"
+  },
+  {
+   "mode": "role-preexisting",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS pure preflight role-preexisting\r\n"
+  },
+  {
+   "mode": "shared-material",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS pure preflight shared-material\r\n"
+  },
+  {
+   "mode": "ship-active-flip-context",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner ship-active-flip-context\r\n"
+  },
+  {
+   "mode": "ship-active-flip-parent",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner ship-active-flip-parent\r\n"
+  },
+  {
+   "mode": "ship-active-invalid",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner ship-active-invalid\r\n"
+  },
+  {
+   "mode": "tick-fault",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner tick-fault\r\n"
+  },
+  {
+   "mode": "validation-counters",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "healthy tick fingerprint_reads=108 fingerprint_bytes=2502 VirtualQuery=18\r\nPASS batched validation validation-counters\r\n"
+  },
+  {
+   "mode": "validation-executable-refusal",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS batched validation validation-executable-refusal\r\n"
+  },
+  {
+   "mode": "validation-fingerprint-refusal",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS batched validation validation-fingerprint-refusal\r\n"
+  },
+  {
+   "mode": "vitals-barrier",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native vitals vitals-barrier\r\n"
+  },
+  {
+   "mode": "vitals-foreign",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native vitals vitals-foreign\r\n"
+  },
+  {
+   "mode": "vitals-partial",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native vitals vitals-partial\r\n"
+  },
+  {
+   "mode": "vitals-retired-partial",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native vitals vitals-retired-partial\r\n"
+  },
+  {
+   "mode": "vitals-tick-fault",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS native vitals vitals-tick-fault\r\n"
+  },
+  {
+   "mode": "warm-context",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS sealed stock return recovery warm-context\r\n"
+  },
+  {
+   "mode": "warm-delay",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS sealed stock return recovery warm-delay\r\n"
+  },
+  {
+   "mode": "warm-fault",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS sealed stock return recovery warm-fault\r\n"
+  },
+  {
+   "mode": "warm-material",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS sealed stock return recovery warm-material\r\n"
+  },
+  {
+   "mode": "warm-mission",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS sealed stock return recovery warm-mission\r\n"
+  },
+  {
+   "mode": "warm-ordinary",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS sealed stock return recovery warm-ordinary\r\n"
+  },
+  {
+   "mode": "warm-parent",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS sealed stock return recovery warm-parent\r\n"
+  },
+  {
+   "mode": "warm-tween",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS sealed stock return recovery warm-tween\r\n"
+  },
+  {
+   "mode": "warm-type",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS sealed stock return recovery warm-type\r\n"
+  },
+  {
+   "mode": "witness-alpha-zero",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner witness-alpha-zero\r\n"
+  },
+  {
+   "mode": "witness-cycle",
+   "code": 0,
+   "seconds": 0.004,
+   "output": "PASS pure preflight witness-cycle\r\n"
+  },
+  {
+   "mode": "witness-detached",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner witness-detached\r\n"
+  },
+  {
+   "mode": "witness-foreign-thread",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS persistent native owner witness-foreign-thread\r\n"
+  },
+  {
+   "mode": "witness-live",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner witness-live\r\n"
+  },
+  {
+   "mode": "witness-lost",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner witness-lost\r\n"
+  },
+  {
+   "mode": "witness-lost-during-constructor",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS witness rechecked before8 acquisition\r\n"
+  },
+  {
+   "mode": "witness-recursion",
+   "code": 0,
+   "seconds": 0.007,
+   "output": "PASS persistent native owner witness-recursion\r\n"
+  },
+  {
+   "mode": "witness-retire",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner witness-retire\r\n"
+  },
+  {
+   "mode": "witness-unrelated",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS persistent native owner witness-unrelated\r\n"
+  },
+  {
+   "mode": "wrong-material-type",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS pure preflight wrong-material-type\r\n"
+  },
+  {
+   "mode": "wrong-root",
+   "code": 0,
+   "seconds": 0.006,
+   "output": "PASS pure preflight wrong-root\r\n"
+  },
+  {
+   "mode": "wrong-witness-context",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS pure preflight wrong-witness-context\r\n"
+  },
+  {
+   "mode": "wrong-witness-parent",
+   "code": 0,
+   "seconds": 0.005,
+   "output": "PASS pure preflight wrong-witness-parent\r\n"
+  }
+ ]
+}

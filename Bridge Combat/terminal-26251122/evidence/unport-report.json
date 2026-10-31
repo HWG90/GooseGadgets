@@ -1,0 +1,448 @@
+{
+ "files": {
+  "terminal_render.lua": {
+   "lines": 15,
+   "changed": 0
+  },
+  "terminal_services.lua": {
+   "lines": 100,
+   "changed": 3
+  },
+  "terminal_input_binary.lua": {
+   "lines": 2,
+   "changed": 0
+  },
+  "ship_return.lua": {
+   "lines": 65,
+   "changed": 14
+  },
+  "backend.lua": {
+   "lines": 482,
+   "changed": 26
+  },
+  "controller.lua": {
+   "lines": 316,
+   "changed": 5
+  },
+  "mcm.lua": {
+   "lines": 184,
+   "changed": 0
+  },
+  "runtime.lua": {
+   "lines": 662,
+   "changed": 31
+  },
+  "bindings.lua": {
+   "lines": 57,
+   "changed": 0
+  },
+  "ammo_console.lua": {
+   "lines": 181,
+   "changed": 13
+  },
+  "ammo_station_anchor.lua": {
+   "lines": 1,
+   "changed": 0
+  },
+  "support_weapons.lua": {
+   "lines": 648,
+   "changed": 52
+  },
+  "support_catalogue.lua": {
+   "lines": 41,
+   "changed": 0
+  },
+  "terminal_icons.lua": {
+   "lines": 35,
+   "changed": 0
+  },
+  "wall_station.lua": {
+   "lines": 327,
+   "changed": 10
+  },
+  "wall_terminal.lua": {
+   "lines": 586,
+   "changed": 0
+  },
+  "wall_camera.lua": {
+   "lines": 107,
+   "changed": 6
+  },
+  "wall_zoom.lua": {
+   "lines": 247,
+   "changed": 0
+  },
+  "wall_pointer.lua": {
+   "lines": 40,
+   "changed": 0
+  },
+  "wall_terminal_anchor.lua": {
+   "lines": 11,
+   "changed": 0
+  },
+  "wall_terminal_assets.lua": {
+   "lines": 162,
+   "changed": 3
+  },
+  "ui_assets.lua": {
+   "lines": 254,
+   "changed": 3
+  },
+  "ui_assets_catalog.lua": {
+   "lines": 84,
+   "changed": 0
+  },
+  "ui_package_lease.lua": {
+   "lines": 134,
+   "changed": 7
+  },
+  "ui_material_readiness.lua": {
+   "lines": 172,
+   "changed": 7
+  },
+  "ui_atlas_readiness.lua": {
+   "lines": 67,
+   "changed": 7
+  },
+  "ui_package_recovery.lua": {
+   "lines": 129,
+   "changed": 3
+  },
+  "fx_assets.lua": {
+   "lines": 144,
+   "changed": 3
+  },
+  "fx_assets_catalog.lua": {
+   "lines": 118,
+   "changed": 0
+  },
+  "fx_resource_readiness.lua": {
+   "lines": 68,
+   "changed": 7
+  },
+  "weapon_menu.lua": {
+   "lines": 71,
+   "changed": 0
+  },
+  "weapon_menu_native.lua": {
+   "lines": 104,
+   "changed": 0
+  },
+  "sha256.lua": {
+   "lines": 31,
+   "changed": 0
+  },
+  "animation_io.lua": {
+   "lines": 303,
+   "changed": 22
+  },
+  "animation_lifecycle.lua": {
+   "lines": 127,
+   "changed": 4
+  },
+  "animation_controller.lua": {
+   "lines": 252,
+   "changed": 0
+  },
+  "animation_pose.lua": {
+   "lines": 286,
+   "changed": 13
+  },
+  "animation_idle.lua": {
+   "lines": 315,
+   "changed": 12
+  },
+  "animation_clips.lua": {
+   "lines": 514,
+   "changed": 10
+  },
+  "animation_packages.lua": {
+   "lines": 348,
+   "changed": 17
+  },
+  "animation_blend.lua": {
+   "lines": 205,
+   "changed": 0
+  },
+  "ship_visibility.lua": {
+   "lines": 192,
+   "changed": 5
+  }
+ },
+ "unresolved": [
+  {
+   "file": "terminal_services.lua",
+   "line": 55,
+   "text": "function input.down(key)return foreground()~=nil and require('bit').band(tonumber(user.BCI_key(key)),0x8000)~=0 end",
+   "candidates": []
+  },
+  {
+   "file": "ship_return.lua",
+   "line": 24,
+   "text": "local function generation_ok()local same=r(p(registry+0xA0)+index,1):byte()==math.floor(lease.render/0x400000);return unowned and same or not unowned and not sa",
+   "candidates": []
+  },
+  {
+   "file": "backend.lua",
+   "line": 168,
+   "text": "or region.state ~= 0x1000 or region.type ~= 0x20000 or region.protection ~= 4 then",
+   "candidates": []
+  },
+  {
+   "file": "backend.lua",
+   "line": 274,
+   "text": "if not image_size or image_size < 0x347CF20 or image_size > 0x80000000 or base + image_size > LIMIT then",
+   "candidates": []
+  },
+  {
+   "file": "support_weapons.lua",
+   "line": 115,
+   "text": "local function stable()assert(p(c.exe+0x1A10238)==root and p(root+0x3F8)==manager and u(manager+0x2C0)==count and p(manager+0x2C8)==rows,'Support resource provi",
+   "candidates": []
+  },
+  {
+   "file": "support_weapons.lua",
+   "line": 214,
+   "text": "return math.floor(word(component.state)/bit)%2==1 and math.floor(word(component.data,0x360)/bit)%2==1 and handle>0 and handle<65536",
+   "candidates": []
+  },
+  {
+   "file": "wall_terminal_assets.lua",
+   "line": 44,
+   "text": "local chat = assert(backend:ptr(view.base.game + 0x346D538), 'Terminal chat ownership is unavailable')",
+   "candidates": []
+  },
+  {
+   "file": "wall_terminal_assets.lua",
+   "line": 46,
+   "text": "and backend:ptr(view.base.game + 0x346D538) == chat, 'Close chat before loading terminal assets')",
+   "candidates": []
+  },
+  {
+   "file": "ui_package_lease.lua",
+   "line": 6,
+   "text": "local APP={{0x2F0,0x320DD0,'488bd1488b0d2ef46e01488b8900040000e98a282e00cccc'},",
+   "candidates": []
+  },
+  {
+   "file": "ui_package_lease.lua",
+   "line": 7,
+   "text": "{0x300,0x321030,'488bd1488b0dcef16e01488b8900040000e93a2a2e00cccc'},",
+   "candidates": []
+  },
+  {
+   "file": "ui_package_lease.lua",
+   "line": 8,
+   "text": "{0x328,0x321450,'48895c2408574883ec20488b05a7ed6e01488bd1488bf948'}}",
+   "candidates": []
+  },
+  {
+   "file": "ui_package_lease.lua",
+   "line": 34,
+   "text": "local engine=p(meta.game+0x3326308);local api=p(engine+0x10)",
+   "candidates": []
+  },
+  {
+   "file": "ui_material_readiness.lua",
+   "line": 11,
+   "text": "'4053415641574883ec30488b02488bd98b89c00200004533'}",
+   "candidates": [
+    [
+     "ui_material_readiness.lua",
+     11
+    ],
+    [
+     "ui_material_readiness.lua",
+     14
+    ]
+   ]
+  },
+  {
+   "file": "ui_material_readiness.lua",
+   "line": 14,
+   "text": "'4c894424184889542410535556574155415641574883ec30'}",
+   "candidates": [
+    [
+     "ui_material_readiness.lua",
+     11
+    ],
+    [
+     "ui_material_readiness.lua",
+     14
+    ]
+   ]
+  },
+  {
+   "file": "ui_package_recovery.lua",
+   "line": 27,
+   "text": "c.manager=p(c.game+0x347CEB0);c.engine=p(c.game+0x3326308);c.api=p(c.engine+0x10)",
+   "candidates": []
+  },
+  {
+   "file": "sha256.lua",
+   "line": 6,
+   "text": "0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,",
+   "candidates": [
+    [
+     "sha256.lua",
+     5
+    ],
+    [
+     "sha256.lua",
+     6
+    ],
+    [
+     "sha256.lua",
+     7
+    ],
+    [
+     "sha256.lua",
+     8
+    ]
+   ]
+  },
+  {
+   "file": "sha256.lua",
+   "line": 7,
+   "text": "0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,",
+   "candidates": [
+    [
+     "sha256.lua",
+     5
+    ],
+    [
+     "sha256.lua",
+     6
+    ],
+    [
+     "sha256.lua",
+     7
+    ],
+    [
+     "sha256.lua",
+     8
+    ]
+   ]
+  },
+  {
+   "file": "sha256.lua",
+   "line": 8,
+   "text": "0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,",
+   "candidates": [
+    [
+     "sha256.lua",
+     5
+    ],
+    [
+     "sha256.lua",
+     6
+    ],
+    [
+     "sha256.lua",
+     7
+    ],
+    [
+     "sha256.lua",
+     8
+    ]
+   ]
+  },
+  {
+   "file": "sha256.lua",
+   "line": 9,
+   "text": "0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,",
+   "candidates": [
+    [
+     "sha256.lua",
+     5
+    ],
+    [
+     "sha256.lua",
+     6
+    ],
+    [
+     "sha256.lua",
+     7
+    ],
+    [
+     "sha256.lua",
+     8
+    ]
+   ]
+  },
+  {
+   "file": "sha256.lua",
+   "line": 10,
+   "text": "0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,",
+   "candidates": [
+    [
+     "sha256.lua",
+     5
+    ],
+    [
+     "sha256.lua",
+     6
+    ],
+    [
+     "sha256.lua",
+     7
+    ],
+    [
+     "sha256.lua",
+     8
+    ]
+   ]
+  },
+  {
+   "file": "animation_io.lua",
+   "line": 5,
+   "text": "local MIN_IMAGE = {['game.dll']=0x347CF20,['helldivers2.exe']=0x1A100F8}",
+   "candidates": []
+  },
+  {
+   "file": "animation_io.lua",
+   "line": 212,
+   "text": "assert(size>=MIN_IMAGE[name] and size<=0x80000000 and base+size<2^47,'Animation module size differs')",
+   "candidates": []
+  },
+  {
+   "file": "ship_visibility.lua",
+   "line": 16,
+   "text": "{0x7CAF8,0xA40}, {0x7D830,0xA40}, {0x7E568,0x820},",
+   "candidates": [
+    [
+     "ship_visibility.lua",
+     15
+    ],
+    [
+     "ship_visibility.lua",
+     16
+    ],
+    [
+     "ship_visibility.lua",
+     17
+    ]
+   ]
+  },
+  {
+   "file": "ship_visibility.lua",
+   "line": 17,
+   "text": "{0x7EDD0,0x820}, {0x81950,0x820}, {0x83510,0x820},",
+   "candidates": [
+    [
+     "ship_visibility.lua",
+     15
+    ],
+    [
+     "ship_visibility.lua",
+     16
+    ],
+    [
+     "ship_visibility.lua",
+     17
+    ]
+   ]
+  }
+ ],
+ "changed_lines": 283
+}
