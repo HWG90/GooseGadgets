@@ -2,7 +2,7 @@
 
 The 0.1.17 Experimental Armory terminal ([terminal-0.1.14](../terminal-0.1.14/README.md)) rebuilt for the game as updated on 2026-10-29 (Steam build 26251122, game `6AE0E5FF`, executable `6AE0964A`), with the two support weapons added since 0.1.17: LAS-44 Nova and AMW-20 Apex. The design is the 0.1.17 one: read a function's prologue, then call it; no instruction patches, no page-protection changes, no game memory written. One module is new, because of what the 7.2.0 game update changed.
 
-Package: `goose_bridge_combat/`, version `0.1.17-experimental-26251122.3`, LLL only (Live Lua Loader, LuaJIT build). Its hashes are in `goose_bridge_combat-RECEIPT.json`.
+Package: `goose_bridge_combat/`, version `0.1.17-experimental-26251122.3`, LLL only (Live Lua Loader, LuaJIT build); [download](https://github.com/HWG90/GooseGadgets/releases/tag/bridge-combat-0.1.17-26251122-20261030). Its hashes are in `goose_bridge_combat-RECEIPT.json`.
 
 ## What 7.2.0 changed
 
