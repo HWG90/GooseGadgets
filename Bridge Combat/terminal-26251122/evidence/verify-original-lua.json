@@ -179,6 +179,10 @@
    {
     "file": "src/animation_pose.lua",
     "line": 177
+   },
+   {
+    "file": "src/equipment_hold.lua",
+    "line": 47
    }
   ]
  },
@@ -338,6 +342,10 @@
     "line": 9
    },
    {
+    "file": "src/equipment_hold.lua",
+    "line": 14
+   },
+   {
     "file": "src/support_weapons.lua",
     "line": 7
    },
@@ -362,6 +370,10 @@
    {
     "file": "src/animation_packages.lua",
     "line": 10
+   },
+   {
+    "file": "src/equipment_hold.lua",
+    "line": 15
    },
    {
     "file": "src/ui_package_lease.lua",
@@ -485,6 +497,3688 @@
   "status": "same",
   "notes": [],
   "new_text": "48896c2418564883ec204c8bd94c8bca488bcae8f8e43fff"
+ },
+ {
+  "text": "e0a48d0be9a7453f",
+  "bytes": 8,
+  "status": "resource-id",
+  "uses": [
+   {
+    "file": "src/equipment_hold.lua",
+    "line": 17
+   },
+   {
+    "file": "src/support_weapons.lua",
+    "line": 5
+   }
+  ]
+ },
+ {
+  "text": "0014a4ba255675bd",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 5
+   }
+  ]
+ },
+ {
+  "text": "0089bbe3e284fcaa",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 5
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 27
+   }
+  ]
+ },
+ {
+  "text": "03b4b7a46856ccb2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 5
+   }
+  ]
+ },
+ {
+  "text": "047c26f2f11d253e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 5
+   }
+  ]
+ },
+ {
+  "text": "055f887c3bc616fe",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 5
+   }
+  ]
+ },
+ {
+  "text": "05656b4b5b893ab8",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 5
+   }
+  ]
+ },
+ {
+  "text": "0601a2f91ec178a9",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 6
+   }
+  ]
+ },
+ {
+  "text": "0827284b048bed82",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 6
+   }
+  ]
+ },
+ {
+  "text": "0a557495e6c95ea7",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 6
+   }
+  ]
+ },
+ {
+  "text": "0b831a7dd55e8736",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 6
+   }
+  ]
+ },
+ {
+  "text": "0bdf199f7ac14f43",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 6
+   }
+  ]
+ },
+ {
+  "text": "0cbb8fc14f7d3433",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 6
+   }
+  ]
+ },
+ {
+  "text": "0cd732d5fc2c3a87",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 7
+   }
+  ]
+ },
+ {
+  "text": "0e6452d74d3a9dd3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 7
+   }
+  ]
+ },
+ {
+  "text": "0edad8ddec238bd9",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 7
+   }
+  ]
+ },
+ {
+  "text": "1045338fe7559a16",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 7
+   }
+  ]
+ },
+ {
+  "text": "10a7605527187ef5",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 7
+   }
+  ]
+ },
+ {
+  "text": "12ce4bc7cddaf51c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 7
+   }
+  ]
+ },
+ {
+  "text": "131fe264b7380717",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 8
+   }
+  ]
+ },
+ {
+  "text": "149f685717737cae",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 8
+   }
+  ]
+ },
+ {
+  "text": "149fdb737443c5fe",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 8
+   }
+  ]
+ },
+ {
+  "text": "154bd6143819df7d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 8
+   }
+  ]
+ },
+ {
+  "text": "15eb7241c3616351",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 8
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 30
+   }
+  ]
+ },
+ {
+  "text": "1721eee4581a9c54",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 8
+   }
+  ]
+ },
+ {
+  "text": "18466005ef235d2b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 9
+   }
+  ]
+ },
+ {
+  "text": "187866959c3bb809",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 9
+   }
+  ]
+ },
+ {
+  "text": "1982853d15d996da",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 9
+   }
+  ]
+ },
+ {
+  "text": "1b006880ac88d1cd",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 9
+   }
+  ]
+ },
+ {
+  "text": "1b8308d020ce682d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 9
+   }
+  ]
+ },
+ {
+  "text": "1c1678e034c76ca8",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 9
+   }
+  ]
+ },
+ {
+  "text": "1c81d72c6bcb72f0",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 10
+   }
+  ]
+ },
+ {
+  "text": "1d7063b43d82eb6b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 10
+   }
+  ]
+ },
+ {
+  "text": "1dfe6f7a3c7ebefb",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 10
+   }
+  ]
+ },
+ {
+  "text": "1f0273265bf3875e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 10
+   }
+  ]
+ },
+ {
+  "text": "1fd8a63a89ab865e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 10
+   }
+  ]
+ },
+ {
+  "text": "21e90918df69eff7",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 10
+   }
+  ]
+ },
+ {
+  "text": "22427242698f51a0",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 11
+   }
+  ]
+ },
+ {
+  "text": "22749a294788af66",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 11
+   }
+  ]
+ },
+ {
+  "text": "2350348a9acf49c4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 11
+   }
+  ]
+ },
+ {
+  "text": "2404fa21fe49c32d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 11
+   }
+  ]
+ },
+ {
+  "text": "25a04f6d9707d2cc",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 11
+   }
+  ]
+ },
+ {
+  "text": "26e18a495385517e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 11
+   }
+  ]
+ },
+ {
+  "text": "272519d2e9bf5324",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 12
+   }
+  ]
+ },
+ {
+  "text": "27a21978b9089c60",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 12
+   }
+  ]
+ },
+ {
+  "text": "2844da91583db0f4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 12
+   }
+  ]
+ },
+ {
+  "text": "28569b6c8c641298",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 12
+   }
+  ]
+ },
+ {
+  "text": "28812689506a3e9c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 12
+   }
+  ]
+ },
+ {
+  "text": "2947afe42093062f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 12
+   }
+  ]
+ },
+ {
+  "text": "2a5298e1c2f70c82",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 13
+   }
+  ]
+ },
+ {
+  "text": "2a9fb8f5d0576eae",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 13
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 16
+   }
+  ]
+ },
+ {
+  "text": "2ab752f65427a44c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 13
+   }
+  ]
+ },
+ {
+  "text": "2cb3f69ab9bc1297",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 13
+   }
+  ]
+ },
+ {
+  "text": "2cee40dfbd0b174d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 13
+   }
+  ]
+ },
+ {
+  "text": "2d821486db99d8cb",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 13
+   }
+  ]
+ },
+ {
+  "text": "2eb0fbe82bd8e228",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 14
+   }
+  ]
+ },
+ {
+  "text": "2ecd1248e0696796",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 14
+   }
+  ]
+ },
+ {
+  "text": "2f1147605182c6ab",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 14
+   }
+  ]
+ },
+ {
+  "text": "2fe755e42b659f64",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 14
+   }
+  ]
+ },
+ {
+  "text": "31894c33c4ed1e2a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 14
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 43
+   }
+  ]
+ },
+ {
+  "text": "32cb44321da1b5a0",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 14
+   }
+  ]
+ },
+ {
+  "text": "335a97fa3774906e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 15
+   }
+  ]
+ },
+ {
+  "text": "346d785d6ca13ff4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 15
+   }
+  ]
+ },
+ {
+  "text": "351506bb55187cf9",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 15
+   }
+  ]
+ },
+ {
+  "text": "35f4ca4fa00d380a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 15
+   }
+  ]
+ },
+ {
+  "text": "39012af699fbc3fb",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 15
+   }
+  ]
+ },
+ {
+  "text": "393f7ce48d9515de",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 15
+   }
+  ]
+ },
+ {
+  "text": "3968938b8147df7c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 16
+   }
+  ]
+ },
+ {
+  "text": "39b3e89338c6ae66",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 16
+   }
+  ]
+ },
+ {
+  "text": "39c7982ba8ea2f8c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 16
+   }
+  ]
+ },
+ {
+  "text": "39ddd2e6f131c873",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 16
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 19
+   }
+  ]
+ },
+ {
+  "text": "3a3cde32420b1fb4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 16
+   }
+  ]
+ },
+ {
+  "text": "3a49b4448eaa94fe",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 16
+   }
+  ]
+ },
+ {
+  "text": "3bf0844097ab595f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 17
+   }
+  ]
+ },
+ {
+  "text": "3c14455d53db72fe",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 17
+   }
+  ]
+ },
+ {
+  "text": "3cfc68e6bf19f67d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 17
+   }
+  ]
+ },
+ {
+  "text": "3d8ffc158042f62f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 17
+   }
+  ]
+ },
+ {
+  "text": "3e78581fdab81a73",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 17
+   }
+  ]
+ },
+ {
+  "text": "3e98cd4b147320f3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 17
+   }
+  ]
+ },
+ {
+  "text": "40f2a2ce5c20418f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 18
+   }
+  ]
+ },
+ {
+  "text": "414feae0e1b4ce15",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 18
+   }
+  ]
+ },
+ {
+  "text": "418322d5ff8b13bc",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 18
+   }
+  ]
+ },
+ {
+  "text": "41ce78fe8f96bebe",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 18
+   }
+  ]
+ },
+ {
+  "text": "4307bf2d275eec1d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 18
+   }
+  ]
+ },
+ {
+  "text": "44dd33af0ef2b0d1",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 18
+   }
+  ]
+ },
+ {
+  "text": "45730e588f30a508",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 19
+   }
+  ]
+ },
+ {
+  "text": "464dc7f48516a446",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 19
+   }
+  ]
+ },
+ {
+  "text": "4709331e1a3c3ac9",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 19
+   }
+  ]
+ },
+ {
+  "text": "47b43a883caae42c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 19
+   }
+  ]
+ },
+ {
+  "text": "487bcf38276eb725",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 19
+   }
+  ]
+ },
+ {
+  "text": "48a3312a8c002dcd",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 19
+   }
+  ]
+ },
+ {
+  "text": "4911594c67c24c66",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 20
+   }
+  ]
+ },
+ {
+  "text": "49875503e219e80d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 20
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 14
+   }
+  ]
+ },
+ {
+  "text": "49de16e1343250e4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 20
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 20
+   }
+  ]
+ },
+ {
+  "text": "49f1972458f7ccec",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 20
+   }
+  ]
+ },
+ {
+  "text": "49fd919a67a5db66",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 20
+   }
+  ]
+ },
+ {
+  "text": "4f1aeae93aeb9527",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 20
+   }
+  ]
+ },
+ {
+  "text": "4fee9cc13c0b4cec",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 21
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 29
+   }
+  ]
+ },
+ {
+  "text": "4ff64273030e87d6",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 21
+   }
+  ]
+ },
+ {
+  "text": "515ddabd01bd0c64",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 21
+   }
+  ]
+ },
+ {
+  "text": "519980a75ebd50ad",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 21
+   }
+  ]
+ },
+ {
+  "text": "522be23400cc6086",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 21
+   }
+  ]
+ },
+ {
+  "text": "5238bd7b9eca7c3f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 21
+   }
+  ]
+ },
+ {
+  "text": "52ebdf76131c8f38",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 22
+   }
+  ]
+ },
+ {
+  "text": "530bb611a14b6ce3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 22
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 25
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 25
+   }
+  ]
+ },
+ {
+  "text": "534c2c49ca10d168",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 22
+   }
+  ]
+ },
+ {
+  "text": "5354a9ac5770888c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 22
+   }
+  ]
+ },
+ {
+  "text": "53b9d10729fc26ee",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 22
+   }
+  ]
+ },
+ {
+  "text": "543ff1ff0bd82b44",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 22
+   }
+  ]
+ },
+ {
+  "text": "54dc633a67baa93d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 23
+   }
+  ]
+ },
+ {
+  "text": "55788a7ebd929436",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 23
+   }
+  ]
+ },
+ {
+  "text": "55938279f6ef8664",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 23
+   }
+  ]
+ },
+ {
+  "text": "56aa04adbbeea69f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 23
+   }
+  ]
+ },
+ {
+  "text": "57240a76af850923",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 23
+   }
+  ]
+ },
+ {
+  "text": "5795e99a988d10b7",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 23
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 44
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 44
+   }
+  ]
+ },
+ {
+  "text": "57f3b4c04762cb1e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 24
+   }
+  ]
+ },
+ {
+  "text": "58038f21c4334481",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 24
+   }
+  ]
+ },
+ {
+  "text": "58bdcd1c444b0981",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 24
+   }
+  ]
+ },
+ {
+  "text": "59e86f7c0601a2e2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 24
+   }
+  ]
+ },
+ {
+  "text": "5c404005f63b0e8c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 24
+   }
+  ]
+ },
+ {
+  "text": "5c8058963f766439",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 24
+   }
+  ]
+ },
+ {
+  "text": "5d5c93ef05a46880",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 25
+   }
+  ]
+ },
+ {
+  "text": "5d68e55823acd1bf",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 25
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 24
+   }
+  ]
+ },
+ {
+  "text": "5df489abbe211839",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 25
+   }
+  ]
+ },
+ {
+  "text": "5e264395c66c0013",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 25
+   }
+  ]
+ },
+ {
+  "text": "601d726de9c3962f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 25
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 46
+   }
+  ]
+ },
+ {
+  "text": "63bd4fd7d65199fe",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 25
+   }
+  ]
+ },
+ {
+  "text": "64c37a90c0d906de",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 26
+   },
+   {
+    "file": "src/wall_terminal_assets.lua",
+    "line": 6
+   }
+  ]
+ },
+ {
+  "text": "64f56a84b883af7d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 26
+   }
+  ]
+ },
+ {
+  "text": "650a24debc71e5c7",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 26
+   }
+  ]
+ },
+ {
+  "text": "65ee777b72347cb4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 26
+   }
+  ]
+ },
+ {
+  "text": "661c5c71cc017b97",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 26
+   }
+  ]
+ },
+ {
+  "text": "6657e3ccf2960f28",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 26
+   }
+  ]
+ },
+ {
+  "text": "6723e952d71531eb",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 27
+   }
+  ]
+ },
+ {
+  "text": "67b87368042c8b99",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 27
+   }
+  ]
+ },
+ {
+  "text": "686c085d91781491",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 27
+   }
+  ]
+ },
+ {
+  "text": "68aa9a343aa4333c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 27
+   }
+  ]
+ },
+ {
+  "text": "68e80476c1c602f5",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 27
+   }
+  ]
+ },
+ {
+  "text": "68ebdce3f7498179",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 27
+   }
+  ]
+ },
+ {
+  "text": "68f670405a504f68",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 28
+   }
+  ]
+ },
+ {
+  "text": "695ba4a2683b4ce3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 28
+   }
+  ]
+ },
+ {
+  "text": "6a9026cd7318c9bd",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 28
+   }
+  ]
+ },
+ {
+  "text": "6ad7cc21015a5f85",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 28
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 14
+   }
+  ]
+ },
+ {
+  "text": "6aedc8963a6c1eae",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 28
+   }
+  ]
+ },
+ {
+  "text": "6aeebfbdb87d1d5f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 28
+   }
+  ]
+ },
+ {
+  "text": "6ca87637eaeb5923",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 29
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 30
+   }
+  ]
+ },
+ {
+  "text": "6db0c562c2bc10b3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 29
+   }
+  ]
+ },
+ {
+  "text": "6f09a6ce25c8ca77",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 29
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 47
+   }
+  ]
+ },
+ {
+  "text": "6f605198a099fcf2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 29
+   }
+  ]
+ },
+ {
+  "text": "70d708e5fd627493",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 29
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 42
+   }
+  ]
+ },
+ {
+  "text": "7160179c08dd7d81",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 29
+   }
+  ]
+ },
+ {
+  "text": "722311fbee58cae2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 30
+   }
+  ]
+ },
+ {
+  "text": "731acec30a1a6fac",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 30
+   }
+  ]
+ },
+ {
+  "text": "7356dd3333111570",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 30
+   }
+  ]
+ },
+ {
+  "text": "73cfbbf2e883af96",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 30
+   }
+  ]
+ },
+ {
+  "text": "750605cfc0173701",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 30
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 45
+   }
+  ]
+ },
+ {
+  "text": "754f8570c7a383a6",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 30
+   }
+  ]
+ },
+ {
+  "text": "7580e5ae368440ae",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 31
+   }
+  ]
+ },
+ {
+  "text": "75cf73a0819bf767",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 31
+   }
+  ]
+ },
+ {
+  "text": "76ecb634596a82f3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 31
+   }
+  ]
+ },
+ {
+  "text": "77214a2dec1d0518",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 31
+   }
+  ]
+ },
+ {
+  "text": "784671f2b3a4da79",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 31
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 26
+   }
+  ]
+ },
+ {
+  "text": "7909cf8aa0513800",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 31
+   }
+  ]
+ },
+ {
+  "text": "793a472e127520d3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 32
+   }
+  ]
+ },
+ {
+  "text": "7aecfc5c8a82a7b8",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 32
+   }
+  ]
+ },
+ {
+  "text": "7af5df78217fd645",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 32
+   }
+  ]
+ },
+ {
+  "text": "7b523d4ef1c8f4ee",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 32
+   }
+  ]
+ },
+ {
+  "text": "7be04adb392a3045",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 32
+   }
+  ]
+ },
+ {
+  "text": "7d678bb75cfb937b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 32
+   }
+  ]
+ },
+ {
+  "text": "7f37db9b767844c2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 33
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 41
+   }
+  ]
+ },
+ {
+  "text": "7f927f50fa6c50e8",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 33
+   }
+  ]
+ },
+ {
+  "text": "7ffcb7b7b850152c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 33
+   }
+  ]
+ },
+ {
+  "text": "81558b003da7ae40",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 33
+   }
+  ]
+ },
+ {
+  "text": "81da0125a3af89ee",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 33
+   }
+  ]
+ },
+ {
+  "text": "82751a054bdfd075",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 33
+   }
+  ]
+ },
+ {
+  "text": "82dcd83d81a385f3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 34
+   }
+  ]
+ },
+ {
+  "text": "82ec28278bf9b79a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 34
+   }
+  ]
+ },
+ {
+  "text": "838a0fde641bb2b0",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 34
+   }
+  ]
+ },
+ {
+  "text": "8475f912fb83a589",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 34
+   }
+  ]
+ },
+ {
+  "text": "86565de78333128f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 34
+   }
+  ]
+ },
+ {
+  "text": "899923de5ebeb3a2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 34
+   }
+  ]
+ },
+ {
+  "text": "8b23d93db6312d96",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 35
+   }
+  ]
+ },
+ {
+  "text": "8b430445e4323b7c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 35
+   }
+  ]
+ },
+ {
+  "text": "8c3b838d05731044",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 35
+   }
+  ]
+ },
+ {
+  "text": "8f295b4d04c3a06c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 35
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 34
+   }
+  ]
+ },
+ {
+  "text": "8f67c47bf021d580",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 35
+   }
+  ]
+ },
+ {
+  "text": "902c54afb4ed396f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 35
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 35
+   }
+  ]
+ },
+ {
+  "text": "914e182a431a53a6",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 36
+   }
+  ]
+ },
+ {
+  "text": "933148104d23a322",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 36
+   }
+  ]
+ },
+ {
+  "text": "935050dc44dee3da",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 36
+   }
+  ]
+ },
+ {
+  "text": "93fa804787551c15",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 36
+   }
+  ]
+ },
+ {
+  "text": "9494c346e564d15f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 36
+   }
+  ]
+ },
+ {
+  "text": "94b554570b12c088",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 36
+   }
+  ]
+ },
+ {
+  "text": "94eaeaffd878dd6d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 37
+   }
+  ]
+ },
+ {
+  "text": "950461b424956775",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 37
+   }
+  ]
+ },
+ {
+  "text": "9514615d563612f1",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 37
+   }
+  ]
+ },
+ {
+  "text": "981a0bf27dd6a546",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 37
+   }
+  ]
+ },
+ {
+  "text": "992d325d88de5fbf",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 37
+   }
+  ]
+ },
+ {
+  "text": "9974f498c67d5e20",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 37
+   }
+  ]
+ },
+ {
+  "text": "99f20df1c4cf885a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 38
+   }
+  ]
+ },
+ {
+  "text": "9a58aa87e9da0172",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 38
+   }
+  ]
+ },
+ {
+  "text": "9b0e4447df81f72e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 38
+   }
+  ]
+ },
+ {
+  "text": "9b856579552160e5",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 38
+   }
+  ]
+ },
+ {
+  "text": "9ceed8ae1331d7bf",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 38
+   }
+  ]
+ },
+ {
+  "text": "9d4eb484c405e7a2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 38
+   }
+  ]
+ },
+ {
+  "text": "9e7172866dcca25d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 39
+   }
+  ]
+ },
+ {
+  "text": "9effc1c882578baf",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 39
+   }
+  ]
+ },
+ {
+  "text": "9f064aefede28fb3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 39
+   }
+  ]
+ },
+ {
+  "text": "a14f1a98c80575af",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 39
+   }
+  ]
+ },
+ {
+  "text": "a193a00ce4bbd529",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 39
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 47
+   }
+  ]
+ },
+ {
+  "text": "a1adc0bfb7feec90",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 39
+   }
+  ]
+ },
+ {
+  "text": "a275324ae43dfd50",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 40
+   }
+  ]
+ },
+ {
+  "text": "a37891d879cb3b1d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 40
+   }
+  ]
+ },
+ {
+  "text": "a4946425b2c70017",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 40
+   }
+  ]
+ },
+ {
+  "text": "a4cbde513bfe9e5d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 40
+   }
+  ]
+ },
+ {
+  "text": "a66d7cf238070ca7",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 40
+   }
+  ]
+ },
+ {
+  "text": "a7b23b55209766ae",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 40
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 39
+   }
+  ]
+ },
+ {
+  "text": "a7d864a49aaa62b3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 41
+   }
+  ]
+ },
+ {
+  "text": "a952bd560a4b1e0d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 41
+   }
+  ]
+ },
+ {
+  "text": "aaa4485c0b8a76ed",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 41
+   }
+  ]
+ },
+ {
+  "text": "ab37d0554198acc8",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 41
+   }
+  ]
+ },
+ {
+  "text": "ab44d0cd03a6004d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 41
+   }
+  ]
+ },
+ {
+  "text": "abb5be515c9e779c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 41
+   }
+  ]
+ },
+ {
+  "text": "ad393286210eef73",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 42
+   }
+  ]
+ },
+ {
+  "text": "ae4f2e79b546847c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 42
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 13
+   }
+  ]
+ },
+ {
+  "text": "aedc4c57e8239d58",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 42
+   }
+  ]
+ },
+ {
+  "text": "b15cd2256a2e677b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 42
+   }
+  ]
+ },
+ {
+  "text": "b29a2fa06fdd99d2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 42
+   }
+  ]
+ },
+ {
+  "text": "b2c627b3ba7e0c0a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 42
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 33
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 33
+   }
+  ]
+ },
+ {
+  "text": "b2d139f78a2e2120",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 43
+   }
+  ]
+ },
+ {
+  "text": "b32472b150d4fa9b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 43
+   }
+  ]
+ },
+ {
+  "text": "b3983aa88d96fa0a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 43
+   }
+  ]
+ },
+ {
+  "text": "b47514ae19a494f0",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 43
+   }
+  ]
+ },
+ {
+  "text": "b4b38c1e20bdecd3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 43
+   }
+  ]
+ },
+ {
+  "text": "b60a5080bcdc100f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 43
+   }
+  ]
+ },
+ {
+  "text": "b75f652bed19144a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 44
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 37
+   }
+  ]
+ },
+ {
+  "text": "b779a2f9d0928e03",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 44
+   }
+  ]
+ },
+ {
+  "text": "b902854bbc65cd9b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 44
+   }
+  ]
+ },
+ {
+  "text": "b9c02bb092fca9d1",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 44
+   }
+  ]
+ },
+ {
+  "text": "ba40a2814d01bda0",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 44
+   }
+  ]
+ },
+ {
+  "text": "bba76437a1c00c1e",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 44
+   }
+  ]
+ },
+ {
+  "text": "bbb6c58f04e815b4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 45
+   }
+  ]
+ },
+ {
+  "text": "bc80aeb7d13ac9ad",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 45
+   }
+  ]
+ },
+ {
+  "text": "bd7a9742157b96d2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 45
+   }
+  ]
+ },
+ {
+  "text": "bd90b4fccb70622c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 45
+   }
+  ]
+ },
+ {
+  "text": "bdea01a4245e2aae",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 45
+   }
+  ]
+ },
+ {
+  "text": "be36d9447219f1b2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 45
+   }
+  ]
+ },
+ {
+  "text": "be6c260fadcb8719",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 46
+   }
+  ]
+ },
+ {
+  "text": "bf2250de0b17285c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 46
+   }
+  ]
+ },
+ {
+  "text": "c0052e5b38e18c33",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 46
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 38
+   }
+  ]
+ },
+ {
+  "text": "c024a2e8ae639757",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 46
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 36
+   }
+  ]
+ },
+ {
+  "text": "c1a50175e4faa831",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 46
+   }
+  ]
+ },
+ {
+  "text": "c26c3ee3cb998a3d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 46
+   }
+  ]
+ },
+ {
+  "text": "c40e3b3fa79052ec",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 47
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 18
+   }
+  ]
+ },
+ {
+  "text": "c46cf24278594a7d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 47
+   }
+  ]
+ },
+ {
+  "text": "c51f160470b34ae3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 47
+   }
+  ]
+ },
+ {
+  "text": "c5a05d09369d0670",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 47
+   }
+  ]
+ },
+ {
+  "text": "c5de422eed100414",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 47
+   }
+  ]
+ },
+ {
+  "text": "c630d7c0ea6ceaca",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 47
+   }
+  ]
+ },
+ {
+  "text": "c7c2d638edffd06d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 48
+   }
+  ]
+ },
+ {
+  "text": "c922b8940f7f5162",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 48
+   }
+  ]
+ },
+ {
+  "text": "c97c859c01d50fcf",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 48
+   }
+  ]
+ },
+ {
+  "text": "ca8d89f4fb0ce5ef",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 48
+   }
+  ]
+ },
+ {
+  "text": "cae3f1e8a44a80b3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 48
+   }
+  ]
+ },
+ {
+  "text": "cd83cb2e73d4fba6",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 48
+   }
+  ]
+ },
+ {
+  "text": "cf1acde501ccfa1b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 49
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 31
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 32
+   }
+  ]
+ },
+ {
+  "text": "cfa471cb7c3a2d94",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 49
+   }
+  ]
+ },
+ {
+  "text": "d1968909ea085527",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 49
+   }
+  ]
+ },
+ {
+  "text": "d4aa75d30a8d7773",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 49
+   }
+  ]
+ },
+ {
+  "text": "d678f7b4e7c3901a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 49
+   }
+  ]
+ },
+ {
+  "text": "d6d42eefe4936690",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 49
+   }
+  ]
+ },
+ {
+  "text": "d6e442e0741b6c5f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 50
+   }
+  ]
+ },
+ {
+  "text": "d85cf8192edbddc1",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 50
+   }
+  ]
+ },
+ {
+  "text": "dbd9381f9ea9788f",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 50
+   }
+  ]
+ },
+ {
+  "text": "dbf00f1b8761aba5",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 50
+   }
+  ]
+ },
+ {
+  "text": "ddcea5fdd4071767",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 50
+   }
+  ]
+ },
+ {
+  "text": "de96cd7cc69628bc",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 50
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 22
+   }
+  ]
+ },
+ {
+  "text": "df16f5c644edc2b1",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 51
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 17
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 17
+   }
+  ]
+ },
+ {
+  "text": "df59f9c78a184bd5",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 51
+   }
+  ]
+ },
+ {
+  "text": "dfb81f9917285965",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 51
+   }
+  ]
+ },
+ {
+  "text": "e0807831d6f456c8",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 51
+   }
+  ]
+ },
+ {
+  "text": "e0d35fe7ce80e3f0",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 51
+   }
+  ]
+ },
+ {
+  "text": "e12f82d7c0c7bc63",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 51
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 40
+   }
+  ]
+ },
+ {
+  "text": "e1ce0be08c5d7193",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 52
+   }
+  ]
+ },
+ {
+  "text": "e241b72c495c6d20",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 52
+   }
+  ]
+ },
+ {
+  "text": "e4aca30d86b21463",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 52
+   }
+  ]
+ },
+ {
+  "text": "e566e3aaf90db459",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 52
+   }
+  ]
+ },
+ {
+  "text": "e62ab45bad7f6ca3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 52
+   }
+  ]
+ },
+ {
+  "text": "e829d44fb5653ec4",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 52
+   }
+  ]
+ },
+ {
+  "text": "e9b3f74dc7aeeaef",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 53
+   }
+  ]
+ },
+ {
+  "text": "ea1b5bcaaf3eef23",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 53
+   }
+  ]
+ },
+ {
+  "text": "ea6967f8565a2d76",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 53
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 15
+   }
+  ]
+ },
+ {
+  "text": "eaada9de4cd60356",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 53
+   }
+  ]
+ },
+ {
+  "text": "eb94fd6a9c4b7522",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 53
+   }
+  ]
+ },
+ {
+  "text": "ebc7888cf3886e91",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 53
+   }
+  ]
+ },
+ {
+  "text": "eeebc5fd26fe0f40",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 54
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 21
+   }
+  ]
+ },
+ {
+  "text": "ef8edb7b47d8f0b3",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 54
+   }
+  ]
+ },
+ {
+  "text": "f111fa26003c0de9",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 54
+   }
+  ]
+ },
+ {
+  "text": "f230d2d2adcc034a",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 54
+   }
+  ]
+ },
+ {
+  "text": "f24cfa612428175b",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 54
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 28
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 28
+   }
+  ]
+ },
+ {
+  "text": "f3174ef31b118a55",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 54
+   }
+  ]
+ },
+ {
+  "text": "f3c65eaab75f1fc2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 55
+   }
+  ]
+ },
+ {
+  "text": "f5014993c8402d87",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 55
+   }
+  ]
+ },
+ {
+  "text": "f5142161602a58af",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 55
+   }
+  ]
+ },
+ {
+  "text": "f590569dbbc6fe2d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 55
+   }
+  ]
+ },
+ {
+  "text": "f62f312ac22f4914",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 55
+   }
+  ]
+ },
+ {
+  "text": "f7646e79610c124d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 55
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 40
+   }
+  ]
+ },
+ {
+  "text": "f79b65e482594bef",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 56
+   }
+  ]
+ },
+ {
+  "text": "f8d841ae320e62bf",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 56
+   }
+  ]
+ },
+ {
+  "text": "f90a06c6e291692d",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 56
+   }
+  ]
+ },
+ {
+  "text": "f9a5bf9ffcfd28b7",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 56
+   }
+  ]
+ },
+ {
+  "text": "fae34acb79502f53",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 56
+   }
+  ]
+ },
+ {
+  "text": "fb48de3e9d5f187c",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 56
+   }
+  ]
+ },
+ {
+  "text": "fc1a5bf2f3ff15df",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 57
+   }
+  ]
+ },
+ {
+  "text": "fd3eef9a0329b2c2",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 57
+   }
+  ]
+ },
+ {
+  "text": "fde8230c79315087",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 57
+   },
+   {
+    "file": "src/support_catalogue.lua",
+    "line": 23
+   }
+  ]
+ },
+ {
+  "text": "fe712728dec82bc7",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 57
+   }
+  ]
+ },
+ {
+  "text": "ff0ada8dd2ee32cc",
+  "bytes": 8,
+  "status": "nowhere",
+  "uses": [
+   {
+    "file": "src/equipment_packages.lua",
+    "line": 57
+   }
+  ]
  },
  {
   "text": "7ed1f941859987b4",
@@ -2146,7 +5840,7 @@
   "uses": [
    {
     "file": "src/runtime.lua",
-    "line": 193
+    "line": 196
    }
   ],
   "new_rva": 8662464,
@@ -2164,7 +5858,7 @@
   "uses": [
    {
     "file": "src/runtime.lua",
-    "line": 205
+    "line": 208
    },
    {
     "file": "src/support_weapons.lua",
@@ -2186,7 +5880,7 @@
   "uses": [
    {
     "file": "src/runtime.lua",
-    "line": 222
+    "line": 224
    },
    {
     "file": "src/support_weapons.lua",
@@ -2208,7 +5902,7 @@
   "uses": [
    {
     "file": "src/runtime.lua",
-    "line": 264
+    "line": 266
    }
   ],
   "new_rva": 9238672,
@@ -2226,7 +5920,7 @@
   "uses": [
    {
     "file": "src/runtime.lua",
-    "line": 282
+    "line": 284
    }
   ],
   "new_rva": 2061584,
@@ -2244,7 +5938,7 @@
   "uses": [
    {
     "file": "src/runtime.lua",
-    "line": 284
+    "line": 286
    }
   ],
   "new_rva": 2062080,
@@ -2278,18 +5972,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 12
-   }
-  ]
- },
- {
-  "text": "ae4f2e79b546847c",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 12
+    "line": 13
    }
   ]
  },
@@ -2300,18 +5983,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 13
-   }
-  ]
- },
- {
-  "text": "6ad7cc21015a5f85",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 13
+    "line": 14
    }
   ]
  },
@@ -2322,18 +5994,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 13
-   }
-  ]
- },
- {
-  "text": "49875503e219e80d",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 13
+    "line": 14
    }
   ]
  },
@@ -2344,18 +6005,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 14
-   }
-  ]
- },
- {
-  "text": "ea6967f8565a2d76",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 14
+    "line": 15
    }
   ]
  },
@@ -2366,18 +6016,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 15
-   }
-  ]
- },
- {
-  "text": "2a9fb8f5d0576eae",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 15
+    "line": 16
    }
   ]
  },
@@ -2388,22 +6027,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 16
-   }
-  ]
- },
- {
-  "text": "df16f5c644edc2b1",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 16
-   },
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 16
+    "line": 17
    }
   ]
  },
@@ -2414,7 +6038,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 16
+    "line": 17
    }
   ]
  },
@@ -2425,18 +6049,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 17
-   }
-  ]
- },
- {
-  "text": "c40e3b3fa79052ec",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 17
+    "line": 18
    }
   ]
  },
@@ -2447,18 +6060,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 18
-   }
-  ]
- },
- {
-  "text": "39ddd2e6f131c873",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 18
+    "line": 19
    }
   ]
  },
@@ -2469,18 +6071,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 19
-   }
-  ]
- },
- {
-  "text": "49de16e1343250e4",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 19
+    "line": 20
    }
   ]
  },
@@ -2491,18 +6082,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 20
-   }
-  ]
- },
- {
-  "text": "eeebc5fd26fe0f40",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 20
+    "line": 21
    }
   ]
  },
@@ -2513,18 +6093,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 21
-   }
-  ]
- },
- {
-  "text": "de96cd7cc69628bc",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 21
+    "line": 22
    }
   ]
  },
@@ -2535,18 +6104,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 22
-   }
-  ]
- },
- {
-  "text": "fde8230c79315087",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 22
+    "line": 23
    }
   ]
  },
@@ -2557,18 +6115,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 23
-   }
-  ]
- },
- {
-  "text": "5d68e55823acd1bf",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 23
+    "line": 24
    }
   ]
  },
@@ -2579,22 +6126,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 24
-   }
-  ]
- },
- {
-  "text": "530bb611a14b6ce3",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 24
-   },
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 24
+    "line": 25
    }
   ]
  },
@@ -2605,7 +6137,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 24
+    "line": 25
    }
   ]
  },
@@ -2616,18 +6148,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 25
-   }
-  ]
- },
- {
-  "text": "784671f2b3a4da79",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 25
+    "line": 26
    }
   ]
  },
@@ -2638,18 +6159,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 26
-   }
-  ]
- },
- {
-  "text": "0089bbe3e284fcaa",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 26
+    "line": 27
    }
   ]
  },
@@ -2660,22 +6170,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 27
-   }
-  ]
- },
- {
-  "text": "f24cfa612428175b",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 27
-   },
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 27
+    "line": 28
    }
   ]
  },
@@ -2686,7 +6181,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 27
+    "line": 28
    }
   ]
  },
@@ -2697,18 +6192,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 28
-   }
-  ]
- },
- {
-  "text": "4fee9cc13c0b4cec",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 28
+    "line": 29
    }
   ]
  },
@@ -2719,18 +6203,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 29
-   }
-  ]
- },
- {
-  "text": "6ca87637eaeb5923",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 29
+    "line": 30
    }
   ]
  },
@@ -2741,18 +6214,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 29
-   }
-  ]
- },
- {
-  "text": "15eb7241c3616351",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 29
+    "line": 30
    }
   ]
  },
@@ -2761,21 +6223,6 @@
   "bytes": 8,
   "status": "resource-id",
   "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 30
-   }
-  ]
- },
- {
-  "text": "cf1acde501ccfa1b",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 30
-   },
    {
     "file": "src/support_catalogue.lua",
     "line": 31
@@ -2789,7 +6236,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 31
+    "line": 32
    }
   ]
  },
@@ -2800,22 +6247,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 32
-   }
-  ]
- },
- {
-  "text": "b2c627b3ba7e0c0a",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 32
-   },
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 32
+    "line": 33
    }
   ]
  },
@@ -2826,7 +6258,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 32
+    "line": 33
    }
   ]
  },
@@ -2837,18 +6269,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 33
-   }
-  ]
- },
- {
-  "text": "8f295b4d04c3a06c",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 33
+    "line": 34
    }
   ]
  },
@@ -2859,18 +6280,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 34
-   }
-  ]
- },
- {
-  "text": "902c54afb4ed396f",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 34
+    "line": 35
    }
   ]
  },
@@ -2881,18 +6291,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 35
-   }
-  ]
- },
- {
-  "text": "c024a2e8ae639757",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 35
+    "line": 36
    }
   ]
  },
@@ -2903,18 +6302,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 36
-   }
-  ]
- },
- {
-  "text": "b75f652bed19144a",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 36
+    "line": 37
    }
   ]
  },
@@ -2925,18 +6313,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 37
-   }
-  ]
- },
- {
-  "text": "c0052e5b38e18c33",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 37
+    "line": 38
    }
   ]
  },
@@ -2947,18 +6324,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 38
-   }
-  ]
- },
- {
-  "text": "a7b23b55209766ae",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 38
+    "line": 39
    }
   ]
  },
@@ -2969,18 +6335,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 39
-   }
-  ]
- },
- {
-  "text": "f7646e79610c124d",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 39
+    "line": 40
    }
   ]
  },
@@ -2991,18 +6346,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 39
-   }
-  ]
- },
- {
-  "text": "e12f82d7c0c7bc63",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 39
+    "line": 40
    }
   ]
  },
@@ -3013,18 +6357,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 40
-   }
-  ]
- },
- {
-  "text": "7f37db9b767844c2",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 40
+    "line": 41
    }
   ]
  },
@@ -3035,18 +6368,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 41
-   }
-  ]
- },
- {
-  "text": "70d708e5fd627493",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 41
+    "line": 42
    }
   ]
  },
@@ -3057,18 +6379,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 42
-   }
-  ]
- },
- {
-  "text": "31894c33c4ed1e2a",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 42
+    "line": 43
    }
   ]
  },
@@ -3079,22 +6390,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 43
-   }
-  ]
- },
- {
-  "text": "5795e99a988d10b7",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 43
-   },
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 43
+    "line": 44
    }
   ]
  },
@@ -3105,7 +6401,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 43
+    "line": 44
    }
   ]
  },
@@ -3116,7 +6412,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 44
+    "line": 45
    }
   ]
  },
@@ -3127,18 +6423,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 44
-   }
-  ]
- },
- {
-  "text": "750605cfc0173701",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 44
+    "line": 45
    }
   ]
  },
@@ -3149,18 +6434,7 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 45
-   }
-  ]
- },
- {
-  "text": "601d726de9c3962f",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/support_catalogue.lua",
-    "line": 45
+    "line": 46
    }
   ]
  },
@@ -3171,29 +6445,18 @@
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 46
+    "line": 47
    }
   ]
  },
  {
-  "text": "a193a00ce4bbd529",
+  "text": "0949eeb3dc920324",
   "bytes": 8,
   "status": "nowhere",
   "uses": [
    {
     "file": "src/support_catalogue.lua",
-    "line": 46
-   }
-  ]
- },
- {
-  "text": "e0a48d0be9a7453f",
-  "bytes": 8,
-  "status": "resource-id",
-  "uses": [
-   {
-    "file": "src/support_weapons.lua",
-    "line": 5
+    "line": 47
    }
   ]
  },
@@ -4340,17 +7603,6 @@
   "status": "same",
   "notes": [],
   "new_text": "488b471848c1e206418be948035028e8ba461900"
- },
- {
-  "text": "64c37a90c0d906de",
-  "bytes": 8,
-  "status": "nowhere",
-  "uses": [
-   {
-    "file": "src/wall_terminal_assets.lua",
-    "line": 6
-   }
-  ]
  },
  {
   "text": "09fb77881b4cc43e",

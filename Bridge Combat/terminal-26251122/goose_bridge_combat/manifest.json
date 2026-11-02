@@ -2,7 +2,7 @@
   "id": "goose_bridge_combat",
   "name": "Bridge Combat",
   "author": "Goose",
-  "version": "0.1.17-experimental-26251122.3",
+  "version": "0.1.17-experimental-26251122.12",
   "description": "Bridge combat with a fixed equipment terminal, focused mouse controls, resupply and support weapons.",
   "lll": {
     "entry": "main.lua",
@@ -23,6 +23,8 @@
       "src/code_warmup.lua",
       "src/code_warmup_sites.lua",
       "src/controller.lua",
+      "src/equipment_hold.lua",
+      "src/equipment_packages.lua",
       "src/fx_assets.lua",
       "src/fx_assets_catalog.lua",
       "src/fx_resource_readiness.lua",

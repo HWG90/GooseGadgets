@@ -74,8 +74,11 @@ local function session(read, game, world, names)
         assert(reads<=32768, 'read budget exhausted')
         local value = read(at,n)
         assert(type(value)=='string' and #value==n, 'unreadable field at '..string.format('%X',at))
-        local key = tostring(at)..':'..n
-        if samples[key] then assert(samples[key].value==value, 'identity changed during observation')
+        local key = ('%X:%d'):format(at,n)
+        if samples[key] then
+            if samples[key].value~=value then
+                error(('identity changed during observation at %X (%d bytes): %s then %s'):format(at,n,hex(samples[key].value),hex(value)))
+            end
         else samples[key]={at=at,n=n,value=value}; order[#order+1]=samples[key] end
         return value
     end
@@ -249,7 +252,7 @@ function M.new(backend,injected)
             local expected=unhex(fingerprint)
             local name,base,length,stamp=native_owner(address,#expected)
             assert(read(address,#expected)==expected,'Animation native fingerprint differs')
-            local key=abi..':'..tostring(address)..':'..fingerprint:lower()
+            local key=abi..':'..('%X'):format(address)..':'..fingerprint:lower()
             local cached=native_bindings[key]
             if cached and cached.name==name and cached.base==base and cached.length==length
                 and cached.stamp==stamp then return cached.wrapper end

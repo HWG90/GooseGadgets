@@ -149,6 +149,9 @@ function M.new(options)
     local asset_update_frame=false
     local visibility_reason,weapon_menu_reason
     local weapon_ui_paused,weapon_resume_delay=false,0
+    -- .8: the native weapon menu is lost whenever the game replaces the HUD; with no ship menu open
+    -- that is the Armory (or another terminal). hud_pause restores the pose there and re-initializes it after.
+    local hud_pause,hud_owned=false,false
     local initialization_retry=0
     -- If the old controller faults during a native stance update, its internal
     -- cleanup may run in the same call. Refuse restoration mutations until the
@@ -212,8 +215,7 @@ function M.new(options)
         -- Inventory selection alone is insufficient: the Wielder can retain a
         -- weapon in its hand. Detach only its main hand, without deleting gear.
         local manager=ptr(view.game+0x2ce1fd0);local wi=assert(io.hashmap(manager+0x30,view.avatar))
-        assert(wi<u32(manager+0x1C) and u32(manager+0x1C)<=u32(manager+0x20)
-            and u32(manager+0x20)<=65536,'Cleanup Wielder row changed')
+        assert(wi<u32(manager+0x1C) and u32(manager+0x1C)<=65536,'Cleanup Wielder row changed') -- .12: +0x20 is not a capacity
         assert(ptr(ptr(manager+0x48)+wi*8)==view.ep,'Cleanup Wielder actor changed')
         local runtime=ptr(manager+0x60)+wi*0x1D0
         if not empty(u32(runtime))then
@@ -323,6 +325,32 @@ function M.new(options)
     local console_enabled=false
     local station_reason
     local observation,observation_reason
+    -- .11 (Armory swap fatal, four crashes 10-31/11-01): ship combat leaves units of the equipped weapon's
+    -- packages in the world (a reload drops a magazine attachment unit), and the Armory's swap must not unload
+    -- a package such a unit still holds. Combat controls arm only once every loaded loadout and attachment
+    -- package carries a Bridge hold; holds refresh while combat is on and drain in every state.
+    local equipment=options.equipment or load('src/equipment_hold.lua').new(io,{globals=options.globals,log=log,
+        catalogue=load('src/equipment_packages.lua')})
+    local equipment_ready,equipment_reason,equipment_wait,equipment_drain_wait=false,nil,0,0
+    local function equipment_hold()
+        local held,why=equipment:hold()
+        equipment_wait=held==true and 1 or .25 -- a new weapon needs its hold before a later swap, seconds away
+        local reason=held~=true and tostring(why or 'Equipment holds pending')or nil
+        if reason and reason~=equipment_reason then log('Equipment hold: '..reason)end
+        equipment_ready,equipment_reason=held==true,reason
+        return equipment_ready
+    end
+    local function equipment_step(dt)
+        dt=type(dt)=='number'and math.max(0,math.min(dt,1))or .016
+        equipment_wait,equipment_drain_wait=math.max(0,equipment_wait-dt),math.max(0,equipment_drain_wait-dt)
+        if not self.enabled then equipment_ready=false
+        elseif observation and equipment_wait<=0 then equipment_hold()end
+        if equipment_drain_wait<=0 then
+            equipment_drain_wait=2
+            local drained,why=equipment:drain()
+            if drained~=true and tostring(why)~=equipment_reason then equipment_reason=tostring(why);log('Equipment hold: '..equipment_reason)end
+        end
+    end
     local ui_assets=options.ui_assets or load('src/ui_assets.lua').new({load=load,io=io,
         backend=backend,globals=options.globals,log=log,now=options.now,
         recovery_gate=function()
@@ -364,9 +392,9 @@ function M.new(options)
     local function animation_view()
         if not observation then return nil,observation_reason end
         local owned=base_matches(observation)
-        return {token=observation.token,ready=observation.ready==true and owned,
-            hold=observation.hold==true and owned,
-            reason=not owned and 'Waiting for acknowledged bridge controls' or observation.reason}
+        return {token=observation.token,ready=observation.ready==true and owned and not hud_pause,
+            hold=observation.hold==true and owned and not hud_pause,
+            reason=not owned and 'Waiting for acknowledged bridge controls' or hud_pause and 'Native weapon menu unavailable (Armory or HUD change)' or observation.reason}
     end
     animation=(options.AnimationController or load('src/animation_controller.lua')).new({
         pose=pose,idle=idle,clips=clips,assets=assets,blend=blend,
@@ -400,6 +428,24 @@ function M.new(options)
         if weapon_menu:is_clean()then return true end
         return false,weapon_menu_reason
     end
+    -- .8: while the native menu is lost outside a ship menu (the Armory), the animation observer reports
+    -- not ready, so the pose is restored and its leases released; once the menu is owned again the ordinary
+    -- path re-initializes the animation for the current loadout and latches. Whether a weapon swap may
+    -- unload a package is decided by the equipment holds (.11), not by this timing.
+    local function track_hud(acquired)
+        if acquired then
+            hud_owned=true
+            if hud_pause then hud_pause=false;log('Native weapon menu owned again; the bridge animation resumes')end
+        elseif hud_owned and weapon_menu:is_clean()and not hud_pause then
+            -- .10: pause on the first evaluation that finds the menu retired, as .8 did live (.9 debounced
+            -- half a second, and the Armory re-acquired its rebuilt menu first). A loss on an unreadable
+            -- observation is eligible (.9). Photo Mode retires the menu too; its camera hold keeps the pose
+            -- and stays authoritative; a ship menu (ESC) keeps the one-shot pose.
+            if self.enabled and(not observation or observation.menu_closed==true and observation.hold~=true and observation.photo~=true)then
+                hud_pause=true;log('Native weapon menu lost outside a ship menu (Armory): pausing the bridge animation')
+            end
+        end
+    end
     -- Publish lifecycle changes through the retained station UI, not a timer.
     local function publish_progress()
         if self.enabled and self.latched and self.combat_phase=='ready' then return end
@@ -430,7 +476,7 @@ function M.new(options)
     function self:set_enabled(value)
         assert(type(value)=='boolean','Enabled must be a boolean')
         if self.closing then return false,'Bridge Combat is unloading' end
-        if not value then self.latched=false;weapon_ui_paused=false;weapon_resume_delay=0 end
+        if not value then self.latched=false;weapon_ui_paused=false;weapon_resume_delay=0;hud_pause=false;hud_owned=false end
         if self.enabled~=value then initialization_retry=0 end
         self.enabled=value
         if not value and not self.preload_requested then ui_assets_ready,fx_assets_ready=false,false end
@@ -491,6 +537,8 @@ function M.new(options)
             if not base_matches(observation) and not animation:is_clean() then return end
         elseif not animation:is_clean() or not observation.can_start
             or not ui_assets_ready or not fx_assets_ready then return end
+        -- .11: no shot before every loaded loadout/attachment package carries a Bridge hold.
+        if not base.active and not equipment_ready and(equipment_wait>0 or not equipment_hold())then return end
         -- Initial combat access waits for a previous frame's acknowledged UI
         -- and FX providers. Loading runs while the actor keeps ship controls,
         -- preventing a first shot from caching missing/fallback resources.
@@ -515,6 +563,7 @@ function M.new(options)
         -- Only whole-instance shutdown waits for its input/presentation release.
         local station_called,station_done,station_why=pcall(ammo_station.update,ammo_station)
         if self.reinitialize then return true end
+        equipment_step(dt)
         station_reason=not station_called and tostring(station_done)or station_done~=true and(station_why or'Wall terminal waiting')or nil
         -- The station's existing bridge lifecycle probe starts warmup. Once
         -- ready, this branch is idle until a new runtime owns the returned ship.
@@ -540,7 +589,10 @@ function M.new(options)
         if one_shot and self.latched and self.enabled then
             if weapon_ui_paused then
                 weapon_resume_delay=math.max(0,weapon_resume_delay-(type(dt)=='number'and math.max(0,math.min(dt,1))or .016))
-                if weapon_resume_delay>0 then return true end
+                if weapon_resume_delay>0 then
+                    if hud_pause then animation:update(dt)end -- .8: restore the pose while paused
+                    return true
+                end
                 weapon_resume_delay=.25
                 -- This runs only while the independent UI is suspended. ESC
                 -- can retire/rebuild its widgets without ending combat.
@@ -553,8 +605,12 @@ function M.new(options)
                     -- A suspended owner must also retire during mission travel,
                     -- while stock Mission widgets provide the native handoff.
                     local done,why=weapon_menu_step(dt)
+                    track_hud(done==true and not weapon_menu:is_clean())
+                    if hud_pause then animation:update(dt)end
                     if done==true and not weapon_menu:is_clean()then
                         weapon_ui_paused=false;weapon_menu_reason=nil
+                        -- .8: a paused animation re-initializes through the ordinary path and latches again.
+                        if not animation:is_ready()then self.latched=false end
                     else weapon_menu_reason=why end
                 end
                 return true
@@ -579,6 +635,7 @@ function M.new(options)
         if self.enabled or not animation:is_clean()or base.active or not weapon_menu:is_clean()then
             observe()
             local menu_done,menu_why=weapon_menu_step(dt)
+            track_hud(menu_done==true and not weapon_menu:is_clean())
             if menu_done~=true then return false,menu_why end
         end
         -- Cosmetic ownership must acknowledge release before this instance can
@@ -657,6 +714,7 @@ function M.new(options)
         if self.enabled and ui_assets_reason then return animation:status()..' / UI assets loading'end
         if self.enabled and fx_assets_reason then return animation:status()..' / FX assets loading'end
         if self.enabled and weapon_menu_reason then return animation:status()..' / Native weapon menu unavailable'end
+        if self.enabled and not equipment_ready and equipment_reason then return animation:status()..' / Equipment holds pending: '..equipment_reason end
         if not animation:is_clean() or base.active and not base.active.restoring then return animation:status() end
         return base:status()
     end

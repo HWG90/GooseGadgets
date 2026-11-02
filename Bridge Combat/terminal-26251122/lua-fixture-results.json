@@ -1,0 +1,181 @@
+{
+ "passed": 35,
+ "total": 35,
+ "results": [
+  {
+   "case": "terminal_services_fixture.lua",
+   "code": 0,
+   "tail": "PASS standalone input: no MCM; raw deltas and wheel, exclusive capture, pending restore, foreground loss, idle release, optional menu exclusion and binary integrity\n"
+  },
+  {
+   "case": "runtime_fixture.lua",
+   "code": 0,
+   "tail": " before native acquire and stays idle in combat\nPASS losing the native weapon menu outside a ship menu pauses the animation and resumes with it\nPASS a menu loss on an unreadable observation still pauses once the actor reads again\nPASS losing the native weapon menu while a ship menu is open keeps the one-shot pose (ESC)\nPASS a menu that is acquirable again right after retiring still releases the leases first (.9 Armory crash)\nPASS combat controls arm only after the equipment holds are acknowledged (.11 Armory swap fatal)\nPASS equipment holds refresh while combat runs and in the Armory pause, and drain with combat off\nPASS a refused equipment hold never tears down combat that is already armed\n"
+  },
+  {
+   "case": "ship_return_fixture.lua",
+   "code": 0,
+   "tail": "PASS ship return once-only role and presentation recovery then zero idle work\nPASS ship return already cleared role is never removed again\nPASS ship return same body and real Mission are untouched\nPASS ship return live original generation and foreign combat context are preserved\nPASS ship return live Mission widgets and input actions refuse before mutation\nPASS 5 ship return contracts\nPASS ship return unowned current actor preflight clears stale mission presentation once\nPASS ship return unowned preflight preserves live owners and actual Mission\nPASS ship return unowned preflight refuses live widget and open action before mutation\n"
+  },
+  {
+   "case": "session_restart_fixture.lua",
+   "code": 0,
+   "tail": "PASS full session restart waits for cleanup acknowledgement and remains idle after one replacement\n"
+  },
+  {
+   "case": "one_shot_cleanup_fixture.lua",
+   "code": 0,
+   "tail": "PASS one-shot unarmed cleanup, pending acknowledgement without setter replay, and retired actor exclusion\n"
+  },
+  {
+   "case": "cleanup_native_fixture.lua",
+   "code": 0,
+   "tail": "PASS actual native cleanup: stale empty selection, held-hand release, normal animation once, 600 settled polls, uncertain results and identity refusal\n"
+  },
+  {
+   "case": "ui_assets_fixture.lua",
+   "code": 0,
+   "tail": "I assets initial asynchronous provider loading never requests a recovery\nPASS UI assets lost providers wait a separate frame and native cleanup before one recovery each\nPASS UI assets reload retains accepted recovery attempts and their original counted holds\nPASS UI assets normal update acknowledgement is required even after native menu cleanup\nPASS UI assets every authored Drop base independently blocks Ready without changing retained lease keys or holds\nPASS UI assets a lost Drop base invalidates cached Ready and a retained Ready journal cannot skip base verification\nPASS all24 UI asset contracts, 320 checks\nPASS UI assets materials and atlas queue together and accepted holds never repeat\n"
+  },
+  {
+   "case": "ui_package_fixture.lua",
+   "code": 0,
+   "tail": "quest readback retry never repeats native request\nPASS exact UI package: ambiguous increment and thrown request never replay\nPASS exact UI package: release acknowledgement retry never decrements twice\nPASS exact UI package: changed manager preserves resource journal and performs no release\nPASS exact UI package: session pin may later release nonfinally if another owner appears\nPASS exact UI package: session pin rechecks ready for a clean menu retest without another request\nPASS exact UI package: invalid duplicate and oversized key lists never request\nPASS exact UI package: held timeout can later acknowledge normal completion without another request\nPASS all14 exact UI package fixture groups\n"
+  },
+  {
+   "case": "ui_material_fixture.lua",
+   "code": 0,
+   "tail": "PASS attach is inert and idempotent\nPASS raw little-endian input and canonical definition\nPASS hex input and native/ctype bindings cache\nPASS distinct GUI and D8 managers both checked\nPASS missing material refuses without fetch\nPASS unready definition flag refuses\nPASS fallback or alias refuses\nPASS changed fingerprint refuses before calls\nPASS owner change after presence refuses before fetch\nPASS new manager is reacquired next invocation\nPASS module stamp change refuses without more calls\nPASS invalid key refuses before reads\nPASS existing foreign callback is preserved\nPASS 13 material readiness contracts; no game process attached\n"
+  },
+  {
+   "case": "ui_atlas_fixture.lua",
+   "code": 0,
+   "tail": "PASS UI atlas inert construction, exact region and actual TEXTURE proof\nPASS UI atlas region miss is not texture readiness\nPASS UI atlas actual texture absence refuses a registered region\nPASS UI atlas module stamp and native fingerprint refusal precede calls\nPASS UI atlas map changes during resolution refuse readiness\nPASS UI atlas zero bucket count refuses the native lookup\nPASS UI atlas invalid UV does not acknowledge a usable atlas\nPASS UI atlas binding failure can retry without partially publishing callbacks\nPASS all8 UI atlas contracts, 56 checks\n"
+  },
+  {
+   "case": "ui_package_recovery_fixture.lua",
+   "code": 0,
+   "tail": "tion caught before CALLING\nPASS UI package recovery: unknown native result never replays across module reconstruction\nPASS UI package recovery: returned call with changed count stays unacknowledged and cannot replay\nPASS UI package recovery: present or unknown residency does not request\nPASS UI package recovery: fresh loader/catalog reset accepted without old-pointer reads\nPASS UI package recovery: new loss eligible only after existing lease acknowledges Ready again\nPASS UI package recovery: opaque queue and group service refuse before request\nPASS UI package recovery: exact retained Ready journal can recover a package lost during an area change\nPASS all16 UI package recovery fixture groups\n"
+  },
+  {
+   "case": "fx_assets_fixture.lua",
+   "code": 0,
+   "tail": "r poll a newly adopted journal\nPASS FX assets UI journal and foreign resources are preserved\nPASS FX assets menu Photo fixed pose multiplayer and scene transitions do not acquire\nPASS FX assets unknown request remains pinned without automatic replay\nPASS FX assets module identity mismatch preserves existing process journal\nPASS FX assets area reinitialization restores lost FX once without incrementing counted holds\nPASS FX assets legacy two-provider journal appends only new dependencies\nPASS all14 FX asset contracts, 1651 checks\nPASS FX assets all independent providers queue together and completion has no long backoff\nPASS FX assets five-provider audio journal appends generated effects once\n"
+  },
+  {
+   "case": "fx_resource_fixture.lua",
+   "code": 0,
+   "tail": " valid without GUI access\nPASS FX resource unknown name and invalid type/catalog refuse before game access\nPASS FX resource missing resource never fetches a default\nPASS FX resource fallback alias and null definitions are refused\nPASS FX resource manager change after presence refuses before fetch\nPASS FX resource module build/fingerprints checked on every invocation\nPASS FX resource native callbacks and ctype allocations are cached\nPASS FX resource partial binding failure can retry without partial publication\nPASS FX resource normal manager replacement can be reacquired coherently\nPASS FX resource invalid registration bounds refuse before binding\nPASS all11 FX resource contracts, 199 checks\n"
+  },
+  {
+   "case": "weapon_menu_fixture.lua",
+   "code": 0,
+   "tail": "PID refuse acquisition\nPASS weapon menu Photo/menu pause cancels once and resumes with a fresh lease\nPASS weapon menu Off and shutdown wait for acknowledged cleanup\nPASS weapon menu actor/UI token change cleans first and never ticks a stale identity\nPASS weapon menu unknown actor snapshot triggers cleanup without identity substitution\nPASS weapon menu native metadata handoff is acknowledged before a new acquisition\nPASS weapon menu failed partial acquire is never automatically replayed\nPASS weapon menu pure preflight refusal is clean and retries with backoff\nPASS weapon menu invalid frame delta pauses rather than invoking native tick\nPASS all11 weapon menu coordinator contracts, 4197 checks\n"
+  },
+  {
+   "case": "weapon_menu_native_fixture.lua",
+   "code": 0,
+   "tail": "remains dirty until explicit acknowledgement\nPASS native weapon binder positive zero-write native handoff accepts retired status40\nPASS native weapon binder contradictory clean/native ownership flags retain pending state\nPASS native weapon binder missing export remains pinned and does not call acquisition\nPASS native weapon binder a previous binary journal blocks new code and cannot be forgotten\nPASS native weapon binder Off acknowledges later cleanup of a previous binary without a load\nPASS native weapon binder unreadable previous status remains retained during Off\nPASS native weapon binder disappearing previous pin is not cleanup proof\nPASS all13 native weapon binder contracts, 117 checks\n"
+  },
+  {
+   "case": "sha256_fixture.lua",
+   "code": 0,
+   "tail": "PASS SHA-256 empty, short, multiblock and million-byte known vectors\n"
+  },
+  {
+   "case": "bindings_fixture.lua",
+   "code": 0,
+   "tail": " MCM Enabled\nPASS binding: station defaults On and its switch does not change combat intent\nPASS binding: failed MCM save leaves applied Enabled unchanged\nPASS binding: console page queues explicit refill/support and closes MCM without changing Enabled\nPASS binding: release menu has no screen reposition control\nPASS binding: MCM focus capture chat and shutdown suppress hotkey activation\nPASS 16 native binding and saved-toggle contracts\nPASS binding: optional MCM absence preserves independent terminal settings and combat intent\nPASS binding: MBM v4 registers once and exposes the same action to MCM import\nPASS binding: MBM numeric versions 3 and newer are accepted, older and malformed refused\n"
+  },
+  {
+   "case": "ammo_console_fixture.lua",
+   "code": 0,
+   "tail": " at two Hz and Use opens only once until release\nPASS console MCM refill is pure intent and waits for fresh closed-menu gameplay\nPASS console actor/input replacement and focus loss quarantine a held interaction\nPASS console fresh edge rejects leaving the zone and queued actions expire without native calls\nPASS console cooldown never replays a consumed button press\nPASS console unknown refill result is pinned across reload and cannot replay or be overwritten\nPASS console Off/shutdown cancel pending intentions and leave the original world untouched\nPASS console malformed foreign journals are retained and opening failures do not manufacture native work\nPASS 9 console coordinator fixture groups\n"
+  },
+  {
+   "case": "ammo_console_native_fixture.lua",
+   "code": 0,
+   "tail": " opens the page and refill waits for normal gameplay\nPASS native console wall owner pending-only mode never opens MCM or samples Use; explicit refill retains normal guards\nPASS native console actual native chat and text/focus/menu guards quarantine held input\nPASS native console input-owner replacement requires a new release and press\nPASS native console nearby idle samples input without repeating actor discovery between half-second probes\nPASS native console pure inventory/build preflight failure performs no native call or uncertain journal publication\nPASS native console unknown native call is retained across reload and Off/On without replay\nPASS all7 native console adapter fixture groups\n"
+  },
+  {
+   "case": "support_weapons_fixture.lua",
+   "code": 0,
+   "tail": "d changed actor is refused\nPASS support exit cancels pending delivery but retains its buffers\nPASS support exit also removes positively delivered gear awaiting hand acknowledgement\nPASS support melee pose is released by native drop before replacement creation\nPASS support unknown native drop cannot be repeated or followed by deletion or creation\nPASS support melee combat exit uses native slot drop before removal\nPASS support unknown combat exit drop retains gear without removal or replay\nPASS support delayed native drop waits without repeating before creation\nsupport weapons fixture: 33 contracts passed\nPASS support authored model resource can differ without changing gameplay spawn identity\n"
+  },
+  {
+   "case": "wall_terminal_fixture.lua",
+   "code": 0,
+   "tail": "l resident cabinet follows the screen and is destroyed with its owner\nPASS 25 wall terminal prototype contracts\nPASS wall terminal pointer confinement follows the same perspective display and leaves interior points untouched\nPASS wall terminal retired cabinet is released without destroying a dead Unit in a reused World\nPASS wall terminal virtual display pointer consumes raw movement and releases on second Interact press\nPASS wall terminal retained cursor never enters the repeating screen texture or redraws it\nPASS wall terminal loading status is retained and repeated combat clicks cannot cancel activation\nPASS wall terminal closed terminal render stays idle without camera projection polling\n"
+  },
+  {
+   "case": "wall_camera_fixture.lua",
+   "code": 0,
+   "tail": " sample powers projection without more reads\nPASS terminal camera top-left coordinates stay unclipped; only positive near-plane depth is accepted\nPASS terminal camera plain placement uses captured right/up/negative-forward and does not follow later samples\nPASS terminal camera all local offsets and nonidentity local rotations refuse stale CPU projection\nPASS terminal camera current game/exe stamps and exact projection wrapper implementation scene bytes are required\nPASS terminal camera torn owners invalid mode node resolution and affine matrices fail closed\nPASS terminal camera rotated camera projection and placement retain engine basis conventions\nPASS 7 standalone camera adapter contracts\n"
+  },
+  {
+   "case": "wall_zoom_fixture.lua",
+   "code": 0,
+   "tail": "all zoom wrong raw pointer duplicate public cameras and mismatched FOV refuse before writes\nPASS wall zoom positive world Unit component or native camera retirement never reads the old Camera\nPASS wall zoom temporarily unreadable ownership retains cleanup until evidence returns\nPASS wall zoom uncertain focus setter is never replayed and exact readback permits cleanup\nPASS wall zoom uncertain wheel never replays while readback distinguishes applied and refused writes\nPASS wall zoom uncertain restore is acknowledged without repetition or retained when outcome is unknown\nPASS 11 wall zoom ownership groups\nPASS wall zoom terminal framing applies in render and restores only its owned camera pose\n"
+  },
+  {
+   "case": "wall_station_fixture.lua",
+   "code": 0,
+   "tail": "ation provider replacement waits old owner stop acknowledgement before recreating\nPASS wall station actor/input owner replacement quarantines held Interact and camera refusal is inert\nPASS 11 wall station coordinator groups\nPASS wall station returning with a new actor recreates the cabinet even when providers and main World are reused\nPASS wall station captured Interact follows the native action mapping when rebound\nPASS wall station independent service creates and opens the terminal with no MCM global\nPASS wall station closed nearby terminal avoids full input gate until a lifecycle probe or Interact edge\nPASS wall station loading overlay is retained, stage-driven and retired with its world\n"
+  },
+  {
+   "case": "wall_terminal_assets_fixture.lua",
+   "code": 0,
+   "tail": "ct counted provider and typed material precede Ready\nPASS terminal assets native residency and exact material readiness remain distinct with bounded polling\nPASS terminal assets Off shutdown and reload keep ownership but revalidate stale Ready before reuse\nPASS terminal assets newer ownership is not detached or falsely reported Ready by an older instance\nPASS terminal assets unknown calls survive shutdown reload and long waits without replay\nPASS terminal assets fresh actor solo focus menu chat Photo and scene guards prevent acquisition\nPASS terminal assets actor changes force resource revalidation and another process cannot adopt the journal\nwall terminal assets fixture: 8 contracts passed\n"
+  },
+  {
+   "case": "animation_controller_fixture.lua",
+   "code": 0,
+   "tail": " without native component work\nPASS camera-only hold does not initialize an inactive controller\nPASS camera hold during initialization cleans before waiting\nPASS fixed pose ownership yields and later resumes normally\nPASS MCM Off during a camera hold still cleans once\nPASS camera hold never suppresses actor token replacement cleanup\nPASS positive retired cleanup acknowledgement bypasses all stale restore methods\nPASS retirement pending retains ownership and prevents ordinary stale restoration\nPASS normal Photo Mode cleanup uses ordinary methods when no retirement is proved\nPASS unreadable retirement callback cannot clear the lease\nANIMATION_CONTROLLER_FIXTURE 33 contracts; 801 checks passed\n"
+  },
+  {
+   "case": "animation_io_fixture.lua",
+   "code": 0,
+   "tail": "supported module names builds and PE machines are refused\nPASS large helper reads are split into protected8KiB backend reads\nPASS unreadable split chunk refuses the full snapshot\nPASS hashmap and local avatar use existing protected backend methods\nPASS native binding checks exact fingerprint and rechecks before every call\nPASS native address ABI fingerprint and module replacement refusals never call host\nPASS standalone module resolution uses backend kernel without Toolkit global fallthrough\nPASS resident query uses verified engine API and guarded native binding only\nPASS read-only effective package resolver handles instance identity without any native call\nAnimation IO: 11 contracts passed\n"
+  },
+  {
+   "case": "animation_lifecycle_fixture.lua",
+   "code": 0,
+   "tail": " or slot does not prove retirement\nPASS torn relocated root bounds pointers generation and slot all refuse proof\nPASS a torn still-live relocation is rechecked rather than accepted as a coherent sample\nPASS proof remains sealed to original snapshot allocations after registry relocation\nPASS torn registry observation refuses a positive proof\nPASS proof is rejected when registry once again resolves the captured live Unit\nPASS forged proofs other lifecycle owners and different consumer snapshots are refused\nPASS cleanup retires consumers before clip release and package release\nPASS pending consumer or conservative clip floor prevents subsequent releases\nAnimation lifecycle: 16 contracts passed\n"
+  },
+  {
+   "case": "pose_layers_stance_fixture.lua",
+   "code": 0,
+   "tail": "e inside clip guard is rechecked before native apply\nPASS cleanup permits stance changes and preserves natural prone aiming53\nPASS cleanup permits unknown profile5 while restoring an owned target\nPASS already normal SDK4 does not weaken exact ownership or clip guard\nPASS preserved SDK4 with35 clips leases only changed SDK21 and22 clips\nPASS all no-op parts lease no clips and call neither guard nor native setter\nPASS preserved static clip tables are still fingerprinted before changed-part apply\nPASS changed clip-free SDK4 can use partial setter with an empty lease union\nPASS pose ownership retirement requires a sealed proof and never reads the old Unit\nPose layers stance: 26 contracts passed\n"
+  },
+  {
+   "case": "bridge_exit_state_fixture.lua",
+   "code": 0,
+   "tail": " readback and remains foreign\nPASS synchronous setter missing target acknowledgement refuses without replay\nPASS natural later movement is preserved without any cleanup native call\nPASS all31 states and authored mapping rechecked after clip guard\nPASS partial function fingerprint change refuses native call\nPASS clip guard refusal during cleanup retains then restores SDK1\nPASS cleanup exception remains uncertain without replay\nPASS normal authored states11 and87 are preserved with no native call or clip leases\nPASS normal movement still validates the authored exit target independently\nPASS idle ownership can retire only with a sealed positive Unit proof\nBridge exit state: 26 contracts passed\n"
+  },
+  {
+   "case": "clip_lease_fixture.lua",
+   "code": 0,
+   "tail": "nned then finalize and release once completed\nPASS clip lease: retired release refuses stale global child or different ResourceManager\nPASS clip lease: retired release keeps conservative floor one and releases only proven nonfinal holds\nPASS clip lease: retired uncertain decrement is never replayed\nPASS clip lease: retired returned decrement can acknowledge later readback without a second decrement\nPASS clip lease: retired release preserves changed exact resource identity\nPASS clip lease: container relocation keeps exact clip data and balanced release\nPASS clip lease: container relocation never adopts replaced clip data\nExact clip lease: 49 contracts passed; isolated fake memory/native only\n"
+  },
+  {
+   "case": "package_lease_fixture.lua",
+   "code": 0,
+   "tail": "onfinal counts refuse legacy transfers\nPASS package lease: nonresident changed owner and torn aggregate keep final references pending\nPASS package lease: release readback failure retries acknowledgement without double release\nPASS package lease: wrapper factory refusal does not create an unowned journal entry\nPASS package lease: manager replacement preserves the old cleanup journal\nPASS package lease: thirty-third package is refused before any new request\nPASS package lease: other wielders in the session do not refuse the capture (.12 multiplayer)\nPASS package lease: a wielder row at or beyond the count is still refused\nPackage lease fixtures: 17 contracts passed; isolated fake RootKit only\n"
+  },
+  {
+   "case": "ship_visibility_fixture.lua",
+   "code": 0,
+   "tail": "nowledgement and journals first\nPASS failed post-call readback retains exact alpha cleanup\nPASS restore validates every root before restoring any owned alpha\nPASS menus prevent new alpha changes and retain an existing lease without calls\nPASS positive scene retirement performs no stale widget access\nPASS UI replacement and initialized retirement avoid stale widgets\nPASS retirement during setter avoids old-widget readback and later calls\nPASS unreadable identity retains ownership until cleanup can acknowledge\nPASS shared social parent and chat are excluded from the cosmetic lease\nPASS native emote wheel is untouched on entry steady state and cleanup\nShip alpha visibility contracts: 21 passed\n"
+  },
+  {
+   "case": "equipment_hold_fixture.lua",
+   "code": 0,
+   "tail": "\nPASS a hold stays while the game still holds the package\nPASS after the swap the last reference stays while a live unit carries one of its units, then goes (Armory fatal)\nPASS a non-unit pair with a live tag does not keep a hold\nPASS a last reference stays when its package is not a loaded child or has a native operation pending\nPASS a hold map larger than one protected read is read in pieces\nPASS one reference goes per drain\nPASS an ambiguous hold readback is retained and never replayed\nPASS a new instance sees the holds already taken in this process\nPASS a changed package wrapper refuses before any native call\nPASS nothing is read while nothing is held\nPASS all 13 equipment hold contracts\n"
+  },
+  {
+   "case": "roster_observer_fixture.lua",
+   "code": 0,
+   "tail": "PASS alone on the ship the observation is ready and names no reason\nPASS other players in the session do not block start, ready or hold (.12: combat loads in a multiplayer session)\nPASS an open ship menu is still the reason with other players present\nroster observer fixture: 3 tests passed\n"
+  }
+ ]
+}

@@ -134,8 +134,9 @@ function M.new(io)
         for _,offset in ipairs({0,4,8,16,20}) do entity(number32(invrow,offset+1)) end
         local wm=pointer(take(ctx.game+0x2ce1fd0,8));local wi=map(take,wm+0x30,avatar)
         if wi then
-            local wc,wcap=number32(take(wm+0x1C,4)),number32(take(wm+0x20,4))
-            assert(wc<=wcap and wcap<=4096 and wi<wc,'Wielder live row refused')
+            -- .12: +0x20 is not the row capacity (it reads 1 with 105-148 live rows); the count bounds the row.
+            local wc=number32(take(wm+0x1C,4))
+            assert(wc<=4096 and wi<wc,'Wielder live row refused')
             local wd=pointer(take(wm+0x48,8));local wep=pointer(take(wd+wi*8,8));local wdesc=take(wep,24)
             assert(wdesc:sub(1,16)==avatar_desc:sub(1,16) and wdesc:byte(21)%2==1,'Wielder ownership differs')
             local wr=pointer(take(wm+0x60,8))

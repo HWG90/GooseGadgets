@@ -1,6 +1,6 @@
 {
- "passed": 33,
- "total": 33,
+ "passed": 35,
+ "total": 35,
  "results": [
   {
    "case": "terminal_services_fixture.lua",
@@ -10,7 +10,7 @@
   {
    "case": "runtime_fixture.lua",
    "code": 0,
-   "tail": "rted without discarding working animation owners\nPASS observer token ignores stance and camera epoch but sees providers\nPASS observer recognizes camera hold and fixed-pose ownership\nPASS observer rejects unproved generation and unknown Photo ownership\nBridge Combat runtime: 40 contracts, 821 checks passed\nPASS combat loading progress follows asset readiness and stays idle when settled\nPASS asset-wait discovery is bounded at 4Hz and Off bypasses the retry delay\nPASS ship warmup keeps combat off, bounds discovery and becomes idle\nPASS suspended HUD retires during mission travel without waiting for bridge readiness\nPASS unowned ship preflight runs before native acquire and stays idle in combat\n"
+   "tail": " before native acquire and stays idle in combat\nPASS losing the native weapon menu outside a ship menu pauses the animation and resumes with it\nPASS a menu loss on an unreadable observation still pauses once the actor reads again\nPASS losing the native weapon menu while a ship menu is open keeps the one-shot pose (ESC)\nPASS a menu that is acquirable again right after retiring still releases the leases first (.9 Armory crash)\nPASS combat controls arm only after the equipment holds are acknowledged (.11 Armory swap fatal)\nPASS equipment holds refresh while combat runs and in the Armory pause, and drain with combat off\nPASS a refused equipment hold never tears down combat that is already armed\n"
   },
   {
    "case": "ship_return_fixture.lua",
@@ -160,12 +160,22 @@
   {
    "case": "package_lease_fixture.lua",
    "code": 0,
-   "tail": "e the bank\nPASS package lease: conflicting final ownership retains the new journal and the existing process owner\nPASS package lease: unknown phases malformed IDs and nonfinal counts refuse legacy transfers\nPASS package lease: nonresident changed owner and torn aggregate keep final references pending\nPASS package lease: release readback failure retries acknowledgement without double release\nPASS package lease: wrapper factory refusal does not create an unowned journal entry\nPASS package lease: manager replacement preserves the old cleanup journal\nPASS package lease: thirty-third package is refused before any new request\nPackage lease fixtures: 15 contracts passed; isolated fake RootKit only\n"
+   "tail": "onfinal counts refuse legacy transfers\nPASS package lease: nonresident changed owner and torn aggregate keep final references pending\nPASS package lease: release readback failure retries acknowledgement without double release\nPASS package lease: wrapper factory refusal does not create an unowned journal entry\nPASS package lease: manager replacement preserves the old cleanup journal\nPASS package lease: thirty-third package is refused before any new request\nPASS package lease: other wielders in the session do not refuse the capture (.12 multiplayer)\nPASS package lease: a wielder row at or beyond the count is still refused\nPackage lease fixtures: 17 contracts passed; isolated fake RootKit only\n"
   },
   {
    "case": "ship_visibility_fixture.lua",
    "code": 0,
    "tail": "nowledgement and journals first\nPASS failed post-call readback retains exact alpha cleanup\nPASS restore validates every root before restoring any owned alpha\nPASS menus prevent new alpha changes and retain an existing lease without calls\nPASS positive scene retirement performs no stale widget access\nPASS UI replacement and initialized retirement avoid stale widgets\nPASS retirement during setter avoids old-widget readback and later calls\nPASS unreadable identity retains ownership until cleanup can acknowledge\nPASS shared social parent and chat are excluded from the cosmetic lease\nPASS native emote wheel is untouched on entry steady state and cleanup\nShip alpha visibility contracts: 21 passed\n"
+  },
+  {
+   "case": "equipment_hold_fixture.lua",
+   "code": 0,
+   "tail": "\nPASS a hold stays while the game still holds the package\nPASS after the swap the last reference stays while a live unit carries one of its units, then goes (Armory fatal)\nPASS a non-unit pair with a live tag does not keep a hold\nPASS a last reference stays when its package is not a loaded child or has a native operation pending\nPASS a hold map larger than one protected read is read in pieces\nPASS one reference goes per drain\nPASS an ambiguous hold readback is retained and never replayed\nPASS a new instance sees the holds already taken in this process\nPASS a changed package wrapper refuses before any native call\nPASS nothing is read while nothing is held\nPASS all 13 equipment hold contracts\n"
+  },
+  {
+   "case": "roster_observer_fixture.lua",
+   "code": 0,
+   "tail": "PASS alone on the ship the observation is ready and names no reason\nPASS other players in the session do not block start, ready or hold (.12: combat loads in a multiplayer session)\nPASS an open ship menu is still the reason with other players present\nroster observer fixture: 3 tests passed\n"
   }
  ]
 }

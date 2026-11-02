@@ -19,7 +19,7 @@ CASES_COMPAT = ("terminal_services_fixture.lua", "runtime_fixture.lua", "ship_re
                 "wall_terminal_assets_fixture.lua")
 CASES_ROOT = ("animation_controller_fixture.lua", "animation_io_fixture.lua", "animation_lifecycle_fixture.lua",
               "pose_layers_stance_fixture.lua", "bridge_exit_state_fixture.lua", "clip_lease_fixture.lua", "package_lease_fixture.lua",
-              "ship_visibility_fixture.lua")
+              "ship_visibility_fixture.lua", "equipment_hold_fixture.lua", "roster_observer_fixture.lua")
 # Not run: ffi_binding_cache_fixture.lua and runtime_registry_fixture.lua exercise the older compat/lll-0.1.1 and
 # lll-0.1.2 trees, which this package does not ship; blend_pairs_fixture.lua captures blend pairs, which this build
 # does not expose (animation_blend.lua keeps supported=false and the controller skips that step).
@@ -48,6 +48,10 @@ def main():
     for rel in ('compat/lll-0.1.14/tests', 'tests'):
         for fixture in sorted((ported / rel).glob('*')):
             if fixture.is_file(): link(fixture, root / rel / fixture.name)
+    # 26251122 .11: src/equipment_hold.lua's own fixture lives beside this script.
+    link(Path(__file__).resolve().parent / 'equipment_hold_fixture.lua', root / 'tests/equipment_hold_fixture.lua')
+    # .12: the roster observer fixture (runtime.lua M.observer on synthetic memory) lives beside this script too.
+    link(Path(__file__).resolve().parent / 'roster_observer_fixture.lua', root / 'tests/roster_observer_fixture.lua')
     for old in ('lll-0.1.1', 'lll-0.1.2'):
         link(original / 'compat' / old, root / 'compat' / old)
     for name in os.listdir(original / 'tools'):

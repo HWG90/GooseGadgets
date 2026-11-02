@@ -377,7 +377,7 @@ function M:validate(view)
             -- validations; the exact function bytes are still checked above.
             local ctype=self._native_types[spec[2]]
             if not ctype then ctype=self._ffi.typeof(spec[2]);self._native_types[spec[2]]=ctype end
-            local key=spec[2]..':'..tostring(game+spec[1])
+            local key=spec[2]..':'..('%X'):format(game+spec[1])
             local fn=self._native_functions[key]
             if not fn then fn=self._ffi.cast(ctype,game+spec[1]);self._native_functions[key]=fn end
             functions[name]=fn

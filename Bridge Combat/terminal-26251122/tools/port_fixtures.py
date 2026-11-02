@@ -58,11 +58,27 @@ def main():
             # main.lua now also loads the warm-up (src/code_warmup.lua, src/code_warmup_sites.lua); the restart fixture's
             # require stub must answer for them with an inert warm-up.
             for needle, new in (('#catalogue==33', '#catalogue==35'), ('assert(count==31)', 'assert(count==33)'),
+                                ('and count==8)', 'and count==9)'), ('and8 matching backpacks', 'and9 matching backpacks'),
                                 ("    if path=='src/terminal_render.lua'then return {}end\n",
                                  "    if path=='src/terminal_render.lua'then return {}end\n"
                                  "    if path=='src/code_warmup.lua'then return {new=function()return{done=true,step=function()return true end}end}end\n"
                                  "    if path=='src/code_warmup_sites.lua'then return {stamp=0,sites={}}end\n")):
                 if needle in text: text = text.replace(needle, new); changed[path.name] = changed.get(path.name, 0) + 1
+            if path.name == 'runtime_fixture.lua':  # 26251122 .8: Armory HUD pause (hud_pause_tests.lua, same local harness)
+                text += (Path(__file__).resolve().parent / 'hud_pause_tests.lua').read_text(); changed[path.name] = changed.get(path.name, 0) + 1
+                # .11: the runtime builds src/equipment_hold.lua (and loads its catalogue); the shared stand-in runtime gets an
+                # always-acknowledged equipment owner, the real-import test counts the two modules, and the .11 tests ride along.
+                for needle, new in (('        ammo_station=ammo,support=support,\n',
+                                     '        ammo_station=ammo,support=support,\n'
+                                     "        equipment=options.equipment or {hold=function()return true end,drain=function()return true end,status=function()return '0 equipment package holds'end},\n"),
+                                    ('eq(#imports,23)', 'eq(#imports,25)')):
+                    assert text.count(needle) == 1, needle
+                    text = text.replace(needle, new); changed[path.name] += 1
+                text += (Path(__file__).resolve().parent / 'equipment_runtime_tests.lua').read_text(); changed[path.name] += 1
+            if path.name == 'package_lease_fixture.lua':  # 26251122 .12: other wielders present (multiplayer session)
+                needle = "print('Package lease fixtures: "; assert text.count(needle) == 1
+                text = text.replace(needle, (Path(__file__).resolve().parent / 'wielder_bound_tests.lua').read_text() + needle)
+                changed[path.name] = changed.get(path.name, 0) + 1
             (out / tests / path.name).write_text(text)
     # Fixtures reach their sources as tests/../src; run_lua_fixtures.py builds a test root where that resolves.
     (out / 'port-fixtures-report.json').write_text(json.dumps({'substitutions': consistent, 'conflicts': conflicts, 'changed': changed}, indent=1) + '\n')

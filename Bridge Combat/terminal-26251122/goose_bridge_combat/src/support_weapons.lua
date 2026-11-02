@@ -417,7 +417,7 @@ function M.new(options)
         local owned={};local inv=p(c.game+0x2ce18e8);local count=u(inv+0x18);assert(count<=256,'Floor cleanup inventory bound differs')
         local rows=p(inv+0x50)
         for i=0,count-1 do local data=r(rows+i*0x30,0x30);for off=0,20,4 do owned[word(data,off)]=true end end
-        local ww=p(c.game+0x2ce1fd0);local n=u(ww+0x1C);assert(n<=256 and n<=u(ww+0x20),'Floor cleanup Wielder bound differs')
+        local ww=p(c.game+0x2ce1fd0);local n=u(ww+0x1C);assert(n<=4096,'Floor cleanup Wielder bound differs') -- .12: other wielders present; +0x20 is not a capacity
         local wr=p(ww+0x60)
         for i=0,n-1 do for slot=0,4 do local pair=r(wr+i*0x1D0+slot*0x50,8);owned[word(pair,0)],owned[word(pair,4)]=true,true end end
         assert(p(c.game+0x2ce18e8)==inv and u(inv+0x18)==count and p(inv+0x50)==rows

@@ -95,6 +95,7 @@ local function fixture(options)
         shutdown=function()f.support_shutdown=true;return true end,status=function()return'Support ready'end}
     local injected={one_shot=options.one_shot==true,backend=backend,base=not options.factory and base or nil,io=io,life=life,visibility=visibility,
         ammo_station=ammo,support=support,
+        equipment=options.equipment or {hold=function()return true end,drain=function()return true end,status=function()return '0 equipment package holds'end},
         ui_assets=not options.ui_factory and (options.ui_assets or {update=function()return true end,shutdown=function()return true end})or nil,
         fx_assets=options.fx_assets or {update=function()return true end,shutdown=function()return true end},
         weapon_menu=options.weapon_menu or {update=function()return true end,shutdown=function()return true end,is_clean=function()return true end},
@@ -298,7 +299,7 @@ test('real constructor import graph needs no host discovery',function()
                 or name=='wall_terminal_anchor' or name=='wall_station' or name=='wall_terminal' or name=='wall_camera' or name=='wall_terminal_assets') and root..'/compat/lll-0.1.14/'..path or root..'/'..path
         return dofile(source)
     end})
-    eq(#imports,23);eq(runtime:status(),'Disabled');runtime:update();eq(runtime:shutdown(),true)
+    eq(#imports,25);eq(runtime:status(),'Disabled');runtime:update();eq(runtime:shutdown(),true)
 end)
 test('controls acknowledge before animation sequence',function()
     local f=fixture();f.enable()
@@ -520,4 +521,131 @@ test('unowned ship preflight runs before native acquire and stays idle in combat
  end})
  f.enable();yes(f.runtime.latched);eq(f.calls['preflight.repair'],1);eq(n.acquires,1)
  f.tick(100);eq(f.calls['preflight.repair'],1)
+end)
+
+-- 26251122 .8: the Armory replaces the HUD, the native weapon menu is lost with no ship menu open, and a weapon
+-- swap there unloads equipment packages the clip leases ran through (engine fatal, 2026-10-31). The animation
+-- must release its pose and leases while the menu is lost, then re-initialize and latch again with the menu.
+test('losing the native weapon menu outside a ship menu pauses the animation and resumes with it',function()
+    local n=native_menu_fixture();local f=fixture({one_shot=true,weapon_menu=n});n.record=f.record
+    local lost=false
+    n.update_settled=function()if lost then n.clean=true;return false,'Armory replaced the HUD'end;return true end
+    function n:update(enabled,view)
+        if lost then self.clean=true;return false,'Native weapon menu retired; waiting for fresh acquisition'end
+        if enabled and view and view.ready then
+            if self.clean then self.clean=false;self.acquires=self.acquires+1;f.record('native.acquire')end
+            return true
+        end
+        return self:shutdown()
+    end
+    f.enable();yes(f.runtime.latched);local applies=f.calls['base.apply']
+    lost=true;f.tick(12)
+    eq(f.animation.active,nil,'Animation still active in the Armory');eq(f.held,false,'Clip leases still held in the Armory')
+    yes(f.calls['pose.restore'],'Pose not restored in the Armory');yes(f.calls['clips.release'],'Clips not released in the Armory')
+    yes(f.animation:status():find('Native weapon menu unavailable',1,true),f.animation:status())
+    eq(f.calls['base.restore'],nil,'Combat controls were torn down for a HUD pause');yes(f.base.active)
+    local restores=f.calls['pose.restore'];f.tick(30);eq(f.calls['pose.restore'],restores,'Pause repeated restoration')
+    lost=false;f.tick(30)
+    yes(f.runtime.enabled and f.runtime.latched and f.base.active,'Combat did not latch again after the menu returned')
+    eq(n.acquires,2);yes(f.animation.active and not f.animation.active.restoring);eq(f.animation:status(),'Bridge animation active')
+    eq(f.calls['base.apply'],applies,'Combat controls were reapplied after a HUD pause')
+    yes(f.runtime:set_enabled(false));f.tick(20);eq(f.base.active,nil);eq(f.animation.active,nil)
+end)
+test('a menu loss on an unreadable observation still pauses once the actor reads again',function()
+    local n=native_menu_fixture();local f=fixture({one_shot=true,weapon_menu=n});n.record=f.record
+    local lost=false
+    n.update_settled=function()if lost then n.clean=true;return false,'Armory replaced the HUD'end;return true end
+    function n:update(enabled,view)
+        if lost then self.clean=true;return false,'Native weapon menu retired; waiting for fresh acquisition'end
+        if enabled and view and view.ready then
+            if self.clean then self.clean=false;self.acquires=self.acquires+1;f.record('native.acquire')end
+            return true
+        end
+        return self:shutdown()
+    end
+    f.enable();yes(f.runtime.latched)
+    lost=true;f.unknown=true;f.tick(3);f.unknown=false;f.tick(12)
+    eq(f.animation.active,nil,'Animation still active after the observation returned');eq(f.held,false)
+    lost=false;f.tick(30);yes(f.runtime.latched and f.animation.active);eq(f.animation:status(),'Bridge animation active')
+    yes(f.runtime:set_enabled(false));f.tick(20);eq(f.base.active,nil)
+end)
+test('losing the native weapon menu while a ship menu is open keeps the one-shot pose (ESC)',function()
+    local n=native_menu_fixture();local f=fixture({one_shot=true,weapon_menu=n});n.record=f.record
+    n.update_settled=function()if not f.menu then n.clean=true;return false,'ESC retired UI'end;return true end
+    f.enable();yes(f.runtime.latched);local captures=f.calls['pose.capture']
+    f.menu=false;f.tick(60);yes(f.runtime.latched and f.animation.active);eq(f.calls['pose.restore'],nil)
+    f.menu=true;f.tick(12);yes(f.runtime.latched);eq(f.calls['pose.capture'],captures);eq(n.acquires,2)
+    yes(f.runtime:set_enabled(false));f.tick(20);eq(f.base.active,nil)
+end)
+-- 26251122 .10 (2026-11-01 19:53Z crash with .9): the Armory's rebuilt menu is acquirable on the very next step after
+-- it retires. The .9 half-second debounce never elapsed, so the pose and its leases survived into the weapon swap.
+-- The pause must fire on the first lost step and release the leases before the menu is acquired again.
+test('a menu that is acquirable again right after retiring still releases the leases first (.9 Armory crash)',function()
+    local n=native_menu_fixture();local f=fixture({one_shot=true,weapon_menu=n});n.record=f.record
+    local retire=false
+    n.update_settled=function()if retire then n.clean=true;return false,'Armory replaced the HUD'end;return true end
+    function n:update(enabled,view)
+        if retire then retire=false;self.clean=true;return false,'Native weapon menu retired; waiting for fresh acquisition'end
+        if enabled and view and view.ready then
+            if self.clean then self.clean=false;self.acquires=self.acquires+1;f.record('native.acquire')end
+            return true
+        end
+        return self:shutdown()
+    end
+    f.enable();yes(f.runtime.latched);eq(n.acquires,1);eq(f.calls['clips.release'],nil)
+    retire=true;f.tick(60)
+    local function at(name,nth)local k=0;for i,e in ipairs(f.events)do if e==name then k=k+1;if k==nth then return i end end end end
+    yes(at('clips.release',1),'Clip leases were never released around the HUD replacement')
+    eq(n.acquires,2);yes(at('native.acquire',2)>at('clips.release',1),'The rebuilt menu was acquired before the leases were released')
+    yes(f.calls['pose.restore'],'Pose not restored around the HUD replacement');eq(f.calls['base.restore'],nil)
+    yes(f.runtime.latched and f.animation.active and not f.animation.active.restoring);eq(f.animation:status(),'Bridge animation active')
+    yes(f.runtime:set_enabled(false));f.tick(20);eq(f.base.active,nil);eq(f.animation.active,nil)
+end)
+-- 26251122 .11: the Armory swap fatal is the engine refusing to unload a magazine attachment unit that a live unit
+-- (left in the world by ship combat) still holds. Combat controls must not arm before the equipment holds are
+-- acknowledged; the holds refresh while combat is on, the Armory pause included, and drain in every state.
+local function equipment_fixture(held)
+    local e={held=held,holds=0,drains=0}
+    function e:hold()self.holds=self.holds+1;if self.held then return true end;return false,'Holding the Liberator drum magazine package'end
+    function e:drain()self.drains=self.drains+1;return true end
+    function e:status()return 'stand-in equipment holds'end
+    return e
+end
+test('combat controls arm only after the equipment holds are acknowledged (.11 Armory swap fatal)',function()
+    local e=equipment_fixture(false);local f=fixture({equipment=e})
+    yes(f.runtime:set_enabled(true));f.tick(12)
+    eq(f.calls['base.apply'],nil,'Combat controls armed before the equipment holds');yes(e.holds>=2,'Holds were not retried')
+    yes(f.runtime:status():find('Equipment holds pending',1,true),f.runtime:status())
+    e.held=true;f.tick(12)
+    yes(f.base.active and f.animation.active and not f.animation.active.restoring,'Combat did not arm once the holds were acknowledged')
+    eq(f.calls['base.apply'],1);eq(f.animation:status(),'Bridge animation active');yes(e.drains>=1,'Holds never drained')
+    yes(f.runtime:set_enabled(false));f.tick(20);eq(f.base.active,nil)
+end)
+test('equipment holds refresh while combat runs and in the Armory pause, and drain with combat off',function()
+    local e=equipment_fixture(true);local n=native_menu_fixture();local f=fixture({one_shot=true,weapon_menu=n,equipment=e});n.record=f.record
+    local lost=false
+    n.update_settled=function()if lost then n.clean=true;return false,'Armory replaced the HUD'end;return true end
+    function n:update(enabled,view)
+        if lost then self.clean=true;return false,'Native weapon menu retired; waiting for fresh acquisition'end
+        if enabled and view and view.ready then
+            if self.clean then self.clean=false;self.acquires=self.acquires+1;f.record('native.acquire')end
+            return true
+        end
+        return self:shutdown()
+    end
+    f.enable();yes(f.runtime.latched);local before=e.holds
+    f.tick(30);yes(e.holds>=before+2,'Holds were not refreshed while combat was latched')
+    lost=true;local paused=e.holds;f.tick(30);yes(e.holds>=paused+2,'Holds were not refreshed in the Armory pause')
+    eq(f.calls['base.restore'],nil,'The Armory pause tore down combat controls')
+    lost=false;f.tick(30);yes(f.runtime.latched and f.animation.active)
+    yes(f.runtime:set_enabled(false));f.tick(20);eq(f.base.active,nil)
+    local holds,drains=e.holds,e.drains;f.tick(50)
+    eq(e.holds,holds,'Holds were requested with combat off');yes(e.drains>=drains+2,'Holds did not drain with combat off')
+end)
+test('a refused equipment hold never tears down combat that is already armed',function()
+    local e=equipment_fixture(true);local f=fixture({equipment=e});f.enable();local applies=f.calls['base.apply']
+    e.held=false;f.tick(30);yes(f.base.active and f.animation.active);eq(f.calls['base.restore'],nil);eq(f.calls['base.apply'],applies)
+    yes(f.runtime:set_enabled(false));f.tick(20);eq(f.base.active,nil)
+    yes(f.runtime:set_enabled(true));f.tick(12);eq(f.calls['base.apply'],applies,'Combat re-armed without acknowledged holds')
+    e.held=true;f.tick(12);eq(f.calls['base.apply'],applies+1)
 end)

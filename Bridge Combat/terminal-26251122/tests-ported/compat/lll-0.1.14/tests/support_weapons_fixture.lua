@@ -263,8 +263,8 @@ test('delayed equip waits for acknowledgement without replaying the native call'
     f:u(f.inventory_rows+8,101);assert(f:tick());assert(f:tick());assert(not f.globals[BANK].task)
 end)
 
-test('catalogue has33 usable choices and8 matching backpacks; unsupported C4 is omitted and UI calls are inert',function()
-    local count=0;for _,row in ipairs(catalogue)do assert(row.type~='9b75217d8312dd67');if row.backpack then count=count+1 end end;assert(#catalogue==35 and count==8)
+test('catalogue has33 usable choices and9 matching backpacks; unsupported C4 is omitted and UI calls are inert',function()
+    local count=0;for _,row in ipairs(catalogue)do assert(row.type~='9b75217d8312dd67');if row.backpack then count=count+1 end end;assert(#catalogue==35 and count==9)
     local f=fixture();assert(#f.owner:choices()==2 and f.reads==0 and f.bindings==0)
     assert(not f.owner:queue(1));f:request();assert(f.reads==0 and f.bindings==0 and f.spawns==0)
     assert(not f.owner:queue(2));assert(f.owner:update()and f.spawns==1)

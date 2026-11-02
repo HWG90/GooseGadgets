@@ -7,6 +7,7 @@
 -- LAS-44 Nova and AMW-20 Apex (item3082503125) are appended from the Gadget Kit spawner catalogue,
 -- generated live on game.dll 6AD7C05D with authored pickups and loadout packages. Apex is
 -- the only unnamed support weapon there with a stratagem (down,left,left,up,down,left).
+-- Apex backpack: authored row 234 (unnamed in the game tables), confirmed in game 2026-10-31.
 -- New rows go last: terminal_icons.lua is indexed by row; icons 34 and 35 are their artwork.
 return {
     {name="40-K Meltagun",id=774795224,kind=2,type="6cfcc7f8801a0266",package="ae4f2e79b546847c"},
@@ -43,5 +44,5 @@ return {
     {name="StA-X3 W.A.S.P. Launcher",id=890972990,kind=2,type="cc786f6491fe7e65",package="5795e99a988d10b7",backpack={name="StA-X3 W.A.S.P. Launcher backpack",id=790588279,kind=6,type="b8feb0cc191c1ef3",package="5795e99a988d10b7"}},
     {name="TX-41 Sterilizer",id=4152191751,kind=2,type="88f61afff48ac8a4",unit="43b2d7766120203b",package="750605cfc0173701"},
     {name="LAS-44 Nova",id=4146034362,kind=2,type="73d84eaae8c75342",package="601d726de9c3962f"},
-    {name="AMW-20 Apex",id=3082503125,kind=2,type="b814eece17533bc4",package="a193a00ce4bbd529"},
+    {name="AMW-20 Apex",id=3082503125,kind=2,type="b814eece17533bc4",package="a193a00ce4bbd529",backpack={name="AMW-20 Apex backpack",id=780093772,kind=6,type="0949eeb3dc920324",package="6f09a6ce25c8ca77"}},
 }
